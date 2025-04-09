@@ -1,0 +1,33 @@
+plugins {
+    id 'java-library'
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(8)
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    testing {
+        suites {
+            test {
+                useJUnitJupiter()
+            }
+        }
+    }
+}
