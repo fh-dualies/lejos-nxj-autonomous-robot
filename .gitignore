@@ -1,0 +1,44 @@
+# IDE
+.idea/**
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+.vscode/
+
+# gradle
+.gradle/
+build/
+.gradle_test/
+.gradle_test_run/
+.gradle_build_output
+!gradle/wrapper/gradle-wrapper.jar
+gradle.properties
+
+# build
+bin/
+*.class
+*.jar
+*.war
+*.ear
+
+# dist
+/dist/
+/build/
+/out/
+libs/
+tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# temps
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.temp
+**/*~backup
