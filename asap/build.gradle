@@ -1,5 +1,5 @@
 plugins {
-    id 'java-library'
+    id 'java'
 }
 
 allprojects {
@@ -8,10 +8,12 @@ allprojects {
         mavenCentral()
     }
 
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(8)
-        }
+    tasks.withType(JavaCompile).configureEach {
+        sourceCompatibility = '1.7'
+        targetCompatibility = '1.7'
+
+        // if we want to enforce usage of java 1.7
+        // options.compilerArgs += ['-bootclasspath', '/path/to/java7/jre/lib/rt.jar']
     }
 }
 
