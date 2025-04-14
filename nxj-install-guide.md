@@ -2,17 +2,21 @@
 
 > **Note:** This guide assumes you have the Java Development Kit (JDK) installed and that you have extracted the leJOS NXJ package.
 
-## 1. Extract the Package
+## 1. Download the Package
+
+Download the latest leJOS NXJ package for macOS from the [leJOS website](https://lejos.sourceforge.io/nxj-downloads.php).
+
+## 2. Extract the Package
 
 Open your Terminal and run (replace `<version>` with the actual version number):
 
 ```bash
-tar -xzvf nxj-<version>.mac.tar.gz
+tar -xzvf leJOS_NXJ_<version>.tar.gz -C ~/lejos
 ```
 
-This creates a directory (e.g., `~/lejos`).
+Into a directory (e.g., `~/lejos`).
 
-## 2. Set Up Environment Variables)
+## 3. Set Up Environment Variables)
 
 Edit your `~/.zshrc` or `~/.bashrc` file:
 
@@ -33,7 +37,7 @@ Reload your configuration:
 source ~/.zshrc
 ```
 
-## 3. Modify the `nxj` Script
+## 4. Modify the `nxj` Script
 
 The default `nxj` script forces 32‑bit mode on macOS, which conflicts with your 64‑bit JDK. To fix this:
 
@@ -72,7 +76,7 @@ The default `nxj` script forces 32‑bit mode on macOS, which conflicts with you
 4. **Save and Exit**  
    (For Nano, press `Ctrl+O`, then `Enter`, and finally `Ctrl+X`.)
 
-## 4. Test the Setup
+## 5. Test the Setup
 
 Run the following command:
 
