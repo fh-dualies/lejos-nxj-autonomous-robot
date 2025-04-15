@@ -19,7 +19,6 @@ gradle.properties
 # build
 bin/
 *.class
-*.jar
 *.war
 *.ear
 *.nxd
@@ -29,7 +28,6 @@ bin/
 /dist/
 /build/
 /out/
-libs/
 tmp/
 
 # OS
