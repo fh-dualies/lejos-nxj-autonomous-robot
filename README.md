@@ -12,3 +12,19 @@
 - Dennis Höllmann
 - Tom Steinbach
 - ?
+
+### Value ranges
+
+#### light
+
+- floor: 510 - 600
+- mid: 490 - 510
+- stripe: 400 - 490
+
+#### speed
+
+- safe max. 720
+
+#### distance
+
+- hard stop: <25
