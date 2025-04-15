@@ -11,20 +11,20 @@
 - Lars Kemper
 - Dennis Höllmann
 - Tom Steinbach
-- ?
+- Floriane Monga
 
 ### Value ranges
 
-#### light
+#### Light
 
 - floor: 510 - 600
 - mid: 490 - 510
 - stripe: 400 - 490
 
-#### speed
+#### Speed
 
 - safe max. 720
 
-#### distance
+#### Distance
 
 - hard stop: <25
