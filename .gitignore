@@ -5,6 +5,7 @@
 *.ipr
 .idea_modules/
 .vscode/
+.classpath
 
 # gradle
 .gradle/
@@ -21,6 +22,8 @@ bin/
 *.jar
 *.war
 *.ear
+*.nxd
+*.nxj
 
 # dist
 /dist/
