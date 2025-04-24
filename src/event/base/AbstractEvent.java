@@ -1,6 +1,6 @@
 package event.base;
 
-public abstract class AbstractEvent {
+abstract public class AbstractEvent {
   private final long timestamp;
 
   public AbstractEvent() { this.timestamp = System.currentTimeMillis(); }

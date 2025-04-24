@@ -1,8 +1,10 @@
+package main;
+
 import java.io.*;
 import lejos.nxt.*;
 import lejos.nxt.comm.*;
 
-public class RobotoApplication {
+public class RoboApplication {
   public static void main(String[] args) {
     LCD.clear();
     LCD.drawString("Waiting for BT", 0, 0);
