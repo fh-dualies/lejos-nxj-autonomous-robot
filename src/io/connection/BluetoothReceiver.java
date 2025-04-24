@@ -164,4 +164,6 @@ public class BluetoothReceiver {
   }
 
   public boolean isConnected() { return this.isConnected; }
+
+  public BTConnection getConnection() { return this.connection; }
 }
