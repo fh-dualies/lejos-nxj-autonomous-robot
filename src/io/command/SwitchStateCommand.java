@@ -4,14 +4,8 @@ import state.RoboStates;
 
 public class SwitchStateCommand implements ICommand {
   private final RoboStates targetState;
-  private final RoboStates currentState;
 
-  public SwitchStateCommand(RoboStates targetState, RoboStates currentState) {
-    this.targetState = targetState;
-    this.currentState = currentState;
-  }
+  public SwitchStateCommand(RoboStates targetState) { this.targetState = targetState; }
 
   public RoboStates getTargetState() { return this.targetState; }
-
-  public RoboStates getCurrentState() { return this.currentState; }
 }

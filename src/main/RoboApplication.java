@@ -4,8 +4,11 @@ import core.EventLoop;
 import core.RoboController;
 import event.EventManager;
 import io.actuator.NxtMotorController;
+import io.connection.BluetoothReceiver;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
+import lejos.nxt.Button;
+import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 
 public class RoboApplication {
@@ -21,7 +24,9 @@ public class RoboApplication {
     LightSensorReader lightSensorReader = new LightSensorReader(SensorPort.S1, eventManager);
     UltrasonicSensorReader ultrasonicSensorReader = new UltrasonicSensorReader(SensorPort.S2, eventManager);
 
-    final EventLoop eventLoop = new EventLoop(roboController, lightSensorReader, ultrasonicSensorReader);
+    BluetoothReceiver bluetoothReceiver = new BluetoothReceiver(eventManager);
+    final EventLoop eventLoop =
+        new EventLoop(roboController, lightSensorReader, ultrasonicSensorReader, bluetoothReceiver);
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
@@ -38,6 +43,12 @@ public class RoboApplication {
     });
 
     eventLoop.run();
+
+    LCD.clear();
+    LCD.drawString("Megamen Robo App shutting down...", 0, 0);
+    LCD.refresh();
+    Button.ESCAPE.waitForPressAndRelease();
+
     System.out.println("Megamen out.");
   }
 }

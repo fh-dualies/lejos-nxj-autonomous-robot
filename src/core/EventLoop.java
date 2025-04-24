@@ -1,11 +1,13 @@
 package core;
 
+import io.connection.BluetoothReceiver;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
 import java.util.Objects;
 
 public class EventLoop implements Runnable {
   private final RoboController controller;
+  private final BluetoothReceiver bluetoothReceiver;
   private final LightSensorReader lightSensorReader;
   private final UltrasonicSensorReader ultrasonicSensorReader;
 
@@ -13,23 +15,31 @@ public class EventLoop implements Runnable {
   private volatile boolean running = false;
 
   public EventLoop(RoboController controller, LightSensorReader lightSensorReader,
-                   UltrasonicSensorReader ultrasonicSensorReader) {
+                   UltrasonicSensorReader ultrasonicSensorReader, BluetoothReceiver bluetoothReceiver) {
     this.controller = Objects.requireNonNull(controller);
     this.lightSensorReader = Objects.requireNonNull(lightSensorReader);
     this.ultrasonicSensorReader = Objects.requireNonNull(ultrasonicSensorReader);
-
-    // TODO: add bt connection
+    this.bluetoothReceiver = Objects.requireNonNull(bluetoothReceiver);
   }
 
   @Override
   public void run() {
-    System.out.println("EventLoop started");
+    System.out.println("EventLoop started...");
+
+    if (!this.bluetoothReceiver.waitForConnection()) {
+      System.err.println("Failed to establish Bluetooth connection");
+      return;
+    }
+
     this.running = true;
 
     while (running) {
       try {
-        lightSensorReader.checkValue();
-        ultrasonicSensorReader.checkValue();
+        this.lightSensorReader.checkValue();
+        this.ultrasonicSensorReader.checkValue();
+
+        this.bluetoothReceiver.checkForCommands();
+        this.controller.run();
 
         Thread.sleep(LOOP_DELAY);
       } catch (InterruptedException e) {
@@ -51,8 +61,7 @@ public class EventLoop implements Runnable {
 
   private void cleanup() {
     try {
-      // TODO: add bt connection cleanup
-
+      this.bluetoothReceiver.closeConnection();
       this.controller.getMotorController().close();
       lightSensorReader.close();
     } catch (Exception e) {
