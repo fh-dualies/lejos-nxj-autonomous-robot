@@ -1,7 +1,7 @@
 import java.io.*;
 import lejos.pc.comm.*;
 
-public class Main {
+public class GuiApplication {
   public static void main(String[] args) throws NXTCommException, IOException {
     System.out.println("Connecting ...");
 
