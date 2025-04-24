@@ -22,13 +22,9 @@ public class LightSensorReader implements ISensorReader {
     this.lightSensor.setFloodlight(true); // TODO: check if we have a floodlight!?
   }
 
-  public String getSensorId() {
-    return SENSOR_ID;
-  }
+  public String getSensorId() { return SENSOR_ID; }
 
-  public SensorType getSensorType() {
-    return SENSOR_TYPE;
-  }
+  public SensorType getSensorType() { return SENSOR_TYPE; }
 
   public int checkValue() {
     int currentValue = lightSensor.getLightValue();
@@ -42,7 +38,5 @@ public class LightSensorReader implements ISensorReader {
     return currentValue;
   }
 
-  public int getLastValue() {
-    return this.lastValue;
-  }
+  public int getLastValue() { return this.lastValue; }
 }
