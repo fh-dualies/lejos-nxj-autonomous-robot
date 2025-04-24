@@ -3,7 +3,7 @@ package core;
 import event.EventManager;
 import event.IEventListener;
 import event.base.AbstractEvent;
-import io.actuator.MotorController;
+import io.actuator.IMotorController;
 import java.util.Objects;
 import state.AbstractRoboState;
 import state.IdleState;
@@ -15,13 +15,13 @@ public class RoboController implements IEventListener {
   private AbstractRoboState currentState = null;
   private IDrivingStrategy currentDrivingStrategy = null;
   private final EventManager eventManager;
-  private final MotorController motorController;
+  private final IMotorController motorController;
 
   // pre initialized strategies (to avoid null checks)
   private final LineFollowingStrategy lineFollowingStrategy;
   private final UserControlStrategy userControlStrategy;
 
-  public RoboController(EventManager eventManager, MotorController motorController) {
+  public RoboController(EventManager eventManager, IMotorController motorController) {
     this.eventManager = Objects.requireNonNull(eventManager);
     this.motorController = Objects.requireNonNull(motorController);
 
@@ -71,7 +71,7 @@ public class RoboController implements IEventListener {
 
   public synchronized AbstractRoboState getCurrentState() { return this.currentState; }
 
-  public MotorController getMotorController() { return this.motorController; }
+  public IMotorController getMotorController() { return this.motorController; }
 
   public EventManager getEventManager() { return this.eventManager; }
 

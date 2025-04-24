@@ -1,12 +1,12 @@
 package strategy;
 
-import io.actuator.MotorController;
+import io.actuator.IMotorController;
 import java.util.Objects;
 
 public class LineFollowingStrategy implements IDrivingStrategy {
-  private MotorController motorController;
+  private IMotorController motorController;
 
-  public LineFollowingStrategy(MotorController motorController) {
+  public LineFollowingStrategy(IMotorController motorController) {
     this.motorController = Objects.requireNonNull(motorController);
   }
 

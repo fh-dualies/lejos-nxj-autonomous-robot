@@ -13,7 +13,8 @@ public enum DefaultSensorValues {
   DISTANCE_STOP_THRESHOLD(25),
 
   // motor values
-  MOTOR_MAX_SPEED(720);
+  MOTOR_MAX_SPEED(720),
+  MOTOR_ACCELERATION(600);
 
   private final int value;
 
