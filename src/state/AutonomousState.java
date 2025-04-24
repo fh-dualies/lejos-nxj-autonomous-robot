@@ -4,9 +4,9 @@ import core.RoboController;
 import event.base.AbstractEvent;
 
 public class AutonomousState extends AbstractRoboState {
-  private final RoboStates state = RoboStates.AUTONOMOUS;
+  private final RoboStates STATE = RoboStates.AUTONOMOUS;
 
-  public RoboStates getState() { return this.state; }
+  public RoboStates getState() { return this.STATE; }
 
   public void onEnter(RoboController controller) {
     System.out.println("Entering autonomous state");
@@ -17,7 +17,7 @@ public class AutonomousState extends AbstractRoboState {
   public void onExit(RoboController controller) {
     System.out.println("Exiting autonomous state");
 
-    controller.getMotorController().stopMotors();
+    controller.getMotorController().stopMotors(false);
     controller.setCurrentDrivingStrategy(null);
   }
 
