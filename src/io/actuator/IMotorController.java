@@ -10,4 +10,6 @@ public interface IMotorController {
   void turnLeft(int speed);
 
   void turnRight(int speed);
+
+  void close();
 }

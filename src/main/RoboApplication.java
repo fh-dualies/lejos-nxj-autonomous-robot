@@ -1,62 +1,43 @@
 package main;
 
-import java.io.*;
-import lejos.nxt.*;
-import lejos.nxt.comm.*;
+import core.EventLoop;
+import core.RoboController;
+import event.EventManager;
+import io.actuator.NxtMotorController;
+import io.sensor.reader.LightSensorReader;
+import io.sensor.reader.UltrasonicSensorReader;
+import lejos.nxt.SensorPort;
 
 public class RoboApplication {
   public static void main(String[] args) {
-    LCD.clear();
-    LCD.drawString("Waiting for BT", 0, 0);
-    NXTConnection conn = Bluetooth.waitForConnection();
+    System.out.println("Megamen Robo Application is starting...");
 
-    LCD.clear();
-    LCD.drawString("Connected", 0, 0);
+    EventManager eventManager = new EventManager();
+    NxtMotorController nxtMotorController = new NxtMotorController();
 
-    DataOutputStream dos = conn.openDataOutputStream();
-    DataInputStream dis = conn.openDataInputStream();
+    RoboController roboController = new RoboController(eventManager, nxtMotorController);
 
-    try {
-      while (true) {
-        if (Button.LEFT.isDown()) {
-          LCD.clear();
-          LCD.drawString("Stopped by user", 0, 0);
-          break;
+    // TODO: check ports
+    LightSensorReader lightSensorReader = new LightSensorReader(SensorPort.S1, eventManager);
+    UltrasonicSensorReader ultrasonicSensorReader = new UltrasonicSensorReader(SensorPort.S2, eventManager);
+
+    final EventLoop eventLoop = new EventLoop(roboController, lightSensorReader, ultrasonicSensorReader);
+
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      public void run() {
+        System.out.println("Shutting down megamen...");
+        eventLoop.stop();
+
+        try {
+          // wait for the event loop to finish
+          Thread.sleep(100);
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
         }
-
-        if (dis.available() > 0) {
-          String receivedData = dis.readLine();
-
-          LCD.clear();
-          LCD.drawString("Received:", 0, 0);
-          LCD.drawString(receivedData, 0, 1);
-
-          dos.writeBytes(receivedData);
-          dos.flush();
-
-          LCD.drawString("Sent back:", 0, 3);
-          LCD.drawString(receivedData, 0, 4);
-        } else {
-          LCD.drawString("No data", 0, 1);
-        }
-
-        Thread.sleep(50);
       }
-    } catch (IOException ioe) {
-      LCD.clear();
-      LCD.drawString("IO Exception", 0, 0);
-      LCD.drawString(ioe.getMessage(), 0, 1);
-    } catch (InterruptedException ie) {
-    } finally {
-      try {
-        dos.close();
-        dis.close();
-        conn.close();
-      } catch (IOException ioe) {
-        LCD.clear();
-        LCD.drawString("Close Exception", 0, 0);
-        LCD.drawString(ioe.getMessage(), 0, 1);
-      }
-    }
+    });
+
+    eventLoop.run();
+    System.out.println("Megamen out.");
   }
 }

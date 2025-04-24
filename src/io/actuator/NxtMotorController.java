@@ -62,4 +62,6 @@ public class NxtMotorController implements IMotorController {
     this.leftMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getValue());
     this.rightMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getValue());
   }
+
+  public void close() { this.stopMotors(true); }
 }

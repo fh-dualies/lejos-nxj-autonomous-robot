@@ -8,7 +8,7 @@ import java.util.Objects;
 public abstract class AbstractSensorReader {
   protected final EventManager eventManager;
   protected int lastValue = -1;
-  protected static final int DEFAULT_REPORT_THRESHOLD = 10;
+  protected static final int DEFAULT_REPORT_THRESHOLD = 5;
 
   public AbstractSensorReader(EventManager eventManager) { this.eventManager = Objects.requireNonNull(eventManager); }
 

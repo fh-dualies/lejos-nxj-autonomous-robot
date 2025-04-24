@@ -32,4 +32,6 @@ public class LightSensorReader extends AbstractSensorReader {
   protected int readSensorValue() {
     return this.lightSensor.getLightValue();
   }
+
+  public void close() { this.lightSensor.setFloodlight(false); }
 }
