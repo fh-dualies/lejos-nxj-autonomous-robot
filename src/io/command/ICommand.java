@@ -1,5 +1,3 @@
 package io.command;
 
-public interface ICommand {
-  void execute();
-}
+public interface ICommand {}

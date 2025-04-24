@@ -11,13 +11,6 @@ public class SwitchStateCommand implements ICommand {
     this.currentState = currentState;
   }
 
-  @Override
-  public void execute() {
-    // TODO: implement
-    System.out.println("Switching from " + currentState.getClass().getSimpleName() + " to " +
-                       targetState.getClass().getSimpleName());
-  }
-
   public RoboStates getTargetState() { return this.targetState; }
 
   public RoboStates getCurrentState() { return this.currentState; }
