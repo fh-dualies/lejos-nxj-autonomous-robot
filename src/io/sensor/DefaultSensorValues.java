@@ -14,7 +14,11 @@ public enum DefaultSensorValues {
 
   // motor values
   MOTOR_MAX_SPEED(720),
-  MOTOR_ACCELERATION(600);
+  MOTOR_ACCELERATION(600),
+  MOTOR_MEDIUM_SPEED(300),
+
+  // zigzag algorithm values
+  ZIGZAG_TIME(200);
 
   private final int value;
 
