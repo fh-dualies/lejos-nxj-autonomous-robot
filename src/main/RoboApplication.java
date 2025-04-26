@@ -10,6 +10,7 @@ import io.sensor.reader.UltrasonicSensorReader;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
+import lejos.util.Delay;
 import util.Log;
 
 /**
@@ -41,13 +42,8 @@ public class RoboApplication {
         Log.info("Megamen is shutting down...");
         eventLoop.stop();
 
-        try {
-          // TODO: maybe use lejos Delay class instead?
-          // wait for the event loop to finish
-          Thread.sleep(100);
-        } catch (InterruptedException e) {
-          throw new RuntimeException(e);
-        }
+        // wait for the event loop to finish
+        Delay.msDelay(100);
       }
     });
 

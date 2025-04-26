@@ -2,6 +2,7 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
+import lejos.nxt.LCD;
 import util.Log;
 
 /**
@@ -23,6 +24,8 @@ public class AutonomousState extends AbstractRoboState {
   @Override
   public void onEnter(RoboController controller) {
     Log.info("Entering autonomous state");
+    LCD.clear();
+    LCD.drawString("Autonomous", 0, 1);
 
     controller.setCurrentDrivingStrategy(controller.getLineFollowingStrategy());
   }

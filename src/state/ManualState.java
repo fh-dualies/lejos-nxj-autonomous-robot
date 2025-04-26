@@ -2,6 +2,7 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
+import lejos.nxt.LCD;
 import util.Log;
 
 public class ManualState extends AbstractRoboState {
@@ -15,6 +16,8 @@ public class ManualState extends AbstractRoboState {
   @Override
   public void onEnter(RoboController controller) {
     Log.info("Entering manual state");
+    LCD.clear();
+    LCD.drawString("Manual", 0, 1);
 
     controller.setCurrentDrivingStrategy(controller.getUserControlStrategy());
   }

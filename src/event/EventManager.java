@@ -33,7 +33,6 @@ public class EventManager {
         listener.onEvent(event);
       } catch (Exception e) {
         Log.error("Error while dispatching event: ", e);
-        throw e;
       }
     }
   }
@@ -73,4 +72,12 @@ public class EventManager {
 
     this.listeners.remove(listener);
   }
+
+  /**
+   * Returns the current number of registered listeners. Note: Due to the nature of CopyOnWriteArrayList, the size might
+   * change immediately after this call if listeners are added or removed concurrently.
+   *
+   * @return the number of listeners.
+   */
+  public int getListenerCount() { return this.listeners.size(); }
 }

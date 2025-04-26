@@ -7,6 +7,7 @@ import event.base.SensorEvent;
 import io.actuator.IMotorController;
 import io.sensor.SensorType;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import state.AbstractRoboState;
 import state.IdleState;
 import strategy.IDrivingStrategy;
@@ -51,13 +52,13 @@ public class RoboController implements IEventListener {
    * The last value read from the light sensor. This is used to determine the current state of the robot. It is received
    * by sensor events.
    */
-  private int lastLightSensorValue = -1;
+  private final AtomicInteger lastLightSensorValue = new AtomicInteger(-1);
 
   /**
    * The last value read from the distance sensor. This is used to determine the current state of the robot. It is
    * received by sensor events.
    */
-  private int lastDistanceSensorValue = -1;
+  private final AtomicInteger lastDistanceSensorValue = new AtomicInteger(-1);
 
   /**
    * @param eventManager    The event manager used to dispatch events and register listeners.
@@ -72,6 +73,8 @@ public class RoboController implements IEventListener {
 
     this.setState(new IdleState());
     this.eventManager.addListener(this);
+
+    Log.info("RoboController initialized. Current state: IdleState");
   }
 
   /**
@@ -100,7 +103,25 @@ public class RoboController implements IEventListener {
    *
    * @param event The event to handle.
    */
+  @Override
   public void onEvent(AbstractEvent event) {
+    if (event == null) {
+      throw new IllegalArgumentException("Event cannot be null");
+    }
+
+    if (event.getTimestamp() < 0) {
+      Log.warning("Timestamp is negative");
+      return;
+    }
+
+    long currentTime = System.currentTimeMillis();
+    long timeDifference = Math.abs(currentTime - event.getTimestamp());
+
+    if (timeDifference > 1000) {
+      Log.warning("Ignore old event. Time difference: " + timeDifference + "ms");
+      return;
+    }
+
     if (event instanceof SensorEvent) {
       this.handleSensorEvent((SensorEvent)event);
     }
@@ -110,6 +131,8 @@ public class RoboController implements IEventListener {
 
     if (stateToNotify != null) {
       stateToNotify.handleEvent(this, event);
+    } else {
+      Log.warning("No current state to handle event");
     }
   }
 
@@ -124,12 +147,39 @@ public class RoboController implements IEventListener {
       throw new IllegalArgumentException("State cannot be null");
     }
 
+    if (newState == this.currentState) {
+      Log.warning("State is already set the same");
+      return;
+    }
+
     if (this.currentState != null) {
       this.currentState.onExit(this);
     }
 
     this.currentState = newState;
     this.currentState.onEnter(this);
+  }
+
+  /**
+   * This method is called to set the current driving strategy. It will call the deactivate method of the current and
+   * the activate method of the new state.
+   */
+  public void setCurrentDrivingStrategy(IDrivingStrategy strategy) {
+    if (strategy == this.currentDrivingStrategy) {
+      Log.warning("Strategy is already set the same");
+      return;
+    }
+
+    if (this.currentDrivingStrategy != null) {
+      this.currentDrivingStrategy.deactivate(this);
+    }
+
+    Log.info("Active strategy set to: " + (strategy != null ? strategy.getClass().getSimpleName() : "null"));
+    this.currentDrivingStrategy = strategy;
+
+    if (strategy != null) {
+      strategy.activate(this);
+    }
   }
 
   /**
@@ -140,11 +190,11 @@ public class RoboController implements IEventListener {
    */
   private void handleSensorEvent(SensorEvent event) {
     if (event.getSensorType() == SensorType.LIGHT) {
-      this.lastLightSensorValue = event.getValue();
+      this.lastLightSensorValue.set(event.getValue());
     }
 
     if (event.getSensorType() == SensorType.ULTRASONIC) {
-      this.lastDistanceSensorValue = event.getValue();
+      this.lastDistanceSensorValue.set(event.getValue());
     }
   }
 
@@ -176,27 +226,10 @@ public class RoboController implements IEventListener {
   /**
    * @return The last value read from the light sensor.
    */
-  public int getLastLightSensorValue() { return this.lastLightSensorValue; }
+  public int getLastLightSensorValue() { return this.lastLightSensorValue.get(); }
 
   /**
    * @return The last value read from the distance sensor.
    */
-  public int getLastDistanceSensorValue() { return this.lastDistanceSensorValue; }
-
-  /**
-   * This method is called to set the current driving strategy. It will call the deactivate method of the current and
-   * the activate method of the new state.
-   */
-  public void setCurrentDrivingStrategy(IDrivingStrategy strategy) {
-    if (this.currentDrivingStrategy != null) {
-      this.currentDrivingStrategy.deactivate(this);
-    }
-
-    Log.info("Active strategy set to: " + (strategy != null ? strategy.getClass().getSimpleName() : "null"));
-    this.currentDrivingStrategy = strategy;
-
-    if (strategy != null) {
-      strategy.activate(this);
-    }
-  }
+  public int getLastDistanceSensorValue() { return this.lastDistanceSensorValue.get(); }
 }

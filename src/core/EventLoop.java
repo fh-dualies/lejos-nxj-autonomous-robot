@@ -5,6 +5,7 @@ import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import lejos.util.Delay;
 import util.Log;
 
 /**
@@ -72,6 +73,7 @@ public class EventLoop implements Runnable {
       return;
     }
 
+    Log.info("Bluetooth connection established");
     this.running.set(true);
 
     while (running.get()) {
@@ -82,13 +84,7 @@ public class EventLoop implements Runnable {
         this.bluetoothReceiver.checkForCommands();
         this.controller.run();
 
-        // TODO: maybe use Delay class of lejos instead?
-        Thread.sleep(LOOP_DELAY);
-      } catch (InterruptedException e) {
-        Log.error("EventLoop interrupted", e);
-
-        this.running.set(false);
-        Thread.currentThread().interrupt();
+        Delay.msDelay(LOOP_DELAY);
       } catch (Exception e) {
         Log.error("Error in EventLoop", e);
       }
@@ -102,7 +98,10 @@ public class EventLoop implements Runnable {
   /**
    * Stops the event loop by setting the running flag to false. This will cause the loop to exit gracefully
    */
-  public void stop() { this.running.set(false); }
+  public void stop() {
+    Log.info("Stopping EventLoop...");
+    this.running.set(false);
+  }
 
   /**
    * Cleans up resources used by the event loop. This includes closing the Bluetooth connection,
