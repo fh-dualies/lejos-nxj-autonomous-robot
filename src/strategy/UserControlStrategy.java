@@ -2,14 +2,17 @@ package strategy;
 
 import core.RoboController;
 import io.actuator.IMotorController;
-import java.util.Objects;
 import util.Log;
 
 public class UserControlStrategy implements IDrivingStrategy {
   private final IMotorController motorController;
 
   public UserControlStrategy(IMotorController motorController) {
-    this.motorController = Objects.requireNonNull(motorController);
+    if (motorController == null) {
+      throw new NullPointerException();
+    }
+
+    this.motorController = motorController;
   }
 
   @Override

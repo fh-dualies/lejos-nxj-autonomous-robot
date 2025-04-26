@@ -3,7 +3,6 @@ package io.sensor.reader;
 import event.EventManager;
 import event.base.SensorEvent;
 import io.sensor.SensorType;
-import java.util.Objects;
 
 /**
  * Abstract class for reading sensor values.
@@ -29,7 +28,13 @@ public abstract class AbstractSensorReader {
   /**
    * @param eventManager The EventManager instance used to dispatch events.
    */
-  public AbstractSensorReader(EventManager eventManager) { this.eventManager = Objects.requireNonNull(eventManager); }
+  public AbstractSensorReader(EventManager eventManager) {
+    if (eventManager == null) {
+      throw new NullPointerException();
+    }
+
+    this.eventManager = eventManager;
+  }
 
   /**
    * Checks the current value of the sensor and dispatches an event if the value has changed significantly.

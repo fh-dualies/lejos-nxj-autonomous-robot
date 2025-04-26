@@ -3,7 +3,6 @@ package strategy.algorithm;
 import core.RoboController;
 import io.actuator.IMotorController;
 import io.sensor.DefaultSensorValues;
-import java.util.Objects;
 import util.Log;
 
 /**
@@ -40,8 +39,12 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
    * @throws NullPointerException if the controller or motor controller is null.
    */
   public ZigZagAlgorithm(RoboController controller) {
-    this.controller = Objects.requireNonNull(controller);
-    this.motorController = Objects.requireNonNull(controller.getMotorController());
+    if (controller == null || controller.getMotorController() == null) {
+      throw new NullPointerException();
+    }
+
+    this.controller = controller;
+    this.motorController = controller.getMotorController();
   }
 
   @Override

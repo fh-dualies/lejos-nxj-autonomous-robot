@@ -2,7 +2,6 @@ package io.sensor.reader;
 
 import event.EventManager;
 import io.sensor.SensorType;
-import java.util.Objects;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 
@@ -32,7 +31,12 @@ public class UltrasonicSensorReader extends AbstractSensorReader {
    */
   public UltrasonicSensorReader(SensorPort port, EventManager eventManager) {
     super(eventManager);
-    this.ultrasonicSensor = new UltrasonicSensor(Objects.requireNonNull(port));
+
+    if (port == null) {
+      throw new NullPointerException("Sensor port cannot be null");
+    }
+
+    this.ultrasonicSensor = new UltrasonicSensor(port);
   }
 
   @Override

@@ -6,8 +6,6 @@ import event.base.AbstractEvent;
 import event.base.SensorEvent;
 import io.actuator.IMotorController;
 import io.sensor.SensorType;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 import state.AbstractRoboState;
 import state.IdleState;
 import strategy.IDrivingStrategy;
@@ -40,6 +38,16 @@ public class RoboController implements IEventListener {
    */
   private final UserControlStrategy userControlStrategy;
   /**
+   * The last value read from the light sensor. This is used to determine the current state of the robot. It is received
+   * by sensor events.
+   */
+  private volatile int lastLightSensorValue = -1;
+  /**
+   * The last value read from the distance sensor. This is used to determine the current state of the robot. It is
+   * received by sensor events.
+   */
+  private volatile int lastDistanceSensorValue = -1;
+  /**
    * The current state of the robot. This is the state that is currently active and will be called to handle incoming
    * events
    */
@@ -48,25 +56,18 @@ public class RoboController implements IEventListener {
    * The current driving strategy. This is the strategy that is currently active and will be called to
    */
   private IDrivingStrategy currentDrivingStrategy = null;
-  /**
-   * The last value read from the light sensor. This is used to determine the current state of the robot. It is received
-   * by sensor events.
-   */
-  private final AtomicInteger lastLightSensorValue = new AtomicInteger(-1);
-
-  /**
-   * The last value read from the distance sensor. This is used to determine the current state of the robot. It is
-   * received by sensor events.
-   */
-  private final AtomicInteger lastDistanceSensorValue = new AtomicInteger(-1);
 
   /**
    * @param eventManager    The event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
   public RoboController(EventManager eventManager, IMotorController motorController) {
-    this.eventManager = Objects.requireNonNull(eventManager);
-    this.motorController = Objects.requireNonNull(motorController);
+    if (eventManager == null || motorController == null) {
+      throw new NullPointerException();
+    }
+
+    this.eventManager = eventManager;
+    this.motorController = motorController;
 
     this.lineFollowingStrategy = new LineFollowingStrategy(new ZigZagAlgorithm(this));
     this.userControlStrategy = new UserControlStrategy(motorController);
@@ -174,7 +175,7 @@ public class RoboController implements IEventListener {
       this.currentDrivingStrategy.deactivate(this);
     }
 
-    Log.info("Active strategy set to: " + (strategy != null ? strategy.getClass().getSimpleName() : "null"));
+    Log.info("Active strategy set to: " + (strategy != null ? strategy.getClass() : "null"));
     this.currentDrivingStrategy = strategy;
 
     if (strategy != null) {
@@ -190,11 +191,11 @@ public class RoboController implements IEventListener {
    */
   private void handleSensorEvent(SensorEvent event) {
     if (event.getSensorType() == SensorType.LIGHT) {
-      this.lastLightSensorValue.set(event.getValue());
+      this.lastLightSensorValue = event.getValue();
     }
 
     if (event.getSensorType() == SensorType.ULTRASONIC) {
-      this.lastDistanceSensorValue.set(event.getValue());
+      this.lastDistanceSensorValue = event.getValue();
     }
   }
 
@@ -226,10 +227,10 @@ public class RoboController implements IEventListener {
   /**
    * @return The last value read from the light sensor.
    */
-  public int getLastLightSensorValue() { return this.lastLightSensorValue.get(); }
+  public int getLastLightSensorValue() { return this.lastLightSensorValue; }
 
   /**
    * @return The last value read from the distance sensor.
    */
-  public int getLastDistanceSensorValue() { return this.lastDistanceSensorValue.get(); }
+  public int getLastDistanceSensorValue() { return this.lastDistanceSensorValue; }
 }

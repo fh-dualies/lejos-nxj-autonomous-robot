@@ -27,7 +27,6 @@ bin/
 # dist
 /dist/
 /build/
-/out/
 tmp/
 
 # OS

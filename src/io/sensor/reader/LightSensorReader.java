@@ -2,7 +2,6 @@ package io.sensor.reader;
 
 import event.EventManager;
 import io.sensor.SensorType;
-import java.util.Objects;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 
@@ -32,8 +31,12 @@ public class LightSensorReader extends AbstractSensorReader {
    */
   public LightSensorReader(SensorPort port, EventManager eventManager) {
     super(eventManager);
-    this.lightSensor = new LightSensor(Objects.requireNonNull(port));
 
+    if (port == null) {
+      throw new NullPointerException("Sensor port cannot be null");
+    }
+
+    this.lightSensor = new LightSensor(port);
     this.lightSensor.setFloodlight(true); // TODO: check if we have a floodlight!?
   }
 

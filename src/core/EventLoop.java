@@ -3,8 +3,6 @@ package core;
 import io.connection.BluetoothReceiver;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 import lejos.util.Delay;
 import util.Log;
 
@@ -48,7 +46,7 @@ public class EventLoop implements Runnable {
    * A flag indicating whether the event loop is currently running. This is used to control the
    * execution of the loop and to stop it gracefully when needed.
    */
-  private final AtomicBoolean running = new AtomicBoolean(false);
+  private volatile boolean running = false;
 
   /**
    * @param controller             The RoboController instance that manages the robot's behavior.
@@ -58,10 +56,15 @@ public class EventLoop implements Runnable {
    */
   public EventLoop(RoboController controller, LightSensorReader lightSensorReader,
                    UltrasonicSensorReader ultrasonicSensorReader, BluetoothReceiver bluetoothReceiver) {
-    this.controller = Objects.requireNonNull(controller);
-    this.lightSensorReader = Objects.requireNonNull(lightSensorReader);
-    this.ultrasonicSensorReader = Objects.requireNonNull(ultrasonicSensorReader);
-    this.bluetoothReceiver = Objects.requireNonNull(bluetoothReceiver);
+    if (controller == null || lightSensorReader == null || ultrasonicSensorReader == null ||
+        bluetoothReceiver == null) {
+      throw new NullPointerException();
+    }
+
+    this.controller = controller;
+    this.lightSensorReader = lightSensorReader;
+    this.ultrasonicSensorReader = ultrasonicSensorReader;
+    this.bluetoothReceiver = bluetoothReceiver;
   }
 
   @Override
@@ -74,9 +77,9 @@ public class EventLoop implements Runnable {
     }
 
     Log.info("Bluetooth connection established");
-    this.running.set(true);
+    this.running = true;
 
-    while (running.get()) {
+    while (this.running) {
       try {
         this.lightSensorReader.checkValue();
         this.ultrasonicSensorReader.checkValue();
@@ -100,7 +103,7 @@ public class EventLoop implements Runnable {
    */
   public void stop() {
     Log.info("Stopping EventLoop...");
-    this.running.set(false);
+    this.running = false;
   }
 
   /**

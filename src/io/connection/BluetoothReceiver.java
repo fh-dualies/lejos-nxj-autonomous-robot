@@ -7,7 +7,6 @@ import io.command.MoveCommand;
 import io.command.SwitchStateCommand;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.Objects;
 import lejos.nxt.LCD;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
@@ -44,7 +43,13 @@ public class BluetoothReceiver {
    * @param eventManager The event manager to dispatch command events to.
    * @throws NullPointerException if eventManager is null.
    */
-  public BluetoothReceiver(EventManager eventManager) { this.eventManager = Objects.requireNonNull(eventManager); }
+  public BluetoothReceiver(EventManager eventManager) {
+    if (eventManager == null) {
+      throw new NullPointerException();
+    }
+
+    this.eventManager = eventManager;
+  }
 
   /**
    * Called to check for incoming commands from the Bluetooth connection.

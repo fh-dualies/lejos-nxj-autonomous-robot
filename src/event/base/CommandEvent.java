@@ -1,7 +1,6 @@
 package event.base;
 
 import io.command.ICommand;
-import java.util.Objects;
 
 /**
  * CommandEvent is an event that represents a command that has to be executed in the system.
@@ -19,9 +18,11 @@ public class CommandEvent extends AbstractEvent {
    * @param command the command that has to be executed in the system
    */
   public CommandEvent(ICommand command) {
-    super();
+    if (command == null) {
+      throw new NullPointerException();
+    }
 
-    this.command = Objects.requireNonNull(command, "Command cannot be null");
+    this.command = command;
   }
 
   /**

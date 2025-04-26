@@ -1,7 +1,6 @@
 package strategy;
 
 import core.RoboController;
-import java.util.Objects;
 import strategy.algorithm.IFollowingAlgorithm;
 import util.Log;
 
@@ -23,7 +22,11 @@ public class LineFollowingStrategy implements IDrivingStrategy {
    * @throws NullPointerException if the followingAlgorithm is null.
    */
   public LineFollowingStrategy(IFollowingAlgorithm followingAlgorithm) {
-    this.followingAlgorithm = Objects.requireNonNull(followingAlgorithm);
+    if (followingAlgorithm == null) {
+      throw new NullPointerException();
+    }
+
+    this.followingAlgorithm = followingAlgorithm;
   }
 
   @Override

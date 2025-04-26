@@ -1,6 +1,5 @@
 package io.command;
 
-import java.util.Objects;
 import state.RoboStates;
 
 /**
@@ -19,7 +18,13 @@ public class SwitchStateCommand implements ICommand {
    * @param targetState The state to switch to.
    * @throws NullPointerException if targetState is null.
    */
-  public SwitchStateCommand(RoboStates targetState) { this.targetState = Objects.requireNonNull(targetState); }
+  public SwitchStateCommand(RoboStates targetState) {
+    if (targetState == null) {
+      throw new NullPointerException();
+    }
+
+    this.targetState = targetState;
+  }
 
   /**
    * @return The target state to switch to.

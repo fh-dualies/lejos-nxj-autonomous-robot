@@ -1,7 +1,6 @@
 package event.base;
 
 import io.sensor.SensorType;
-import java.util.Objects;
 
 /**
  * SensorEvent is an event that represents a sensor reading in the system.
@@ -31,7 +30,9 @@ public class SensorEvent extends AbstractEvent {
    * @param value      the value of the sensor that generated the event
    */
   public SensorEvent(String sensorId, SensorType sensorType, int value) {
-    super();
+    if (sensorType == null) {
+      throw new NullPointerException("Sensor type cannot be null");
+    }
 
     if (sensorId == null || sensorId.isEmpty()) {
       throw new IllegalArgumentException("Sensor ID cannot be null or empty");
@@ -42,7 +43,7 @@ public class SensorEvent extends AbstractEvent {
     }
 
     this.sensorId = sensorId;
-    this.sensorType = Objects.requireNonNull(sensorType, "Sensor type cannot be null");
+    this.sensorType = sensorType;
     this.value = value;
   }
 

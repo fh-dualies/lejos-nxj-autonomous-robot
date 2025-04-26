@@ -1,8 +1,7 @@
 package event;
 
 import event.base.AbstractEvent;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Vector;
 import util.Log;
 
 /**
@@ -12,10 +11,9 @@ import util.Log;
 public class EventManager {
   /**
    * List of event listeners.
-   * Using CopyOnWriteArrayList for thread-safe operations.
-   * Maybe replaced with a more efficient solution if needed.
+   * Using Vector for thread-safe operations (it's an older implementation of CopyOnWriteArrayList).
    */
-  private final List<IEventListener> listeners = new CopyOnWriteArrayList<>();
+  private final Vector<IEventListener> listeners = new Vector<>();
 
   /**
    * Dispatches the given event to all registered listeners.
@@ -28,8 +26,9 @@ public class EventManager {
       throw new IllegalArgumentException("Event cannot be null");
     }
 
-    for (IEventListener listener : listeners) {
+    for (int i = 0; i < this.listeners.size(); i++) {
       try {
+        IEventListener listener = this.listeners.elementAt(i);
         listener.onEvent(event);
       } catch (Exception e) {
         Log.error("Error while dispatching event: ", e);
@@ -48,11 +47,7 @@ public class EventManager {
       throw new IllegalArgumentException("Listener cannot be null");
     }
 
-    if (this.listeners.contains(listener)) {
-      throw new IllegalArgumentException("Listener already exists");
-    }
-
-    this.listeners.add(listener);
+    this.listeners.addElement(listener);
   }
 
   /**
@@ -66,11 +61,11 @@ public class EventManager {
       throw new IllegalArgumentException("Listener cannot be null");
     }
 
-    if (!this.listeners.contains(listener)) {
-      throw new IllegalArgumentException("Listener does not exist");
-    }
+    boolean removed = this.listeners.removeElement(listener);
 
-    this.listeners.remove(listener);
+    if (!removed) {
+      throw new IllegalArgumentException("Listener does not exist. State inconsistent.");
+    }
   }
 
   /**
