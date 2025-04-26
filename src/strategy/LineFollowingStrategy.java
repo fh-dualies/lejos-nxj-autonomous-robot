@@ -1,28 +1,28 @@
 package strategy;
 
 import core.RoboController;
-import io.actuator.IMotorController;
 import java.util.Objects;
+import strategy.algorithm.IFollowingAlgorithm;
 
 public class LineFollowingStrategy implements IDrivingStrategy {
-  private IMotorController motorController;
+  private final IFollowingAlgorithm followingAlgorithm;
 
-  public LineFollowingStrategy(IMotorController motorController) {
-    this.motorController = Objects.requireNonNull(motorController);
+  public LineFollowingStrategy(IFollowingAlgorithm followingAlgorithm) {
+    this.followingAlgorithm = Objects.requireNonNull(followingAlgorithm);
   }
 
   @Override
   public void execute(RoboController controller) {
-    // TODO: implement
+    this.followingAlgorithm.run();
   }
 
   @Override
   public void activate(RoboController controller) {
-    // TODO: implement
+    this.followingAlgorithm.initialize();
   }
 
   @Override
   public void deactivate(RoboController controller) {
-    // TODO: implement
+    this.followingAlgorithm.deinitialize();
   }
 }

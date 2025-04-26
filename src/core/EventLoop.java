@@ -41,6 +41,7 @@ public class EventLoop implements Runnable {
         this.bluetoothReceiver.checkForCommands();
         this.controller.run();
 
+        // TODO: maybe use Delay class of lejos instead?
         Thread.sleep(LOOP_DELAY);
       } catch (InterruptedException e) {
         this.running = false;

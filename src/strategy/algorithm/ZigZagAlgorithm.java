@@ -1,61 +1,75 @@
 package strategy.algorithm;
 
+import core.RoboController;
+import io.actuator.IMotorController;
 import io.sensor.DefaultSensorValues;
-
-import lejos.nxt.Button;
-import lejos.nxt.NXTRegulatedMotor;
-import lejos.nxt.LightSensor;
-import lejos.nxt.UltrasonicSensor;
-import lejos.util.Delay;
+import java.util.Objects;
 
 public class ZigZagAlgorithm implements IFollowingAlgorithm {
-    private NXTRegulatedMotor left;
-    private NXTRegulatedMotor right;
-    private LightSensor lightSensor;
-    private UltrasonicSensor distanceSensor;
+  private final RoboController controller;
+  private final IMotorController motorController;
 
-    public ZigZagAlgorithm(NXTRegulatedMotor motorLeft, NXTRegulatedMotor motorRight,
-                           LightSensor lightSensor, UltrasonicSensor distanceSensor) {
-        this.left = motorLeft;
-        this.right = motorRight;
-        this.lightSensor = lightSensor;
-        this.distanceSensor = distanceSensor;
+  private static final int FORWARD_SPEED = DefaultSensorValues.MOTOR_MEDIUM_SPEED.getValue();
+  private static final int TURN_SPEED_FACTOR = DefaultSensorValues.MOTOR_TURN_SPEED_FACTOR.getValue();
+
+  /**
+   * Start by assuming the robot is searching for the line on the right side.
+   */
+  private boolean searchRight = true;
+
+  public ZigZagAlgorithm(RoboController controller) {
+    this.controller = Objects.requireNonNull(controller);
+    this.motorController = Objects.requireNonNull(controller.getMotorController());
+  }
+
+  @Override
+  public void initialize() {
+    System.out.println("ZigZagAlgorithm initialized");
+
+    this.searchRight = true;
+    this.motorController.stopMotors(true);
+  }
+
+  @Override
+  public void deinitialize() {
+    this.motorController.stopMotors(true);
+  }
+
+  @Override
+  public void run() {
+    int currentLightValue = this.controller.getLastLightSensorValue();
+
+    if (currentLightValue == -1) {
+      return;
     }
 
-    @override
-    public void initialize() {
-        left.setSpeed(MOTOR_MEDIUM_SPEED);
-        right.setSpeed(MOTOR_MEDIUM_SPEED);
+    if (currentLightValue > DefaultSensorValues.LIGHT_TRANSITION_MID.getValue()) {
+      if (this.searchRight) {
+        int leftSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
+        int rightSpeed = FORWARD_SPEED;
+
+        this.motorController.forward(leftSpeed, rightSpeed);
+        this.searchRight = false;
+      } else {
+        int leftSpeed = FORWARD_SPEED;
+        int rightSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
+
+        this.motorController.forward(leftSpeed, rightSpeed);
+        this.searchRight = true;
+      }
+    } else {
+      // TODO: slower turn?
+      if (this.searchRight) {
+        int leftSpeed = FORWARD_SPEED;
+        int rightSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
+
+        this.motorController.forward(leftSpeed, rightSpeed);
+      } else {
+        int leftSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
+        int rightSpeed = FORWARD_SPEED;
+
+        this.motorController.forward(leftSpeed, rightSpeed);
+      }
     }
-
-    @Override
-    public void go() {
-        while (!Button.ESCAPE.isDown()) {
-            if (distanceSensor.getDistance() < DISTANCE_STOP_THRESHOLD) {
-                // Obstacle detected, stop the motors
-                left.stop();
-                right.stop();
-                break;
-            }
-            if (lightSensor.getLightValue() < LIGHT_FLOOR_MIN) {
-                // On line -> "Right" Zig
-                left.forward();
-                right.backward();
-                Delay.msDelay(ZIGZAG_TIME);
-
-                left.forward();
-                right.forward();
-                Delay.msDelay(ZIGZAG_TIME);
-            } else {
-                // Off line -> "Left" Zack
-                left.backward();
-                right.forward();
-                Delay.msDelay(ZIGZAG_TIME);
-
-                left.forward();
-                right.forward();
-                Delay.msDelay(ZIGZAG_TIME);
-            }
-        }
-    }
+  }
 }

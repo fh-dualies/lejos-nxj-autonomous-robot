@@ -1,9 +1,9 @@
 package io.actuator;
 
 public interface IMotorController {
-  void forward(int speed);
+  void forward(int leftSpeed, int rightSpeed);
 
-  void backward(int speed);
+  void backward(int leftSpeed, int rightSpeed);
 
   void stopMotors(boolean hardStop);
 

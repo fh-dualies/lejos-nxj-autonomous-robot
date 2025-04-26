@@ -1,13 +1,9 @@
 package strategy.algorithm;
 
 public interface IFollowingAlgorithm {
-    /**
-     * Initializes the Strategy
-     */
-    void initialize();
+  void initialize();
 
-    /**
-     * Starts the algorithm
-     */
-    void go();
+  void deinitialize();
+
+  void run();
 }

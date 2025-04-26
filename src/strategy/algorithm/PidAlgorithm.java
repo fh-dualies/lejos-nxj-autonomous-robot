@@ -1,21 +1,22 @@
 package strategy.algorithm;
 
 public class PidAlgorithm implements IFollowingAlgorithm {
-    NXTRegulatedMotor left;
-    NXTRegulatedMotor right;
+  public PidAlgorithm() {
+    // TODO: implement
+  }
 
-    public PidAlgorithm(NXTRegulatedMotor motorLeft, NXTRegulatedMotor motorRight) {
-        this.left = motorLeft;
-        this.right = motorRight;
-    }
+  @Override
+  public void initialize() {
+    // TODO: implement
+  }
 
-    @Override
-    public void initialize() {
-        // TODO Auto-generated method stub
-    }
+  @Override
+  public void deinitialize() {
+    // TODO: implement
+  }
 
-    @Override
-    public void go() {
-        // TODO Auto-generated method stub
-    }
+  @Override
+  public void run() {
+    // TODO: implement
+  }
 }

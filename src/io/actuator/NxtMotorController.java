@@ -8,6 +8,8 @@ public class NxtMotorController implements IMotorController {
   private final NXTRegulatedMotor leftMotor;
   private final NXTRegulatedMotor rightMotor;
 
+  // TODO: save the current speed of the motors (make it changeable via Command)
+
   public NxtMotorController() {
     this.leftMotor = Motor.A;
     this.rightMotor = Motor.B;
@@ -16,15 +18,15 @@ public class NxtMotorController implements IMotorController {
                           DefaultSensorValues.MOTOR_MAX_SPEED.getValue());
   }
 
-  public void forward(int speed) {
-    this.setInternalSpeed(speed, speed);
+  public void forward(int leftSpeed, int rightSpeed) {
+    this.setInternalSpeed(leftSpeed, rightSpeed);
 
     leftMotor.forward();
     rightMotor.forward();
   }
 
-  public void backward(int speed) {
-    this.setInternalSpeed(speed, speed);
+  public void backward(int leftSpeed, int rightSpeed) {
+    this.setInternalSpeed(leftSpeed, rightSpeed);
 
     leftMotor.backward();
     rightMotor.backward();

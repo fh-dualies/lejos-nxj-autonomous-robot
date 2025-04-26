@@ -12,6 +12,7 @@ import state.IdleState;
 import strategy.IDrivingStrategy;
 import strategy.LineFollowingStrategy;
 import strategy.UserControlStrategy;
+import strategy.algorithm.ZigZagAlgorithm;
 
 public class RoboController implements IEventListener {
   private AbstractRoboState currentState = null;
@@ -31,7 +32,7 @@ public class RoboController implements IEventListener {
     this.eventManager = Objects.requireNonNull(eventManager);
     this.motorController = Objects.requireNonNull(motorController);
 
-    this.lineFollowingStrategy = new LineFollowingStrategy(motorController);
+    this.lineFollowingStrategy = new LineFollowingStrategy(new ZigZagAlgorithm(this));
     this.userControlStrategy = new UserControlStrategy(motorController);
 
     this.setState(new IdleState());
