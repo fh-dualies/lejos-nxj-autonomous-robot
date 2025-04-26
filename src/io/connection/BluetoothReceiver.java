@@ -12,6 +12,7 @@ import lejos.nxt.LCD;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import state.RoboStates;
+import util.Log;
 
 /**
  * BluetoothReceiver is responsible for managing the Bluetooth connection and receiving commands
@@ -60,20 +61,17 @@ public class BluetoothReceiver {
       }
 
       String commandString = this.dataStream.readUTF();
-      System.out.println("Received command: " + commandString);
-
       ICommand command = this.parseCommand(commandString);
 
       if (command == null) {
-        System.out.println("Command not recognized: " + commandString);
+        Log.warning("Command not recognized: " + commandString);
         return;
       }
 
       CommandEvent event = new CommandEvent(command);
       this.eventManager.dispatch(event);
     } catch (IOException e) {
-      System.out.println("Error reading command");
-      e.printStackTrace();
+      Log.error("Error reading command", e);
 
       LCD.clear();
       LCD.drawString("Error reading cmd", 0, 4);
@@ -82,9 +80,7 @@ public class BluetoothReceiver {
 
       this.closeConnection();
     } catch (Exception e) {
-      System.out.println("Error processing command");
-      e.printStackTrace();
-
+      Log.error("Error processing command", e);
       this.closeConnection();
     }
   }
@@ -128,6 +124,8 @@ public class BluetoothReceiver {
       return new SwitchStateCommand(RoboStates.MANUAL);
     }
 
+    Log.warning("Unknown command: " + command);
+
     return null;
   }
 
@@ -149,6 +147,8 @@ public class BluetoothReceiver {
       LCD.refresh();
       this.isConnected = false;
 
+      Log.warning("No connection");
+
       return false;
     }
 
@@ -159,12 +159,13 @@ public class BluetoothReceiver {
     try {
       dataStream = connection.openDataInputStream();
       this.isConnected = true;
-      System.out.println("BT DataStream established");
+
+      Log.info("BT DataStream established");
 
       return true;
     } catch (Exception e) {
-      System.out.println("BT DataStream not established");
-      e.printStackTrace();
+      Log.error("BT DataStream not established", e);
+
       LCD.drawString("Error opening stream", 0, 3);
       LCD.refresh();
 
@@ -179,33 +180,33 @@ public class BluetoothReceiver {
    * It sets the isConnected flag to false and handles any exceptions that may occur during the closing process.
    */
   public void closeConnection() {
-    System.out.println("Closing connection");
+    Log.info("Closing connection");
     this.isConnected = false;
 
     try {
       if (this.dataStream != null) {
         this.dataStream.close();
         this.dataStream = null;
-        System.out.println("DataStream closed");
+
+        Log.info("DataStream closed");
       }
     } catch (Exception e) {
-      System.out.println("Error closing DataStream");
-      e.printStackTrace();
+      Log.error("Error closing DataStream", e);
     }
 
     try {
       if (this.connection != null) {
         this.connection.close();
         this.connection = null;
-        System.out.println("Connection closed");
+
+        Log.info("Connection closed");
 
         LCD.clear();
         LCD.drawString("Connection closed", 0, 1);
         LCD.refresh();
       }
     } catch (Exception e) {
-      System.out.println("Error closing connection");
-      e.printStackTrace();
+      Log.error("Error closing Connection", e);
     }
   }
 

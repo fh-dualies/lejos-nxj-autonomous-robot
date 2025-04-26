@@ -2,6 +2,7 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
+import util.Log;
 
 public class ManualState extends AbstractRoboState {
   private final RoboStates STATE = RoboStates.MANUAL;
@@ -13,14 +14,14 @@ public class ManualState extends AbstractRoboState {
 
   @Override
   public void onEnter(RoboController controller) {
-    System.out.println("Entering manual state");
+    Log.info("Entering manual state");
 
     controller.setCurrentDrivingStrategy(controller.getUserControlStrategy());
   }
 
   @Override
   public void onExit(RoboController controller) {
-    System.out.println("Exiting manual state");
+    Log.info("Exiting manual state");
 
     controller.getMotorController().stopMotors(false);
     controller.setCurrentDrivingStrategy(null);

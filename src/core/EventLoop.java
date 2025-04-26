@@ -4,6 +4,8 @@ import io.connection.BluetoothReceiver;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+import util.Log;
 
 /**
  * The main event loop for the robot.
@@ -45,7 +47,7 @@ public class EventLoop implements Runnable {
    * A flag indicating whether the event loop is currently running. This is used to control the
    * execution of the loop and to stop it gracefully when needed.
    */
-  private volatile boolean running = false;
+  private final AtomicBoolean running = new AtomicBoolean(false);
 
   /**
    * @param controller             The RoboController instance that manages the robot's behavior.
@@ -63,16 +65,16 @@ public class EventLoop implements Runnable {
 
   @Override
   public void run() {
-    System.out.println("EventLoop started...");
+    Log.info("EventLoop started...");
 
     if (!this.bluetoothReceiver.waitForConnection()) {
-      System.err.println("Failed to establish Bluetooth connection");
+      Log.error("Failed to establish Bluetooth connection");
       return;
     }
 
-    this.running = true;
+    this.running.set(true);
 
-    while (running) {
+    while (running.get()) {
       try {
         this.lightSensorReader.checkValue();
         this.ultrasonicSensorReader.checkValue();
@@ -83,24 +85,24 @@ public class EventLoop implements Runnable {
         // TODO: maybe use Delay class of lejos instead?
         Thread.sleep(LOOP_DELAY);
       } catch (InterruptedException e) {
-        this.running = false;
-        System.out.println("EventLoop interrupted");
+        Log.error("EventLoop interrupted", e);
+
+        this.running.set(false);
         Thread.currentThread().interrupt();
       } catch (Exception e) {
-        System.err.println("Error in EventLoop: " + e.getMessage());
-        e.printStackTrace();
+        Log.error("Error in EventLoop", e);
       }
     }
 
-    System.out.println("EventLoop stopped");
+    Log.info("EventLoop stopped");
     this.cleanup();
-    System.out.println("EventLoop cleanup done");
+    Log.info("EventLoop cleanup completed");
   }
 
   /**
    * Stops the event loop by setting the running flag to false. This will cause the loop to exit gracefully
    */
-  public void stop() { this.running = false; }
+  public void stop() { this.running.set(false); }
 
   /**
    * Cleans up resources used by the event loop. This includes closing the Bluetooth connection,
@@ -112,8 +114,7 @@ public class EventLoop implements Runnable {
       this.controller.getMotorController().close();
       lightSensorReader.close();
     } catch (Exception e) {
-      System.err.println("Error during cleanup: " + e.getMessage());
-      e.printStackTrace();
+      Log.error("Error in cleanup", e);
     }
   }
 }

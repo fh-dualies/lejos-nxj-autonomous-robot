@@ -4,6 +4,7 @@ import core.RoboController;
 import io.actuator.IMotorController;
 import io.sensor.DefaultSensorValues;
 import java.util.Objects;
+import util.Log;
 
 /**
  * ZigZagAlgorithm is a concrete implementation of IFollowingAlgorithm that implements a zigzag following algorithm.
@@ -45,7 +46,7 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
 
   @Override
   public void initialize() {
-    System.out.println("ZigZagAlgorithm initialized");
+    Log.info("ZigZagAlgorithm initialized");
 
     this.searchRight = true;
     this.motorController.stopMotors(true);
@@ -53,6 +54,8 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
 
   @Override
   public void deinitialize() {
+    Log.info("ZigZagAlgorithm deinitialized");
+
     this.motorController.stopMotors(true);
   }
 

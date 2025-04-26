@@ -13,6 +13,7 @@ import strategy.IDrivingStrategy;
 import strategy.LineFollowingStrategy;
 import strategy.UserControlStrategy;
 import strategy.algorithm.ZigZagAlgorithm;
+import util.Log;
 
 /**
  * RoboController is the main controller for the robot. It manages the current state of the robot,
@@ -78,6 +79,7 @@ public class RoboController implements IEventListener {
    * that occur. So it does not directly interact with the robot hardware but rather uses a strategy pattern.
    */
   public void run() {
+    Log.info("RoboController started...");
     IDrivingStrategy strategy = this.currentDrivingStrategy;
 
     if (strategy == null) {
@@ -87,8 +89,7 @@ public class RoboController implements IEventListener {
     try {
       strategy.execute(this);
     } catch (Exception e) {
-      System.err.println("RoboController error: " + e.getMessage());
-      e.printStackTrace();
+      Log.error("Error in RoboController.", e);
     }
   }
 
@@ -191,7 +192,7 @@ public class RoboController implements IEventListener {
       this.currentDrivingStrategy.deactivate(this);
     }
 
-    System.out.println("Active strategy set to: " + (strategy != null ? strategy.getClass().getSimpleName() : "null"));
+    Log.info("Active strategy set to: " + (strategy != null ? strategy.getClass().getSimpleName() : "null"));
     this.currentDrivingStrategy = strategy;
 
     if (strategy != null) {

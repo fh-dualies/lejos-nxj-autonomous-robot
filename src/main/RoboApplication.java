@@ -10,6 +10,7 @@ import io.sensor.reader.UltrasonicSensorReader;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
+import util.Log;
 
 /**
  * Main class for the Megamen Robo Application.
@@ -20,7 +21,7 @@ public class RoboApplication {
    * @param args Command line arguments (not used).
    */
   public static void main(String[] args) {
-    System.out.println("Megamen Robo Application is starting...");
+    Log.info("Megamen is starting...");
 
     EventManager eventManager = new EventManager();
     NxtMotorController nxtMotorController = new NxtMotorController();
@@ -37,10 +38,11 @@ public class RoboApplication {
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
-        System.out.println("Shutting down megamen...");
+        Log.info("Megamen is shutting down...");
         eventLoop.stop();
 
         try {
+          // TODO: maybe use lejos Delay class instead?
           // wait for the event loop to finish
           Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -56,6 +58,6 @@ public class RoboApplication {
     LCD.refresh();
     Button.ESCAPE.waitForPressAndRelease();
 
-    System.out.println("Megamen out.");
+    Log.info("Megamen out.");
   }
 }

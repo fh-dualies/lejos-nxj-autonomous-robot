@@ -3,6 +3,7 @@ package event;
 import event.base.AbstractEvent;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import util.Log;
 
 /**
  * EventManager is responsible for managing event listeners and dispatching events to them.
@@ -31,7 +32,7 @@ public class EventManager {
       try {
         listener.onEvent(event);
       } catch (Exception e) {
-        System.err.println("Error while dispatching event: " + e.getMessage());
+        Log.error("Error while dispatching event: ", e);
         throw e;
       }
     }

@@ -2,6 +2,7 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
+import util.Log;
 
 /*
  * IdleState is a concrete implementation of the AbstractRoboState class.
@@ -21,14 +22,14 @@ public class IdleState extends AbstractRoboState {
 
   @Override
   public void onEnter(RoboController controller) {
-    System.out.println("Entering idle state");
+    Log.info("Entering idle state");
 
     controller.getMotorController().stopMotors(false);
   }
 
   @Override
   public void onExit(RoboController controller) {
-    System.out.println("Exiting idle state");
+    Log.info("Exiting idle state");
   }
 
   /**

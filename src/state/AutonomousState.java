@@ -2,6 +2,7 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
+import util.Log;
 
 /**
  * AutonomousState is a concrete implementation of the AbstractRoboState class.
@@ -21,14 +22,14 @@ public class AutonomousState extends AbstractRoboState {
 
   @Override
   public void onEnter(RoboController controller) {
-    System.out.println("Entering autonomous state");
+    Log.info("Entering autonomous state");
 
     controller.setCurrentDrivingStrategy(controller.getLineFollowingStrategy());
   }
 
   @Override
   public void onExit(RoboController controller) {
-    System.out.println("Exiting autonomous state");
+    Log.info("Exiting autonomous state");
 
     controller.getMotorController().stopMotors(false);
     controller.setCurrentDrivingStrategy(null);

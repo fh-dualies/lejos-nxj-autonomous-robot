@@ -2,6 +2,7 @@ package io.connection;
 
 import java.io.DataOutputStream;
 import lejos.nxt.comm.BTConnection;
+import util.Log;
 
 /**
  * BluetoothTransmitter is a class that handles the Bluetooth connection and data transmission.
@@ -33,7 +34,7 @@ public class BluetoothTransmitter {
    */
   public boolean setupConnection(BTConnection connection) {
     if (connection == null) {
-      System.out.println("Connection is null");
+      Log.warning("Connection is null");
       return false;
     }
 
@@ -42,12 +43,12 @@ public class BluetoothTransmitter {
     try {
       this.dataStream = connection.openDataOutputStream();
       this.isConnected = true;
-      System.out.println("Bluetooth connection established");
+
+      Log.info("Bluetooth connection established");
 
       return true;
     } catch (Exception e) {
-      System.out.println("Error opening data stream");
-      e.printStackTrace();
+      Log.error("Error opening data stream", e);
 
       this.connection = null;
       this.isConnected = false;
@@ -69,6 +70,7 @@ public class BluetoothTransmitter {
     }
 
     if (message == null || message.isEmpty()) {
+      Log.warning("Message is null or empty");
       return false;
     }
 
@@ -78,9 +80,7 @@ public class BluetoothTransmitter {
 
       return true;
     } catch (Exception e) {
-      System.out.println("Error sending data");
-      e.printStackTrace();
-
+      Log.error("Error sending data", e);
       this.isConnected = false;
 
       return false;
@@ -92,7 +92,7 @@ public class BluetoothTransmitter {
    * It sets the isConnected flag to false and handles any exceptions that may occur during the closing process.
    */
   public void closeStream() {
-    System.out.println("Closing stream");
+    Log.info("Closing data stream");
     this.isConnected = false;
 
     if (this.dataStream == null) {
@@ -101,10 +101,9 @@ public class BluetoothTransmitter {
 
     try {
       this.dataStream.close();
-      System.out.println("DataStream closed");
+      Log.info("DataStream closed");
     } catch (Exception e) {
-      System.out.println("Error closing DataStream");
-      e.printStackTrace();
+      Log.error("Error closing DataStream", e);
     } finally {
       this.dataStream = null;
     }
