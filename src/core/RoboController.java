@@ -20,38 +20,32 @@ import strategy.algorithm.ZigZagAlgorithm;
  */
 public class RoboController implements IEventListener {
   /**
-   * The current state of the robot. This is the state that is currently active and will be called to handle incoming
-   * events
-   */
-  private AbstractRoboState currentState = null;
-
-  /**
-   * The current driving strategy. This is the strategy that is currently active and will be called to
-   */
-  private IDrivingStrategy currentDrivingStrategy = null;
-
-  /**
    * The event manager. This is used to dispatch events and register listeners.
    */
   private final EventManager eventManager;
-
   /**
    * The motor controller. This is used to control the motors of the robot.
    */
   private final IMotorController motorController;
-
   /**
    * The line following strategy. This is used to follow a line using the light sensor by a given Algorithm (pid or
    * zigzag).
    */
   private final LineFollowingStrategy lineFollowingStrategy;
-
   /**
    * The user control strategy. This is used to control the robot using user input from the bluetooth connection via
    * move commands.
    */
   private final UserControlStrategy userControlStrategy;
-
+  /**
+   * The current state of the robot. This is the state that is currently active and will be called to handle incoming
+   * events
+   */
+  private AbstractRoboState currentState = null;
+  /**
+   * The current driving strategy. This is the strategy that is currently active and will be called to
+   */
+  private IDrivingStrategy currentDrivingStrategy = null;
   /**
    * The last value read from the light sensor. This is used to determine the current state of the robot. It is received
    * by sensor events.
@@ -65,7 +59,7 @@ public class RoboController implements IEventListener {
   private int lastDistanceSensorValue = -1;
 
   /**
-   * @param eventManager The event manager used to dispatch events and register listeners.
+   * @param eventManager    The event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
   public RoboController(EventManager eventManager, IMotorController motorController) {

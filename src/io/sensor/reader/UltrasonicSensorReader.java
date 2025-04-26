@@ -27,7 +27,7 @@ public class UltrasonicSensorReader extends AbstractSensorReader {
   private final UltrasonicSensor ultrasonicSensor;
 
   /**
-   * @param port The SensorPort where the ultrasonic sensor is connected.
+   * @param port         The SensorPort where the ultrasonic sensor is connected.
    * @param eventManager The EventManager instance used to dispatch events.
    */
   public UltrasonicSensorReader(SensorPort port, EventManager eventManager) {

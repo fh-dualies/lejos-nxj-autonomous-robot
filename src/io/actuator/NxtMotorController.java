@@ -8,7 +8,6 @@ import lejos.nxt.NXTRegulatedMotor;
  * NxtMotorController is a class that controls the motors of the NXT robot.
  * It provides methods to move the robot forward, backward, turn left, turn right,
  * and stop the motors.
- *
  * TODO: save the current speed of the motors (make it changeable via Command)
  */
 public class NxtMotorController implements IMotorController {

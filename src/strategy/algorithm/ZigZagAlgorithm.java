@@ -13,26 +13,22 @@ import java.util.Objects;
  */
 public class ZigZagAlgorithm implements IFollowingAlgorithm {
   /**
-   * The RoboController instance used to control the robot.
-   */
-  private final RoboController controller;
-
-  /**
-   * The motor controller used to control the motors of the robot.
-   */
-  private final IMotorController motorController;
-
-  /**
    * The speed at which the robot moves forward.
    */
   private static final int FORWARD_SPEED = DefaultSensorValues.MOTOR_MEDIUM_SPEED.getValue();
-
   /**
    * The speed factor used for turning the robot.
    * This factor is used to adjust the speed of the outer wheel during turns.
    */
   private static final int TURN_SPEED_FACTOR = DefaultSensorValues.MOTOR_TURN_SPEED_FACTOR.getValue();
-
+  /**
+   * The RoboController instance used to control the robot.
+   */
+  private final RoboController controller;
+  /**
+   * The motor controller used to control the motors of the robot.
+   */
+  private final IMotorController motorController;
   /**
    * Start by assuming the robot is searching for the line on the right side.
    */

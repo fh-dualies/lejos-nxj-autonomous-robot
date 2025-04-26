@@ -30,7 +30,7 @@ abstract public class AbstractRoboState {
    * Handles events that occur while in the state. Called by the RoboController.
    *
    * @param controller The RoboController instance that manages the robot's state.
-   * @param event The event that occurred.
+   * @param event      The event that occurred.
    */
   abstract public void handleEvent(RoboController controller, AbstractEvent event);
 
@@ -46,7 +46,7 @@ abstract public class AbstractRoboState {
    * It checks if the event is a SwitchStateCommand and changes the state of the controller accordingly.
    *
    * @param controller The RoboController instance that manages the robot's state.
-   * @param event The event that occurred.
+   * @param event      The event that occurred.
    */
   protected void handleSwitchEvent(RoboController controller, AbstractEvent event) {
     if (!(event instanceof CommandEvent)) {

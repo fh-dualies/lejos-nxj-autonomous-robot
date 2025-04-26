@@ -8,11 +8,6 @@ import java.util.Objects;
  */
 public class MoveCommand implements ICommand {
   /**
-   * Direction enum represents the possible directions the robot can move.
-   */
-  public enum Direction { FORWARD, BACKWARD, LEFT, RIGHT, STOP }
-
-  /**
    * The direction in which the robot should move.
    */
   private final Direction direction;
@@ -27,4 +22,9 @@ public class MoveCommand implements ICommand {
    * @return the direction in which the robot should move
    */
   public Direction getDirection() { return this.direction; }
+
+  /**
+   * Direction enum represents the possible directions the robot can move.
+   */
+  public enum Direction { FORWARD, BACKWARD, LEFT, RIGHT, STOP }
 }

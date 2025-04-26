@@ -27,7 +27,7 @@ public class LightSensorReader extends AbstractSensorReader {
   private final LightSensor lightSensor;
 
   /**
-   * @param port        The port where the light sensor is connected.
+   * @param port         The port where the light sensor is connected.
    * @param eventManager The event manager to handle events.
    */
   public LightSensorReader(SensorPort port, EventManager eventManager) {

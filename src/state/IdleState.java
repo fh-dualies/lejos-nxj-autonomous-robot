@@ -38,7 +38,7 @@ public class IdleState extends AbstractRoboState {
    * Will be called by the RoboController after an event is received.
    *
    * @param controller The RoboController instance that manages the robot's state.
-   * @param event The event that occurred.
+   * @param event      The event that occurred.
    */
   public void handleEvent(RoboController controller, AbstractEvent event) {
     this.handleSwitchEvent(controller, event);

@@ -26,9 +26,9 @@ public class SensorEvent extends AbstractEvent {
   private final int value;
 
   /**
-   * @param sensorId the ID of the sensor that generated the event
+   * @param sensorId   the ID of the sensor that generated the event
    * @param sensorType the type of the sensor that generated the event
-   * @param value the value of the sensor that generated the event
+   * @param value      the value of the sensor that generated the event
    */
   public SensorEvent(String sensorId, SensorType sensorType, int value) {
     super();

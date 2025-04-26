@@ -12,21 +12,19 @@ import java.util.Objects;
  */
 public abstract class AbstractSensorReader {
   /**
+   * The default threshold for reporting changes in sensor values.
+   * If the change in value is greater than or equal to this threshold, an event will be dispatched.
+   */
+  protected static final int DEFAULT_REPORT_THRESHOLD = 5;
+  /**
    * The EventManager instance used to dispatch events.
    */
   protected final EventManager eventManager;
-
   /**
    * The last reported value of the sensor.
    * This is used to determine if the current value is significantly different from the last reported value.
    */
   protected int lastValue = -1;
-
-  /**
-   * The default threshold for reporting changes in sensor values.
-   * If the change in value is greater than or equal to this threshold, an event will be dispatched.
-   */
-  protected static final int DEFAULT_REPORT_THRESHOLD = 5;
 
   /**
    * @param eventManager The EventManager instance used to dispatch events.
