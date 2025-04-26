@@ -13,14 +13,42 @@ import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import state.RoboStates;
 
+/**
+ * BluetoothReceiver is responsible for managing the Bluetooth connection and receiving commands
+ * from a connected device. It is intended to be used for the robot to receive commands from a remote connection.
+ * It listens for incoming commands, parses them, and dispatches them to the event manager.
+ */
 public class BluetoothReceiver {
+  /**
+   * Used to send command events to the event manager for processing.
+   */
   private final EventManager eventManager;
+
+  /**
+   * Represents the active Bluetooth connection to the remote device.
+   */
   private BTConnection connection = null;
+
+  /**
+   * Used to read data from the Bluetooth connection.
+   */
   private DataInputStream dataStream = null;
+
+  /**
+   * Indicates whether the Bluetooth connection is currently active.
+   */
   private boolean isConnected = false;
 
+  /**
+   * @param eventManager The event manager to dispatch command events to.
+   * @throws NullPointerException if eventManager is null.
+   */
   public BluetoothReceiver(EventManager eventManager) { this.eventManager = Objects.requireNonNull(eventManager); }
 
+  /**
+   * Called to check for incoming commands from the Bluetooth connection.
+   * If a command is received, it is parsed and dispatched as a CommandEvent to the event manager.
+   */
   public void checkForCommands() {
     if (!this.isConnected || this.dataStream == null) {
       return;
@@ -61,6 +89,14 @@ public class BluetoothReceiver {
     }
   }
 
+  /**
+   * Parses a command string and returns the corresponding ICommand object.
+   * It recognizes move commands (FORWARD, BACKWARD, LEFT, RIGHT, STOP) and state switch commands (IDLE, AUTONOMOUS,
+   * MANUAL).
+   *
+   * @param commandString The command string to parse.
+   * @return The corresponding ICommand object or null if the command is not recognized.
+   */
   public ICommand parseCommand(String commandString) {
     if (commandString == null) {
       return null;
@@ -95,6 +131,12 @@ public class BluetoothReceiver {
     return null;
   }
 
+  /**
+   * Establishes a Bluetooth connection and waits for a remote device to connect.
+   * It displays the connection status on the LCD screen.
+   *
+   * @return true if the connection is established successfully, false otherwise.
+   */
   public boolean waitForConnection() {
     LCD.clear();
     LCD.drawString("Waiting for BT", 0, 0);
@@ -132,6 +174,10 @@ public class BluetoothReceiver {
     }
   }
 
+  /**
+   * Closes the Bluetooth connection and the data stream.
+   * It sets the isConnected flag to false and handles any exceptions that may occur during the closing process.
+   */
   public void closeConnection() {
     System.out.println("Closing connection");
     this.isConnected = false;
@@ -163,7 +209,17 @@ public class BluetoothReceiver {
     }
   }
 
+  /**
+   * Checks if the Bluetooth connection is currently active.
+   *
+   * @return true if the connection is active, false otherwise.
+   */
   public boolean isConnected() { return this.isConnected; }
 
+  /**
+   * Returns the active Bluetooth connection.
+   *
+   * @return The active BTConnection object.
+   */
   public BTConnection getConnection() { return this.connection; }
 }

@@ -5,15 +5,59 @@ import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
 import java.util.Objects;
 
+/**
+ * The main event loop for the robot.
+ * This class is responsible for managing the Bluetooth connection,
+ * reading sensor values, and controlling the motors. The event loop
+ * runs continuously until stopped, processing commands and sensor data
+ * with a fixed delay between iterations. It also handles resource
+ * cleanup when the loop is terminated.
+ */
 public class EventLoop implements Runnable {
+  /**
+   * The RoboController instance that manages the robot's behavior. It serves as a context object,
+   * providing access to sensor data and motor control functionalities throughout the application.
+   */
   private final RoboController controller;
+
+  /**
+   * The BluetoothReceiver instance that manages the Bluetooth connection and command reception.
+   * It is responsible for establishing a connection with the remote device and processing incoming
+   * commands.
+   */
   private final BluetoothReceiver bluetoothReceiver;
+
+  /**
+   * The LightSensorReader instance that reads values from the light sensor. It is responsible for
+   * checking the light sensor's value and providing it to the RoboController for processing.
+   */
   private final LightSensorReader lightSensorReader;
+
+  /**
+   * The UltrasonicSensorReader instance that reads values from the ultrasonic sensor. It is
+   * responsible for checking the ultrasonic sensor's value and providing it to the RoboController
+   * for processing.
+   */
   private final UltrasonicSensorReader ultrasonicSensorReader;
 
+  /**
+   * The delay in milliseconds between iterations of the event loop. This controls the frequency of
+   * sensor checks and command processing.
+   */
   private static final int LOOP_DELAY = 20;
+
+  /**
+   * A flag indicating whether the event loop is currently running. This is used to control the
+   * execution of the loop and to stop it gracefully when needed.
+   */
   private volatile boolean running = false;
 
+  /**
+   * @param controller The RoboController instance that manages the robot's behavior.
+   * @param lightSensorReader The LightSensorReader instance for reading light sensor values.
+   * @param ultrasonicSensorReader The UltrasonicSensorReader instance for reading ultrasonic sensor values.
+   * @param bluetoothReceiver The BluetoothReceiver instance for managing Bluetooth connections and commands.
+   */
   public EventLoop(RoboController controller, LightSensorReader lightSensorReader,
                    UltrasonicSensorReader ultrasonicSensorReader, BluetoothReceiver bluetoothReceiver) {
     this.controller = Objects.requireNonNull(controller);
@@ -58,8 +102,15 @@ public class EventLoop implements Runnable {
     System.out.println("EventLoop cleanup done");
   }
 
+  /**
+   * Stops the event loop by setting the running flag to false. This will cause the loop to exit gracefully
+   */
   public void stop() { this.running = false; }
 
+  /**
+   * Cleans up resources used by the event loop. This includes closing the Bluetooth connection,
+   * stopping the motor controller, and closing the light sensor reader.
+   */
   private void cleanup() {
     try {
       this.bluetoothReceiver.closeConnection();

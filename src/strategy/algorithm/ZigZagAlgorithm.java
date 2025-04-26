@@ -5,11 +5,32 @@ import io.actuator.IMotorController;
 import io.sensor.DefaultSensorValues;
 import java.util.Objects;
 
+/**
+ * ZigZagAlgorithm is a concrete implementation of IFollowingAlgorithm that implements a zigzag following algorithm.
+ * This algorithm is used to follow a line by adjusting the speed of the motors based on the light sensor values.
+ * It alternates the speed of the left and right motors to create a zigzag pattern.
+ * The algorithm assumes that the robot is searching for the line on the right side initially.
+ */
 public class ZigZagAlgorithm implements IFollowingAlgorithm {
+  /**
+   * The RoboController instance used to control the robot.
+   */
   private final RoboController controller;
+
+  /**
+   * The motor controller used to control the motors of the robot.
+   */
   private final IMotorController motorController;
 
+  /**
+   * The speed at which the robot moves forward.
+   */
   private static final int FORWARD_SPEED = DefaultSensorValues.MOTOR_MEDIUM_SPEED.getValue();
+
+  /**
+   * The speed factor used for turning the robot.
+   * This factor is used to adjust the speed of the outer wheel during turns.
+   */
   private static final int TURN_SPEED_FACTOR = DefaultSensorValues.MOTOR_TURN_SPEED_FACTOR.getValue();
 
   /**
@@ -17,6 +38,10 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
    */
   private boolean searchRight = true;
 
+  /**
+   * @param controller The RoboController instance used to control the robot.
+   * @throws NullPointerException if the controller or motor controller is null.
+   */
   public ZigZagAlgorithm(RoboController controller) {
     this.controller = Objects.requireNonNull(controller);
     this.motorController = Objects.requireNonNull(controller.getMotorController());

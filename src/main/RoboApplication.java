@@ -11,7 +11,14 @@ import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 
+/**
+ * Main class for the Megamen Robo Application.
+ * This class initializes the application, sets up the event loop, and handles shutdown procedures.
+ */
 public class RoboApplication {
+  /**
+   * @param args Command line arguments (not used).
+   */
   public static void main(String[] args) {
     System.out.println("Megamen Robo Application is starting...");
 

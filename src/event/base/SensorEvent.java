@@ -3,11 +3,33 @@ package event.base;
 import io.sensor.SensorType;
 import java.util.Objects;
 
+/**
+ * SensorEvent is an event that represents a sensor reading in the system.
+ * It will contain reading of the SensorReaders (see AbstractSensorReader) and represent e.g., light or distance
+ * measurements. It extends the AbstractEvent class and contains a reference to the sensor ID, sensor type, and sensor
+ * value.
+ */
 public class SensorEvent extends AbstractEvent {
+  /**
+   * The ID of the sensor that generated the event.
+   */
   private final String sensorId;
+
+  /**
+   * The type of the sensor that generated the event (e.g., distance, light, etc.).
+   */
   private final SensorType sensorType;
+
+  /**
+   * The value of the sensor that generated the event.
+   */
   private final int value;
 
+  /**
+   * @param sensorId the ID of the sensor that generated the event
+   * @param sensorType the type of the sensor that generated the event
+   * @param value the value of the sensor that generated the event
+   */
   public SensorEvent(String sensorId, SensorType sensorType, int value) {
     super();
 
@@ -24,10 +46,19 @@ public class SensorEvent extends AbstractEvent {
     this.value = value;
   }
 
+  /**
+   * @return the ID of the sensor that generated the event
+   */
   public String getSensorId() { return this.sensorId; }
 
+  /**
+   * @return the type of the sensor that generated the event
+   */
   public SensorType getSensorType() { return this.sensorType; }
 
+  /**
+   * @return the value of the sensor that generated the event
+   */
   public int getValue() { return this.value; }
 
   @Override

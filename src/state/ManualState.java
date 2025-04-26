@@ -6,14 +6,19 @@ import event.base.AbstractEvent;
 public class ManualState extends AbstractRoboState {
   private final RoboStates STATE = RoboStates.MANUAL;
 
-  public RoboStates getState() { return this.STATE; }
+  @Override
+  public RoboStates getState() {
+    return this.STATE;
+  }
 
+  @Override
   public void onEnter(RoboController controller) {
     System.out.println("Entering manual state");
 
     controller.setCurrentDrivingStrategy(controller.getUserControlStrategy());
   }
 
+  @Override
   public void onExit(RoboController controller) {
     System.out.println("Exiting manual state");
 
@@ -21,6 +26,15 @@ public class ManualState extends AbstractRoboState {
     controller.setCurrentDrivingStrategy(null);
   }
 
+  /**
+   * Handles events that occur while in the manual state.
+   * This method processes the event and calls the appropriate methods to handle it.
+   * It also handles state switching events by calling the handleSwitchEvent method.
+   * Will be called by the RoboController after an event is received.
+   *
+   * @param controller The RoboController instance that manages the robot's state.
+   * @param event The event that occurred.
+   */
   public void handleEvent(RoboController controller, AbstractEvent event) {
     this.handleSwitchEvent(controller, event);
 

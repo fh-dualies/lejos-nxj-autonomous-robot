@@ -6,11 +6,30 @@ import java.util.Objects;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 
+/**
+ * This class is responsible for reading the light sensor values.
+ * It extends the AbstractSensorReader class and implements the required methods.
+ */
 public class LightSensorReader extends AbstractSensorReader {
+  /**
+   * The ID of the light sensor.
+   */
   private static final String SENSOR_ID = "LIGHT_SENSOR_1";
+
+  /**
+   * The type of the sensor.
+   */
   private static final SensorType SENSOR_TYPE = SensorType.LIGHT;
+
+  /**
+   * The light sensor instance.
+   */
   private final LightSensor lightSensor;
 
+  /**
+   * @param port        The port where the light sensor is connected.
+   * @param eventManager The event manager to handle events.
+   */
   public LightSensorReader(SensorPort port, EventManager eventManager) {
     super(eventManager);
     this.lightSensor = new LightSensor(Objects.requireNonNull(port));
@@ -33,5 +52,8 @@ public class LightSensorReader extends AbstractSensorReader {
     return this.lightSensor.getLightValue();
   }
 
+  /**
+   * Cleans up the resources used by the light sensor.
+   */
   public void close() { this.lightSensor.setFloodlight(false); }
 }

@@ -1,7 +1,11 @@
 package io.sensor;
 
+/**
+ * DefaultSensorValues is an enumeration that defines default values for various sensors and motors.
+ * These values are used as a reference for sensor readings and motor configurations.
+ * The values are defined as constants to ensure consistency and avoid magic numbers in the code.
+ */
 public enum DefaultSensorValues {
-  // light sensor values
   LIGHT_FLOOR_MIN(510),
   LIGHT_FLOOR_MAX(600),
   LIGHT_TRANSITION_MIN(490),
@@ -10,18 +14,25 @@ public enum DefaultSensorValues {
   LIGHT_STRIPE_MIN(400),
   LIGHT_STRIPE_MAX(490),
 
-  // ultrasonic sensor values
-  DISTANCE_STOP_THRESHOLD(25),
+  DISTANCE_STOP_THRESHOLD(25), // the distance at which the robot should stop
 
-  // motor values
   MOTOR_MAX_SPEED(720),
   MOTOR_ACCELERATION(600),
   MOTOR_MEDIUM_SPEED(300),
   MOTOR_TURN_SPEED_FACTOR(2); // factor for outer-wheel speed in turns
 
+  /**
+   * The value of the default sensor value.
+   */
   private final int value;
 
+  /**
+   * @param value The value of the default sensor value.
+   */
   DefaultSensorValues(int value) { this.value = value; }
 
+  /**
+   * @return The value of the default sensor value.
+   */
   public int getValue() { return value; }
 }
