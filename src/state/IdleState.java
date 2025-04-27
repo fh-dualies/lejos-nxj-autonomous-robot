@@ -14,11 +14,11 @@ public class IdleState extends AbstractRoboState {
   /**
    * The name of the idle state.
    */
-  private final RoboStates STATE = RoboStates.IDLE;
+  private static final RoboStates STATE = RoboStates.IDLE;
 
   @Override
   public RoboStates getState() {
-    return this.STATE;
+    return STATE;
   }
 
   @Override

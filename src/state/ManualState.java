@@ -6,11 +6,11 @@ import lejos.nxt.LCD;
 import util.Log;
 
 public class ManualState extends AbstractRoboState {
-  private final RoboStates STATE = RoboStates.MANUAL;
+  private static final RoboStates STATE = RoboStates.MANUAL;
 
   @Override
   public RoboStates getState() {
-    return this.STATE;
+    return STATE;
   }
 
   @Override

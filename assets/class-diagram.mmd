@@ -1,0 +1,351 @@
+classDiagram
+    EventLoop o-- RoboController
+    EventLoop o-- BluetoothReceiver
+    EventLoop o-- LightSensorReader
+    EventLoop o-- UltrasonicSensorReader
+    class EventLoop {
+        -int LOOP_DELAY$
+        -RoboController controller
+        -BluetoothReceiver bluetoothReceiver
+        -LightSensorReader lightSensorReader
+        -UltrasonicSensorReader ultrasonicSensorReader
+        -boolean running
+        +run() void
+        +stop() void
+        -cleanup() void
+    }
+
+    RoboController ..|> IEventListener
+    RoboController o-- EventManager
+    RoboController o-- IMotorController
+    RoboController o-- LineFollowingStrategy
+    RoboController o-- UserControlStrategy
+    RoboController --> AbstractRoboState
+    RoboController --> IDrivingStrategy
+    RoboController --> AbstractEvent
+    RoboController --> SensorEvent
+    class RoboController {
+        -EventManager eventManager
+        -IMotorController motorController
+        -LineFollowingStrategy lineFollowingStrategy
+        -UserControlStrategy userControlStrategy
+        -int lastLightSensorValue
+        -int lastDistanceSensorValue
+        -AbstractRoboState currentState
+        -IDrivingStrategy drivingStrategy
+        +run() void
+        +onEvent(AbstractEvent event) void
+        +setState(AbstractRoboState newState) void
+        +setCurrentDrivingStrategy(IDrivingStrategy strategy) void
+        -handleSensorEvent(SensorEvent event) void
+        +getCurrentState() AbstractRoboState
+        +getMotorController() IMotorController
+        +getEventManager() EventManager
+        +getLineFollowingStrategy() LineFollowingStrategy
+        +getUserControlStrategy() UserControlStrategy
+        +getLastLightSensorValue() int
+        +getLastDistanceSensorValue() int
+    }
+
+    class AbstractEvent {
+        <<abstract>>
+        -long timestamp
+        +getTimestamp() long
+    }
+
+    CommandEvent <|-- AbstractEvent
+    CommandEvent o-- ICommand
+    class CommandEvent {
+        -ICommand command
+        +getCommand() ICommand
+    }
+
+    SensorEvent <|-- AbstractEvent
+    SensorEvent o-- SensorType
+    class SensorEvent {
+        -String sensorId
+        -SensorType sensorType
+        -int value
+        +getSensorId() String
+        +getSensorType() SensorType
+    }
+
+    EventManager *-- IEventListener
+    EventManager --> AbstractEvent
+    class EventManager {
+        -Vector<IEventListener> listeners
+        +dispatchEvent(AbstractEvent event) void
+        +addListener(IEventListener listener) void
+        +removeListener(IEventListener listener) void
+        +getListenerCount() int
+    }
+
+    IEventListener --> AbstractEvent
+    class IEventListener {
+        <<interface>>
+        +onEvent(AbstractEvent event) void
+    }
+
+    class IMotorController {
+        <<interface>>
+        +forward(int leftSpeed, int rightSpeed) void
+        +backward(int leftSpeed, int rightSpeed) void
+        +stopMotors(boolean hardStop) void
+        +turnLeft(int speed) void
+        +turnRight(int speed) void
+        +close() void
+    }
+
+    NxtMotorController ..|> IMotorController
+    NxtMotorController --> DefaultSensorValues
+    class NxtMotorController {
+        -NXTRegulatedMotor leftMotor
+        -NXTRegulatedMotor rightMotor
+        +forward(int leftSpeed, int rightSpeed) void
+        +backward(int leftSpeed, int rightSpeed) void
+        +stopMotors(boolean hardStop) void
+        +turnLeft(int speed) void
+        +turnRight(int speed) void
+        +close() void
+        -setInternalSpeed(int leftSpeed, int rightSpeed) void
+    }
+
+    class ICommand {
+        <<interface>>
+    }
+
+    MoveCommand ..|> ICommand
+    class MoveCommand {
+        -Direction direction
+        +getDirection() Direction
+    }
+
+    SwitchStateCommand ..|> ICommand
+    SwitchStateCommand o-- RoboStates
+    class SwitchStateCommand {
+        -targetState RoboStates
+        +getTargetState() RoboStates
+    }
+
+    BluetoothReceiver o-- EventManager
+    BluetoothReceiver --> ICommand
+    class BluetoothReceiver {
+        -EventManager eventManager
+        -BTConnection connection
+        -DataInputStream dataStream
+        -boolean isConnected
+        +checkForCommands() void
+        +parseCommand(String commandString) ICommand
+        +waitForConnection() boolean
+        +closeConnection() void
+        +isConnected() boolean
+        +getConnection() BTConnection
+    }
+
+    class BluetoothTransmitter {
+        -BTConnection connection
+        -DataOutputStream dataStream
+        -boolean isConnected
+        +setupConnection(BTConnection connection) boolean
+        +sendData(String meesage) boolean
+        +closeStream() void
+        +isConnected() boolean
+    }
+
+    AbstractSensorReader o-- EventManager
+    AbstractSensorReader --> SensorType
+    class AbstractSensorReader {
+        <<abstract>>
+        #EventManager eventManager
+        #int lastValue
+        +getLastValue() int
+        +getSensorId() String*
+        +getSensorType() SensorType*
+        #readSensorValue() int*
+        #getReportThreshold() int*
+    }
+
+    LightSensorReader <|-- AbstractSensorReader
+    LightSensorReader o-- SensorType
+    LightSensorReader o-- LightSensor
+    class LightSensorReader {
+        -String SENSOR_ID$
+        -SensorType SENSOR_TYPE$
+        -LightSensor lightSensor
+        +getSensorId() String
+        +getSensorType() SensorType
+        #readSensorValue() int
+        +close() void
+    }
+
+    UltrasonicSensorReader <|-- AbstractSensorReader
+    UltrasonicSensorReader o-- SensorType
+    UltrasonicSensorReader o-- UltrasonicSensor
+    class UltrasonicSensorReader {
+        -String SENSOR_ID$
+        -SensorType SENSOR_TYPE$
+        -UltrasonicSensor ultrasonicSensor
+        +getSensorId() String
+        +getSensorType() SensorType
+        #readSensorValue() int
+    }
+
+    class DefaultSensorValues {
+        <<enumeration>>
+        LIGHT_FLOOR_MIN
+        LIGHT_FLOOR_MAX
+        LIGHT_TRANSITION_MIN
+        LIGHT_TRANSITION_MID
+        LIGHT_TRANSITION_MAX
+        LIGHT_STRIPE_MIN
+        LIGHT_STRIPE_MAX
+        DISTANCE_STOP_THRESHOLD
+        MOTOR_MAX_SPEED
+        MOTOR_ACCELERATION
+        MOTOR_MEDIUM_SPEED
+        MOTOR_TURN_SPEED_FACTOR
+        -int value
+        +getValue() int
+    }
+
+    class SensorType {
+        <<enumeration>>
+        LIGHT
+        ULTRASONIC
+    }
+
+    RoboApplication --> EventLoop
+    RoboApplication --> EventManager
+    RoboApplication --> RoboController
+    RoboApplication --> NxtMotorController
+    RoboApplication --> BluetoothReceiver
+    RoboApplication --> LightSensorReader
+    RoboApplication --> UltrasonicSensorReader
+    class RoboApplication {
+        +main(String[] args) void$
+    }
+
+    AbstractRoboState --> RoboController
+    AbstractRoboState --> AbstractEvent
+    AbstractRoboState --> RoboStates
+    class AbstractRoboState {
+        <<abstract>>
+        +onEnter(RoboController controller) void*
+        +onExit(RoboController controller) void*
+        +handleEvent(RoboController controller, AbstractEvent event) void*
+        +getState() RoboStates*
+        #handleSwitchEvent(RoboController controller, AbstractEvent event) void
+    }
+
+    AutonomousState <|-- AbstractRoboState
+    AutonomousState o-- RoboStates
+    AutonomousState --> RoboController
+    AutonomousState --> AbstractEvent
+    class AutonomousState {
+        -RoboStates STATE$
+        +getState() RoboStates
+        +onEnter(RoboController controller) void
+        +onExit(RoboController controller) void
+        +handleEvent(RoboController controller, AbstractEvent event) void
+    }
+
+    IdleState <|-- AbstractRoboState
+    IdleState o-- RoboStates
+    IdleState --> RoboController
+    IdleState --> AbstractEvent
+    class IdleState {
+        -RoboStates STATE$
+        +getState() RoboStates
+        +onEnter(RoboController controller) void
+        +onExit(RoboController controller) void
+        +handleEvent(RoboController controller, AbstractEvent event) void
+    }
+
+    ManualState <|-- AbstractRoboState
+    ManualState o-- RoboStates
+    ManualState --> RoboController
+    ManualState --> AbstractEvent
+    class ManualState {
+        -RoboStates STATE$
+        +getState() RoboStates
+        +onEnter(RoboController controller) void
+        +onExit(RoboController controller) void
+        +handleEvent(RoboController controller, AbstractEvent event) void
+    }
+
+    class RoboStates {
+        <<enumeration>>
+        IDLE
+        AUTONOMOUS
+        MANUAL
+    }
+
+    class IFollowingAlgorithm {
+        <<interface>>
+        +initalize() void
+        +deinitalize() void
+        +run() void
+    }
+
+    PidAlgorithm ..|> IFollowingAlgorithm
+    class PidAlgorithm {
+        +initalize() void
+        +deinitalize() void
+        +run() void
+    }
+
+    ZigZagAlgorithm ..|> IFollowingAlgorithm
+    ZigZagAlgorithm o-- DefaultSensorValues
+    ZigZagAlgorithm o-- RoboController
+    ZigZagAlgorithm o-- IMotorController
+    class ZigZagAlgorithm {
+        -int FORWARD_SPEED$
+        -int TURN_SPEED_FACTOR$
+        -RoboController controller
+        -IMotorController motorController
+        -boolean searchRight
+        +initalize() void
+        +deinitalize() void
+        +run() void
+    }
+
+    IDrivingStrategy --> RoboController
+    class IDrivingStrategy {
+        <<interface>>
+        +activate(RoboController controller) void
+        +deactivate(RoboController controller) void
+        +execute(RoboController controller) void
+    }
+
+    LineFollowingStrategy ..|> IDrivingStrategy
+    LineFollowingStrategy o-- IFollowingAlgorithm
+    LineFollowingStrategy --> RoboController
+    class LineFollowingStrategy {
+        -IFollowingAlgorithm followingAlgorithm
+        +execute(RoboController controller) void
+        +activate(RoboController controller) void
+        +deactivate(RoboController controller) void
+    }
+
+    UserControlStrategy ..|> IDrivingStrategy
+    UserControlStrategy o-- IMotorController
+    UserControlStrategy --> RoboController
+    class UserControlStrategy {
+        -IMotorController motorController
+        +execute(RoboController controller) void
+        +activate(RoboController controller) void
+        +deactivate(RoboController controller) void
+    }
+
+    class Log {
+        -String INFO_LEVEL$
+        -String WARNING_LEVEL$
+        -String ERROR_LEVEL$
+        -String LOGGING_NAME$
+        -String LINE_SEPARATOR$
+        -log(String level, String message Throwable thrown) void$
+        +info(Sting message) void$
+        +warning(String message, Throwable thrown) void$
+        +error(String message) void$
+        +error(String message, Throwable thrown) void$
+    }

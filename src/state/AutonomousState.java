@@ -14,11 +14,11 @@ public class AutonomousState extends AbstractRoboState {
   /**
    * The name of the autonomous state.
    */
-  private final RoboStates STATE = RoboStates.AUTONOMOUS;
+  private static final RoboStates STATE = RoboStates.AUTONOMOUS;
 
   @Override
   public RoboStates getState() {
-    return this.STATE;
+    return STATE;
   }
 
   @Override
