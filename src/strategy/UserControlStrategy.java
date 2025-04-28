@@ -4,8 +4,10 @@ import core.RoboController;
 import io.actuator.IMotorController;
 import util.Log;
 
-public class UserControlStrategy implements IDrivingStrategy {
+public class UserControlStrategy implements IDrivingStrategy, IEventListener {
   private final IMotorController motorController;
+  private int speed = 0;
+  private int turnAngle = 0; // Angle in degrees
 
   public UserControlStrategy(RoboController controller) {
     if (controller.getContext().getMotorController() == null) {
@@ -23,14 +25,31 @@ public class UserControlStrategy implements IDrivingStrategy {
   @Override
   public void activate(RoboController controller) {
     Log.info("UserControlStrategy activated");
-
-    // TODO: implement
+    controller.getEventManager().addListener(this);
   }
 
   @Override
   public void deactivate(RoboController controller) {
     Log.info("UserControlStrategy deactivated");
 
-    // TODO: implement
+    controller.getEventManager().removeListener(this);
+    this.motorController.stopMotors(true);
+  }
+
+  @Override
+  public void onEvent(Event event) {
+    if (!(event instanceof CommandEvent)) {
+      return;
+    }
+
+    CommandEvent commandEvent = (CommandEvent) event;
+    ICommand command = commandEvent.getCommand();
+    if (!(command instanceof MoveCommand)) {
+      return;
+    }
+
+    MoveCommand moveCommand = (MoveCommand) command;
+    this.speed = moveCommand.getSpeed();
+    this.turnAngle = moveCommand.getTurnAngle();
   }
 }
