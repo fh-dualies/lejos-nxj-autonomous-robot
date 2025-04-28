@@ -1,13 +1,16 @@
 package strategy;
 
 import core.RoboController;
+import event.IEventListener;
+import event.base.AbstractEvent;
+import event.base.CommandEvent;
 import io.actuator.IMotorController;
+import io.command.ICommand;
+import io.command.MoveCommand;
 import util.Log;
 
 public class UserControlStrategy implements IDrivingStrategy, IEventListener {
   private final IMotorController motorController;
-  private int speed = 0;
-  private int turnAngle = 0; // Angle in degrees
 
   public UserControlStrategy(RoboController controller) {
     if (controller.getContext().getMotorController() == null) {
@@ -19,37 +22,43 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
 
   @Override
   public void execute(RoboController controller) {
-    // TODO: implement
+    // This method is intentionally left empty.
+    // The actual command handling is done in the onEvent method.
   }
 
   @Override
   public void activate(RoboController controller) {
     Log.info("UserControlStrategy activated");
-    controller.getEventManager().addListener(this);
+
+    controller.getContext().getEventManager().addListener(this);
   }
 
   @Override
   public void deactivate(RoboController controller) {
     Log.info("UserControlStrategy deactivated");
 
-    controller.getEventManager().removeListener(this);
+    controller.getContext().getEventManager().removeListener(this);
     this.motorController.stopMotors(true);
   }
 
   @Override
-  public void onEvent(Event event) {
+  public void onEvent(AbstractEvent event) {
     if (!(event instanceof CommandEvent)) {
       return;
     }
 
-    CommandEvent commandEvent = (CommandEvent) event;
+    CommandEvent commandEvent = (CommandEvent)event;
     ICommand command = commandEvent.getCommand();
+
     if (!(command instanceof MoveCommand)) {
       return;
     }
 
-    MoveCommand moveCommand = (MoveCommand) command;
-    this.speed = moveCommand.getSpeed();
-    this.turnAngle = moveCommand.getTurnAngle();
+    MoveCommand moveCommand = (MoveCommand)command;
+
+    int speed = moveCommand.getSpeed();
+    int turnAngle = moveCommand.getTurnAngle();
+
+    Log.info("UserControlStrategy onEvent: speed=" + speed + ", turnAngle=" + turnAngle);
   }
 }

@@ -12,12 +12,11 @@ public class MoveCommand implements ICommand {
   private final int turnAngle;
 
   /**
-   * @param direction the direction in which the robot should move
-   * @throws NullPointerException if the direction is null
+   * @throws IllegalArgumentException if speed or turnAngle are lower then zero
    */
   public MoveCommand(int speed, int turnAngle) {
     if (speed < 0 || turnAngle < 0) {
-      throw new NullPointerException();
+      throw new IllegalArgumentException();
     }
 
     this.speed = speed;
@@ -27,14 +26,10 @@ public class MoveCommand implements ICommand {
   /**
    * @return the speed at which the robot should move
    */
-  public int getSpeed() {
-    return this.speed;
-  }
+  public int getSpeed() { return this.speed; }
 
   /**
    * @return the angle at which the robot should turn
    */
-  public int getTurnAngle() {
-    return this.turnAngle;
-  }
+  public int getTurnAngle() { return this.turnAngle; }
 }

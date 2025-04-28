@@ -105,17 +105,6 @@ public class BluetoothReceiver implements ICommunicationChannel {
 
     String command = commandString.trim().toUpperCase();
 
-    // move commands
-    // The move commands are in the format "MOVE$<x>,<y>$"
-    Pattern pattern = Pattern.compile("MOVE\\(\\d+,\\d+\\)$");
-    Matcher matcher = pattern.matcher(command);
-    if (matcher.matches()) {
-      int speed = Integer.parseInt(matcher.group(1));
-      int turnAngle = Integer.parseInt(matcher.group(2));
-
-      return new MoveCommand(speed, turnAngle);
-    }
-
     // switch state commands
     switch (command) {
     case "IDLE":
@@ -126,9 +115,60 @@ public class BluetoothReceiver implements ICommunicationChannel {
       return new SwitchStateCommand(RoboStates.MANUAL);
     }
 
+    // move commands
+    ICommand moveCommand = this.parseMoveCommand(command);
+
+    if (moveCommand != null) {
+      return moveCommand;
+    }
+
     Log.warning("Unknown command: " + command);
 
     return null;
+  }
+
+  /**
+   * Parses a move command string and returns the corresponding MoveCommand object.
+   * The command should be in the format "MOVE(speed, turnAngle)".
+   *
+   * @param command The command string to parse.
+   * @return The corresponding MoveCommand object or null if the command is not recognized.
+   */
+  private ICommand parseMoveCommand(String command) {
+    // "MOVE()" minimal length
+    if (command.length() <= 6) {
+      return null;
+    }
+
+    String movePrefix = command.substring(0, 5);
+    char lastChar = command.charAt(command.length() - 1);
+
+    if (!movePrefix.equals("MOVE(") || lastChar != ')') {
+      return null;
+    }
+
+    String paramPart = command.substring(5, command.length() - 1);
+    int commaIndex = paramPart.indexOf(',');
+
+    if (commaIndex <= 0) {
+      return null;
+    }
+
+    try {
+      String speedStr = paramPart.substring(0, commaIndex);
+      String turnAngleStr = paramPart.substring(commaIndex + 1);
+
+      int speed = Integer.parseInt(speedStr);
+      int turnAngle = Integer.parseInt(turnAngleStr);
+
+      return new MoveCommand(speed, turnAngle);
+    } catch (NumberFormatException e) {
+      Log.warning("Invalid number format in command: " + command);
+      return null;
+    } catch (IllegalArgumentException e) {
+      Log.warning("Invalid parameters in command: " + command);
+      return null;
+    }
   }
 
   /**

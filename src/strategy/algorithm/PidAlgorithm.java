@@ -1,13 +1,12 @@
 package strategy.algorithm;
 
-import util.Log;
-import lejos.util.PIDController;
 import core.RoboController;
 import io.actuator.IMotorController;
 import io.sensor.DefaultSensorValues;
+import lejos.util.PIDController;
+import util.Log;
 
 public class PidAlgorithm implements IFollowingAlgorithm {
-
   /**
    * The speed at which the robot moves forward.
    */
@@ -32,7 +31,7 @@ public class PidAlgorithm implements IFollowingAlgorithm {
   /**
    * The PID controller used to control the robot's speed and direction.
    */
-  private PIDController pid;
+  private PIDController pid = null;
 
   public PidAlgorithm(RoboController controller) {
     if (controller == null || controller.getContext().getMotorController() == null) {
@@ -41,16 +40,16 @@ public class PidAlgorithm implements IFollowingAlgorithm {
 
     this.controller = controller;
     this.motorController = controller.getContext().getMotorController();
-
-    this.pid = new PIDController(LINE_EDGE, 0);
-    this.pid.setPIDParam(PIDController.PID_KP, 10f);
-    this.pid.setPIDParam(PIDController.PID_KI, 0f);
-    this.pid.setPIDParam(PIDController.PID_KD, 20f);
   }
 
   @Override
   public void initialize() {
     Log.info("PidAlgorithm initialized");
+
+    this.pid = new PIDController(LINE_EDGE, 0);
+    this.pid.setPIDParam(PIDController.PID_KP, 10f);
+    this.pid.setPIDParam(PIDController.PID_KI, 0f);
+    this.pid.setPIDParam(PIDController.PID_KD, 20f);
 
     this.motorController.stopMotors(true);
   }
@@ -59,6 +58,7 @@ public class PidAlgorithm implements IFollowingAlgorithm {
   public void deinitialize() {
     Log.info("PidAlgorithm deinitialize");
 
+    this.pid = null;
     this.motorController.stopMotors(true);
   }
 
