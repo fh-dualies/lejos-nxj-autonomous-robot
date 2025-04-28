@@ -3,6 +3,8 @@ package state;
 import core.RoboController;
 import event.base.AbstractEvent;
 import lejos.nxt.LCD;
+import strategy.LineFollowingStrategy;
+import strategy.algorithm.ZigZagAlgorithm;
 import util.Log;
 
 /**
@@ -27,14 +29,14 @@ public class AutonomousState extends AbstractRoboState {
     LCD.clear();
     LCD.drawString("Autonomous", 0, 1);
 
-    controller.setCurrentDrivingStrategy(controller.getLineFollowingStrategy());
+    controller.setCurrentDrivingStrategy(new LineFollowingStrategy(new ZigZagAlgorithm(controller)));
   }
 
   @Override
   public void onExit(RoboController controller) {
     Log.info("Exiting autonomous state");
 
-    controller.getMotorController().stopMotors(false);
+    controller.getContext().getMotorController().stopMotors(false);
     controller.setCurrentDrivingStrategy(null);
   }
 

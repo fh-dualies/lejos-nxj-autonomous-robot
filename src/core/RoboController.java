@@ -5,86 +5,41 @@ import event.IEventListener;
 import event.base.AbstractEvent;
 import event.base.SensorEvent;
 import io.actuator.IMotorController;
-import io.sensor.SensorType;
 import state.AbstractRoboState;
 import state.IdleState;
 import strategy.IDrivingStrategy;
-import strategy.LineFollowingStrategy;
-import strategy.UserControlStrategy;
-import strategy.algorithm.ZigZagAlgorithm;
 import util.Log;
 
 /**
- * RoboController is the main controller for the robot. It manages the current state of the robot,
- * handles events, and executes the current driving strategy.
+ * RoboController is the main controller for the robot. It handles events and executes
+ * the robot's driving strategy, using RoboContext to store and access state.
  */
 public class RoboController implements IEventListener {
   /**
-   * The event manager. This is used to dispatch events and register listeners.
+   * The context containing all state data for the robot.
    */
-  private final EventManager eventManager;
-  /**
-   * The motor controller. This is used to control the motors of the robot.
-   */
-  private final IMotorController motorController;
-  /**
-   * The line following strategy. This is used to follow a line using the light sensor by a given Algorithm (pid or
-   * zigzag).
-   */
-  private final LineFollowingStrategy lineFollowingStrategy;
-  /**
-   * The user control strategy. This is used to control the robot using user input from the bluetooth connection via
-   * move commands.
-   */
-  private final UserControlStrategy userControlStrategy;
-  /**
-   * The last value read from the light sensor. This is used to determine the current state of the robot. It is received
-   * by sensor events.
-   */
-  private volatile int lastLightSensorValue = -1;
-  /**
-   * The last value read from the distance sensor. This is used to determine the current state of the robot. It is
-   * received by sensor events.
-   */
-  private volatile int lastDistanceSensorValue = -1;
-  /**
-   * The current state of the robot. This is the state that is currently active and will be called to handle incoming
-   * events
-   */
-  private AbstractRoboState currentState = null;
-  /**
-   * The current driving strategy. This is the strategy that is currently active and will be called to
-   */
-  private IDrivingStrategy currentDrivingStrategy = null;
+  private final RoboContext context;
 
   /**
    * @param eventManager    The event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
   public RoboController(EventManager eventManager, IMotorController motorController) {
-    if (eventManager == null || motorController == null) {
-      throw new NullPointerException();
-    }
-
-    this.eventManager = eventManager;
-    this.motorController = motorController;
-
-    this.lineFollowingStrategy = new LineFollowingStrategy(new ZigZagAlgorithm(this));
-    this.userControlStrategy = new UserControlStrategy(motorController);
+    this.context = new RoboContext(eventManager, motorController);
 
     this.setState(new IdleState());
-    this.eventManager.addListener(this);
+    this.context.getEventManager().addListener(this);
 
     Log.info("RoboController initialized. Current state: IdleState");
   }
 
   /**
-   * This method is called to run the current driving strategy. It will execute the strategy and handle any exceptions
-   * that occur. So it does not directly interact with the robot hardware but rather uses a strategy pattern.
+   * This method is called to run the current driving strategy. It will execute the strategy
+   * and handle any exceptions that occur.
    */
   public void run() {
     Log.info("RoboController started...");
-    IDrivingStrategy strategy = this.currentDrivingStrategy;
+    IDrivingStrategy strategy = this.context.getCurrentDrivingStrategy();
 
     if (strategy == null) {
       return;
@@ -98,9 +53,8 @@ public class RoboController implements IEventListener {
   }
 
   /**
-   * This method is called to handle incoming events. So the RoboController acts as a EventListener registered in the
-   * EventManager to receive all dispatched events by any class within the system. It will dispatch the event to the
-   * current state and handle any exceptions that occur.
+   * This method is called to handle incoming events. It dispatches the event to the
+   * current state and handles any exceptions that occur.
    *
    * @param event The event to handle.
    */
@@ -124,11 +78,10 @@ public class RoboController implements IEventListener {
     }
 
     if (event instanceof SensorEvent) {
-      this.handleSensorEvent((SensorEvent)event);
+      this.context.updateFromSensorEvent((SensorEvent)event);
     }
 
-    AbstractRoboState stateToNotify;
-    synchronized (this) { stateToNotify = this.currentState; }
+    AbstractRoboState stateToNotify = this.context.getCurrentState();
 
     if (stateToNotify != null) {
       stateToNotify.handleEvent(this, event);
@@ -143,22 +96,24 @@ public class RoboController implements IEventListener {
    *
    * @param newState The new state to set.
    */
-  public synchronized void setState(AbstractRoboState newState) {
+  public void setState(AbstractRoboState newState) {
     if (newState == null) {
       throw new IllegalArgumentException("State cannot be null");
     }
 
-    if (newState == this.currentState) {
+    AbstractRoboState currentState = this.context.getCurrentState();
+
+    if (newState == currentState) {
       Log.warning("State is already set the same");
       return;
     }
 
-    if (this.currentState != null) {
-      this.currentState.onExit(this);
+    if (currentState != null) {
+      currentState.onExit(this);
     }
 
-    this.currentState = newState;
-    this.currentState.onEnter(this);
+    this.context.setCurrentState(newState);
+    newState.onEnter(this);
   }
 
   /**
@@ -166,17 +121,19 @@ public class RoboController implements IEventListener {
    * the activate method of the new state.
    */
   public void setCurrentDrivingStrategy(IDrivingStrategy strategy) {
-    if (strategy == this.currentDrivingStrategy) {
+    IDrivingStrategy currentStrategy = this.context.getCurrentDrivingStrategy();
+
+    if (strategy == currentStrategy) {
       Log.warning("Strategy is already set the same");
       return;
     }
 
-    if (this.currentDrivingStrategy != null) {
-      this.currentDrivingStrategy.deactivate(this);
+    if (currentStrategy != null) {
+      currentStrategy.deactivate(this);
     }
 
     Log.info("Active strategy set to: " + (strategy != null ? strategy.getClass() : "null"));
-    this.currentDrivingStrategy = strategy;
+    this.context.setCurrentDrivingStrategy(strategy);
 
     if (strategy != null) {
       strategy.activate(this);
@@ -184,53 +141,9 @@ public class RoboController implements IEventListener {
   }
 
   /**
-   * This method is called to handle incoming sensor events. It will update the last light sensor value and the last
-   * distance sensor value.
+   * This method is called to get the current driving strategy.
    *
-   * @param event The sensor event to handle.
-   */
-  private void handleSensorEvent(SensorEvent event) {
-    if (event.getSensorType() == SensorType.LIGHT) {
-      this.lastLightSensorValue = event.getValue();
-    }
-
-    if (event.getSensorType() == SensorType.ULTRASONIC) {
-      this.lastDistanceSensorValue = event.getValue();
-    }
-  }
-
-  /**
    * @return The current driving strategy.
    */
-  public synchronized AbstractRoboState getCurrentState() { return this.currentState; }
-
-  /**
-   * @return The motor controller.
-   */
-  public IMotorController getMotorController() { return this.motorController; }
-
-  /**
-   * @return The event manager.
-   */
-  public EventManager getEventManager() { return this.eventManager; }
-
-  /**
-   * @return The line following strategy.
-   */
-  public LineFollowingStrategy getLineFollowingStrategy() { return this.lineFollowingStrategy; }
-
-  /**
-   * @return The user control strategy.
-   */
-  public UserControlStrategy getUserControlStrategy() { return this.userControlStrategy; }
-
-  /**
-   * @return The last value read from the light sensor.
-   */
-  public int getLastLightSensorValue() { return this.lastLightSensorValue; }
-
-  /**
-   * @return The last value read from the distance sensor.
-   */
-  public int getLastDistanceSensorValue() { return this.lastDistanceSensorValue; }
+  public RoboContext getContext() { return this.context; }
 }

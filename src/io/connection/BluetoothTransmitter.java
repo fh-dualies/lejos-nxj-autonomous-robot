@@ -9,7 +9,7 @@ import util.Log;
  * It is intended to be as the remote control for the robot.
  * It provides methods to set up the connection, send data, and close the stream.
  */
-public class BluetoothTransmitter {
+public class BluetoothTransmitter implements ICommunicationChannel {
   /*
    * The BluetoothTransmitter class is responsible for managing the Bluetooth connection
    * and sending data to the connected device.
@@ -64,7 +64,7 @@ public class BluetoothTransmitter {
    * @param message The message to send.
    * @return true if the data is successfully sent, false otherwise.
    */
-  public synchronized boolean sendData(String message) {
+  public synchronized boolean sendMessage(String message) {
     if (!this.isConnected || this.dataStream == null) {
       return false;
     }
@@ -87,12 +87,9 @@ public class BluetoothTransmitter {
     }
   }
 
-  /**
-   * Closes the Bluetooth data stream.
-   * It sets the isConnected flag to false and handles any exceptions that may occur during the closing process.
-   */
-  public void closeStream() {
-    Log.info("Closing data stream");
+  @Override
+  public void closeConnection() {
+    Log.info("Closing connection");
     this.isConnected = false;
 
     if (this.dataStream == null) {
@@ -109,8 +106,13 @@ public class BluetoothTransmitter {
     }
   }
 
-  /**
-   * @return boolean indicating if the connection is active
-   */
-  public boolean isConnected() { return this.isConnected; }
+  @Override
+  public boolean isConnected() {
+    return this.isConnected;
+  }
+
+  @Override
+  public BTConnection getConnection() {
+    return this.connection;
+  }
 }

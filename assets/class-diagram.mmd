@@ -15,36 +15,45 @@ classDiagram
         -cleanup() void
     }
 
-    RoboController ..|> IEventListener
-    RoboController o-- EventManager
-    RoboController o-- IMotorController
-    RoboController o-- LineFollowingStrategy
-    RoboController o-- UserControlStrategy
-    RoboController --> AbstractRoboState
-    RoboController --> IDrivingStrategy
-    RoboController --> AbstractEvent
-    RoboController --> SensorEvent
-    class RoboController {
+    RoboContext o-- EventManager
+    RoboContext o-- IMotorController
+    RoboContext o-- AbstractRoboState
+    RoboContext o-- IDrivingStrategy
+    RoboContext --> SensorEvent
+    RoboContext --> AbstractEvent
+    RoboContext --> SensorType
+    class RoboContext {
         -EventManager eventManager
         -IMotorController motorController
-        -LineFollowingStrategy lineFollowingStrategy
-        -UserControlStrategy userControlStrategy
         -int lastLightSensorValue
         -int lastDistanceSensorValue
         -AbstractRoboState currentState
-        -IDrivingStrategy drivingStrategy
+        -IDrivingStrategy currentDrivingStrategy
+        +updateFromSensorEvent(SensorEvent event) void
+        +getCurrentState() AbstractRoboState
+        +setCurrentState(AbstractRoboState currentState) void
+        +getCurrentDrivingStrategy() IDrivingStrategy
+        +setCurrentDrivingStrategy(IDrivingStrategy strategy) void
+        +getMotorController() IMotorController
+        +getEventManager() EventManager
+        +getLastLightSensorValue() int
+        +getLastDistanceSensorValue() int
+    }
+
+    RoboController ..|> IEventListener
+    RoboController o-- RoboContext
+    RoboController --> AbstractEvent
+    RoboController --> AbstractRoboState
+    RoboController --> IDrivingStrategy
+    RoboController --> EventManager
+    RoboController --> IMotorController
+    class RoboController {
+        -RoboContext context
         +run() void
         +onEvent(AbstractEvent event) void
         +setState(AbstractRoboState newState) void
         +setCurrentDrivingStrategy(IDrivingStrategy strategy) void
-        -handleSensorEvent(SensorEvent event) void
-        +getCurrentState() AbstractRoboState
-        +getMotorController() IMotorController
-        +getEventManager() EventManager
-        +getLineFollowingStrategy() LineFollowingStrategy
-        +getUserControlStrategy() UserControlStrategy
-        +getLastLightSensorValue() int
-        +getLastDistanceSensorValue() int
+        +getContext() RoboContext
     }
 
     class AbstractEvent {
@@ -167,7 +176,6 @@ classDiagram
 
     LightSensorReader <|-- AbstractSensorReader
     LightSensorReader o-- SensorType
-    LightSensorReader o-- LightSensor
     class LightSensorReader {
         -String SENSOR_ID$
         -SensorType SENSOR_TYPE$
@@ -180,7 +188,6 @@ classDiagram
 
     UltrasonicSensorReader <|-- AbstractSensorReader
     UltrasonicSensorReader o-- SensorType
-    UltrasonicSensorReader o-- UltrasonicSensor
     class UltrasonicSensorReader {
         -String SENSOR_ID$
         -SensorType SENSOR_TYPE$
@@ -282,15 +289,15 @@ classDiagram
 
     class IFollowingAlgorithm {
         <<interface>>
-        +initalize() void
-        +deinitalize() void
+        +initialize() void
+        +deinitialize() void
         +run() void
     }
 
     PidAlgorithm ..|> IFollowingAlgorithm
     class PidAlgorithm {
-        +initalize() void
-        +deinitalize() void
+        +initialize() void
+        +deinitialize() void
         +run() void
     }
 
@@ -304,8 +311,8 @@ classDiagram
         -RoboController controller
         -IMotorController motorController
         -boolean searchRight
-        +initalize() void
-        +deinitalize() void
+        +initialize() void
+        +deinitialize() void
         +run() void
     }
 

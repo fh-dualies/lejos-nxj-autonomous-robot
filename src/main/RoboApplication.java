@@ -19,11 +19,11 @@ import util.Log;
  */
 public class RoboApplication {
   /**
-   * @param args Command line arguments (not used).
+   * Sets up the event loop and initializes the necessary parts for the robot.
+   *
+   * @return The initialized EventLoop instance.
    */
-  public static void main(String[] args) {
-    Log.info("Megamen is starting...");
-
+  private static EventLoop setupEventLoop() {
     EventManager eventManager = new EventManager();
     NxtMotorController nxtMotorController = new NxtMotorController();
 
@@ -34,8 +34,17 @@ public class RoboApplication {
     UltrasonicSensorReader ultrasonicSensorReader = new UltrasonicSensorReader(SensorPort.S2, eventManager);
 
     BluetoothReceiver bluetoothReceiver = new BluetoothReceiver(eventManager);
-    final EventLoop eventLoop =
-        new EventLoop(roboController, lightSensorReader, ultrasonicSensorReader, bluetoothReceiver);
+
+    return new EventLoop(roboController, lightSensorReader, ultrasonicSensorReader, bluetoothReceiver);
+  }
+
+  /**
+   * @param args Command line arguments (not used).
+   */
+  public static void main(String[] args) {
+    Log.info("Megamen is starting...");
+
+    final EventLoop eventLoop = setupEventLoop();
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {

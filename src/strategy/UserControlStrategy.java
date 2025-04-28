@@ -7,12 +7,12 @@ import util.Log;
 public class UserControlStrategy implements IDrivingStrategy {
   private final IMotorController motorController;
 
-  public UserControlStrategy(IMotorController motorController) {
-    if (motorController == null) {
+  public UserControlStrategy(RoboController controller) {
+    if (controller.getContext().getMotorController() == null) {
       throw new NullPointerException();
     }
 
-    this.motorController = motorController;
+    this.motorController = controller.getContext().getMotorController();
   }
 
   @Override

@@ -28,8 +28,7 @@ public class EventManager {
 
     for (int i = 0; i < this.listeners.size(); i++) {
       try {
-        IEventListener listener = this.listeners.elementAt(i);
-        listener.onEvent(event);
+        this.listeners.elementAt(i).onEvent(event);
       } catch (Exception e) {
         Log.error("Error while dispatching event: ", e);
       }

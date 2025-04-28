@@ -16,19 +16,23 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
    * The speed at which the robot moves forward.
    */
   private static final int FORWARD_SPEED = DefaultSensorValues.MOTOR_MEDIUM_SPEED.getValue();
+
   /**
    * The speed factor used for turning the robot.
    * This factor is used to adjust the speed of the outer wheel during turns.
    */
   private static final int TURN_SPEED_FACTOR = DefaultSensorValues.MOTOR_TURN_SPEED_FACTOR.getValue();
+
   /**
    * The RoboController instance used to control the robot.
    */
   private final RoboController controller;
+
   /**
    * The motor controller used to control the motors of the robot.
    */
   private final IMotorController motorController;
+
   /**
    * Start by assuming the robot is searching for the line on the right side.
    */
@@ -39,12 +43,12 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
    * @throws NullPointerException if the controller or motor controller is null.
    */
   public ZigZagAlgorithm(RoboController controller) {
-    if (controller == null || controller.getMotorController() == null) {
+    if (controller == null || controller.getContext().getMotorController() == null) {
       throw new NullPointerException();
     }
 
     this.controller = controller;
-    this.motorController = controller.getMotorController();
+    this.motorController = controller.getContext().getMotorController();
   }
 
   @Override
@@ -64,7 +68,7 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
 
   @Override
   public void run() {
-    int currentLightValue = this.controller.getLastLightSensorValue();
+    int currentLightValue = this.controller.getContext().getLastLightSensorValue();
 
     if (currentLightValue == -1) {
       return;

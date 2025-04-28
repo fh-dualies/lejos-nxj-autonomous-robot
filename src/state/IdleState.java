@@ -27,7 +27,7 @@ public class IdleState extends AbstractRoboState {
     LCD.clear();
     LCD.drawString("Idle", 0, 1);
 
-    controller.getMotorController().stopMotors(false);
+    controller.getContext().getMotorController().stopMotors(false);
   }
 
   @Override

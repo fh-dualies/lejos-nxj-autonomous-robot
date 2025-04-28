@@ -1,0 +1,123 @@
+package core;
+
+import event.EventManager;
+import event.base.SensorEvent;
+import io.actuator.IMotorController;
+import io.sensor.SensorType;
+import state.AbstractRoboState;
+import strategy.IDrivingStrategy;
+
+/**
+ * RoboContext stores all the state and configuration data for the robot.
+ * It is used by the RoboController to access and modify the robot's state.
+ */
+public class RoboContext {
+  /**
+   * The event manager. This is used to dispatch events and register listeners.
+   */
+  private final EventManager eventManager;
+
+  /**
+   * The motor controller. This is used to control the motors of the robot.
+   */
+  private final IMotorController motorController;
+
+  /**
+   * The last value read from the light sensor. This is used to determine the current state of the robot. It is received
+   * by sensor events.
+   */
+  private volatile int lastLightSensorValue = -1;
+
+  /**
+   * The last value read from the distance sensor. This is used to determine the current state of the robot. It is
+   * received by sensor events.
+   */
+  private volatile int lastDistanceSensorValue = -1;
+
+  /**
+   * The current state of the robot. This is the state that is currently active and will be called to handle incoming
+   * events
+   */
+  private AbstractRoboState currentState = null;
+
+  /**
+   * The current driving strategy. This is the strategy that is currently active and will be called to
+   */
+  private IDrivingStrategy currentDrivingStrategy = null;
+
+  /**
+   * @param eventManager    The event manager used to dispatch events and register listeners.
+   * @param motorController The motor controller used to control the motors of the robot.
+   */
+  public RoboContext(EventManager eventManager, IMotorController motorController) {
+    if (eventManager == null || motorController == null) {
+      throw new NullPointerException();
+    }
+
+    this.eventManager = eventManager;
+    this.motorController = motorController;
+  }
+
+  /**
+   * Updates the sensor values based on a sensor event.
+   *
+   * @param event The sensor event containing new sensor data.
+   */
+  public void updateFromSensorEvent(SensorEvent event) {
+    if (event == null) {
+      throw new NullPointerException();
+    }
+
+    if (event.getSensorType() == SensorType.LIGHT) {
+      this.lastLightSensorValue = event.getValue();
+    }
+
+    if (event.getSensorType() == SensorType.ULTRASONIC) {
+      this.lastDistanceSensorValue = event.getValue();
+    }
+  }
+
+  /**
+   * @return The current state of the robot.
+   */
+  public synchronized AbstractRoboState getCurrentState() { return this.currentState; }
+
+  /**
+   * Sets the current state of the robot.
+   *
+   * @param currentState The new state to set.
+   */
+  public synchronized void setCurrentState(AbstractRoboState currentState) { this.currentState = currentState; }
+
+  /**
+   * @return The current driving strategy.
+   */
+  public IDrivingStrategy getCurrentDrivingStrategy() { return this.currentDrivingStrategy; }
+
+  /**
+   * Sets the current driving strategy.
+   *
+   * @param strategy The new strategy to set.
+   */
+  public void setCurrentDrivingStrategy(IDrivingStrategy strategy) { this.currentDrivingStrategy = strategy; }
+
+  /**
+   * @return The motor controller.
+   */
+  public IMotorController getMotorController() { return this.motorController; }
+
+  /**
+   * @return The event manager.
+   */
+  public EventManager getEventManager() { return this.eventManager; }
+
+  /**
+   * @return The last value read from the light sensor.
+   */
+  public int getLastLightSensorValue() { return this.lastLightSensorValue; }
+
+  /**
+   * @return The last value read from the distance sensor.
+   */
+  public int getLastDistanceSensorValue() { return this.lastDistanceSensorValue; }
+}

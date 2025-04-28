@@ -1,7 +1,6 @@
 package util;
 
 public final class Log {
-
   private static final String INFO_LEVEL = "INFO";
   private static final String WARNING_LEVEL = "WARNING";
   private static final String ERROR_LEVEL = "SEVERE";

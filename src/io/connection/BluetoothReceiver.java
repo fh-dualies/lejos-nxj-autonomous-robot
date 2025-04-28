@@ -18,7 +18,7 @@ import util.Log;
  * from a connected device. It is intended to be used for the robot to receive commands from a remote connection.
  * It listens for incoming commands, parses them, and dispatches them to the event manager.
  */
-public class BluetoothReceiver {
+public class BluetoothReceiver implements ICommunicationChannel {
   /**
    * Used to send command events to the event manager for processing.
    */
@@ -180,10 +180,7 @@ public class BluetoothReceiver {
     }
   }
 
-  /**
-   * Closes the Bluetooth connection and the data stream.
-   * It sets the isConnected flag to false and handles any exceptions that may occur during the closing process.
-   */
+  @Override
   public void closeConnection() {
     Log.info("Closing connection");
     this.isConnected = false;
@@ -215,17 +212,13 @@ public class BluetoothReceiver {
     }
   }
 
-  /**
-   * Checks if the Bluetooth connection is currently active.
-   *
-   * @return true if the connection is active, false otherwise.
-   */
-  public boolean isConnected() { return this.isConnected; }
+  @Override
+  public boolean isConnected() {
+    return this.isConnected;
+  }
 
-  /**
-   * Returns the active Bluetooth connection.
-   *
-   * @return The active BTConnection object.
-   */
-  public BTConnection getConnection() { return this.connection; }
+  @Override
+  public BTConnection getConnection() {
+    return this.connection;
+  }
 }

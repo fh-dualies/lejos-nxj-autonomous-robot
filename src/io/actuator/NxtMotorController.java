@@ -58,22 +58,6 @@ public class NxtMotorController implements IMotorController {
   }
 
   @Override
-  public void turnLeft(int speed) {
-    this.setInternalSpeed(speed, speed);
-
-    leftMotor.backward();
-    rightMotor.forward();
-  }
-
-  @Override
-  public void turnRight(int speed) {
-    this.setInternalSpeed(speed, speed);
-
-    leftMotor.forward();
-    rightMotor.backward();
-  }
-
-  @Override
   public void close() {
     this.stopMotors(true);
   }

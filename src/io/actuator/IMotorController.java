@@ -29,20 +29,6 @@ public interface IMotorController {
   void stopMotors(boolean hardStop);
 
   /**
-   * Sets the speed of the left and right motors to turn the robot left.
-   *
-   * @param speed The speed of the motors.
-   */
-  void turnLeft(int speed);
-
-  /**
-   * Sets the speed of the left and right motors to turn the robot right.
-   *
-   * @param speed The speed of the motors.
-   */
-  void turnRight(int speed);
-
-  /**
    * Cleans up the motor controller resources.
    */
   void close();

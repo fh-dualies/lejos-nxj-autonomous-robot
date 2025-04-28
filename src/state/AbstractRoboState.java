@@ -62,7 +62,7 @@ abstract public class AbstractRoboState {
     SwitchStateCommand command = (SwitchStateCommand)someCommand;
 
     RoboStates targetState = command.getTargetState();
-    RoboStates currentState = controller.getCurrentState().getState();
+    RoboStates currentState = controller.getContext().getCurrentState().getState();
 
     if (targetState == currentState) {
       return;
