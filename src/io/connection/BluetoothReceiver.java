@@ -106,17 +106,14 @@ public class BluetoothReceiver implements ICommunicationChannel {
     String command = commandString.trim().toUpperCase();
 
     // move commands
-    switch (command) {
-    case "FORWARD":
-      return new MoveCommand(MoveCommand.Direction.FORWARD);
-    case "BACKWARD":
-      return new MoveCommand(MoveCommand.Direction.BACKWARD);
-    case "LEFT":
-      return new MoveCommand(MoveCommand.Direction.LEFT);
-    case "RIGHT":
-      return new MoveCommand(MoveCommand.Direction.RIGHT);
-    case "STOP":
-      return new MoveCommand(MoveCommand.Direction.STOP);
+    // The move commands are in the format "MOVE$<x>,<y>$"
+    Pattern pattern = Pattern.compile("MOVE\\(\\d+,\\d+\\)$");
+    Matcher matcher = pattern.matcher(command);
+    if (matcher.matches()) {
+      int speed = Integer.parseInt(matcher.group(1));
+      int turnAngle = Integer.parseInt(matcher.group(2));
+
+      return new MoveCommand(speed, turnAngle);
     }
 
     // switch state commands

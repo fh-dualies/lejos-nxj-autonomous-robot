@@ -8,27 +8,33 @@ public class MoveCommand implements ICommand {
   /**
    * The direction in which the robot should move.
    */
-  private final Direction direction;
+  private final int speed;
+  private final int turnAngle;
 
   /**
    * @param direction the direction in which the robot should move
    * @throws NullPointerException if the direction is null
    */
-  public MoveCommand(Direction direction) {
-    if (direction == null) {
-      throw new NullPointerException("Direction cannot be null");
+  public MoveCommand(int speed, int turnAngle) {
+    if (speed < 0 || turnAngle < 0) {
+      throw new NullPointerException();
     }
 
-    this.direction = direction;
+    this.speed = speed;
+    this.turnAngle = turnAngle;
   }
 
   /**
-   * @return the direction in which the robot should move
+   * @return the speed at which the robot should move
    */
-  public Direction getDirection() { return this.direction; }
+  public int getSpeed() {
+    return this.speed;
+  }
 
   /**
-   * Direction enum represents the possible directions the robot can move.
+   * @return the angle at which the robot should turn
    */
-  public enum Direction { FORWARD, BACKWARD, LEFT, RIGHT, STOP }
+  public int getTurnAngle() {
+    return this.turnAngle;
+  }
 }
