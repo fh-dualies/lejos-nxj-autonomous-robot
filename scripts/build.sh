@@ -1,3 +1,3 @@
 #!/bin/bash
 
-nxjc -sourcepath src -d out src/main/RoboApplication.java
+nxjc -sourcepath src -d out src/RoboApplication.java

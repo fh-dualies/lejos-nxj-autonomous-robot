@@ -30,7 +30,7 @@ public class EventManager {
       try {
         this.listeners.elementAt(i).onEvent(event);
       } catch (Exception e) {
-        Log.error("Error while dispatching event: ", e);
+        Log.error("dispatching error: ", e);
       }
     }
   }

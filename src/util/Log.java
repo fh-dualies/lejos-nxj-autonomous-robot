@@ -5,11 +5,7 @@ public final class Log {
   private static final String WARNING_LEVEL = "WARNING";
   private static final String ERROR_LEVEL = "SEVERE";
 
-  private static final String LOGGER_NAME = "util.Log";
-
   private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
-
-  private Log() {}
 
   private static void log(String level, String message, Throwable thrown) {
     StringBuilder builder = new StringBuilder();
@@ -23,9 +19,8 @@ public final class Log {
     }
 
     builder.append("] ");
-    builder.append(LOGGER_NAME);
-    builder.append(" - ");
     builder.append(message);
+    builder.append(LINE_SEPARATOR);
     java.io.PrintStream out = ERROR_LEVEL.equals(level) ? System.err : System.out;
     out.println(builder);
 

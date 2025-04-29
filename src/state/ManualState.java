@@ -19,7 +19,7 @@ public class ManualState extends AbstractRoboState {
 
   @Override
   public void onEnter(RoboController controller) {
-    Log.info("Entering manual state");
+    Log.info("enter manual");
     LCD.clear();
     LCD.drawString("Manual", 0, 1);
 
@@ -28,7 +28,7 @@ public class ManualState extends AbstractRoboState {
 
   @Override
   public void onExit(RoboController controller) {
-    Log.info("Exiting manual state");
+    Log.info("exit manual");
 
     controller.getContext().getMotorController().stopMotors(false);
     controller.setCurrentDrivingStrategy(null);

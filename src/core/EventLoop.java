@@ -3,6 +3,7 @@ package core;
 import io.connection.BluetoothReceiver;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
+import lejos.nxt.Button;
 import lejos.util.Delay;
 import util.Log;
 
@@ -74,17 +75,22 @@ public class EventLoop implements Runnable {
 
   @Override
   public void run() {
-    Log.info("EventLoop started...");
+    Log.info("start loop");
 
     if (!this.bluetoothReceiver.waitForConnection()) {
-      Log.error("Failed to establish Bluetooth connection");
+      Log.error("BT failed");
       return;
     }
 
-    Log.info("Bluetooth connection established");
+    Log.info("BT connected");
     this.running = true;
 
     while (this.running) {
+      if (Button.ESCAPE.isDown()) {
+        this.stop();
+        continue;
+      }
+
       try {
         this.lightSensorReader.checkValue();
         this.ultrasonicSensorReader.checkValue();
@@ -94,22 +100,19 @@ public class EventLoop implements Runnable {
 
         Delay.msDelay(LOOP_DELAY);
       } catch (Exception e) {
-        Log.error("Error in EventLoop", e);
+        Log.error("loop error", e);
       }
     }
 
-    Log.info("EventLoop stopped");
+    Log.info("loop stopped");
     this.cleanup();
-    Log.info("EventLoop cleanup completed");
+    Log.info("loop cleaned");
   }
 
   /**
    * Stops the event loop by setting the running flag to false. This will cause the loop to exit gracefully
    */
-  public void stop() {
-    Log.info("Stopping EventLoop...");
-    this.running = false;
-  }
+  public void stop() { this.running = false; }
 
   /**
    * Cleans up resources used by the event loop. This includes closing the Bluetooth connection,
@@ -121,7 +124,7 @@ public class EventLoop implements Runnable {
       this.controller.getContext().getMotorController().close();
       lightSensorReader.close();
     } catch (Exception e) {
-      Log.error("Error in cleanup", e);
+      Log.error("cleanup error", e);
     }
   }
 }

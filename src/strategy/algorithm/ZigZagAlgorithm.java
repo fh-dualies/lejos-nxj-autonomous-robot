@@ -74,7 +74,7 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
       return;
     }
 
-    if (currentLightValue > DefaultSensorValues.LIGHT_TRANSITION_MID.getValue()) {
+    if (currentLightValue > DefaultSensorValues.LIGHT_STRIPE_EDGE.getValue()) {
       if (this.searchRight) {
         int leftSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
         int rightSpeed = FORWARD_SPEED;
@@ -89,7 +89,6 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
         this.searchRight = true;
       }
     } else {
-      // TODO: slower turn?
       if (this.searchRight) {
         int leftSpeed = FORWARD_SPEED;
         int rightSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;

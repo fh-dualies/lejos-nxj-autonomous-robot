@@ -16,7 +16,7 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    * The speed factor used for turning the robot.
    * This factor is used to adjust the speed of the outer wheel during turns.
    */
-  private static final int LINE_EDGE = DefaultSensorValues.LIGHT_TRANSITION_MID.getValue();
+  private static final int LINE_EDGE = DefaultSensorValues.LIGHT_STRIPE_EDGE.getValue();
 
   /**
    * The RoboController instance used to control the robot.

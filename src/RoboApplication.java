@@ -1,5 +1,3 @@
-package main;
-
 import core.EventLoop;
 import core.RoboController;
 import event.EventManager;
@@ -29,9 +27,8 @@ public class RoboApplication {
 
     RoboController roboController = new RoboController(eventManager, nxtMotorController);
 
-    // TODO: check ports
     LightSensorReader lightSensorReader = new LightSensorReader(SensorPort.S1, eventManager);
-    UltrasonicSensorReader ultrasonicSensorReader = new UltrasonicSensorReader(SensorPort.S2, eventManager);
+    UltrasonicSensorReader ultrasonicSensorReader = new UltrasonicSensorReader(SensorPort.S4, eventManager);
 
     BluetoothReceiver bluetoothReceiver = new BluetoothReceiver(eventManager);
 
@@ -42,13 +39,13 @@ public class RoboApplication {
    * @param args Command line arguments (not used).
    */
   public static void main(String[] args) {
-    Log.info("Megamen is starting...");
+    Log.info("starting megamen");
 
     final EventLoop eventLoop = setupEventLoop();
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
-        Log.info("Megamen is shutting down...");
+        Log.info("shutting down megamen");
         eventLoop.stop();
 
         // wait for the event loop to finish
@@ -63,6 +60,6 @@ public class RoboApplication {
     LCD.refresh();
     Button.ESCAPE.waitForPressAndRelease();
 
-    Log.info("Megamen out.");
+    Log.info("megamen out.");
   }
 }

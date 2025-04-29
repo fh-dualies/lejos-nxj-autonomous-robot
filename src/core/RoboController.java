@@ -6,7 +6,7 @@ import event.base.AbstractEvent;
 import event.base.SensorEvent;
 import io.actuator.IMotorController;
 import state.AbstractRoboState;
-import state.IdleState;
+import state.AutonomousState;
 import strategy.IDrivingStrategy;
 import util.Log;
 
@@ -27,10 +27,8 @@ public class RoboController implements IEventListener {
   public RoboController(EventManager eventManager, IMotorController motorController) {
     this.context = new RoboContext(eventManager, motorController);
 
-    this.setState(new IdleState());
+    this.setState(new AutonomousState());
     this.context.getEventManager().addListener(this);
-
-    Log.info("RoboController initialized. Current state: IdleState");
   }
 
   /**
@@ -38,7 +36,6 @@ public class RoboController implements IEventListener {
    * and handle any exceptions that occur.
    */
   public void run() {
-    Log.info("RoboController started...");
     IDrivingStrategy strategy = this.context.getCurrentDrivingStrategy();
 
     if (strategy == null) {
@@ -48,7 +45,7 @@ public class RoboController implements IEventListener {
     try {
       strategy.execute(this);
     } catch (Exception e) {
-      Log.error("Error in RoboController.", e);
+      Log.error("RoboController error.", e);
     }
   }
 
@@ -65,7 +62,7 @@ public class RoboController implements IEventListener {
     }
 
     if (event.getTimestamp() < 0) {
-      Log.warning("Timestamp is negative");
+      Log.warning("event timestamp invalid");
       return;
     }
 
@@ -73,7 +70,7 @@ public class RoboController implements IEventListener {
     long timeDifference = Math.abs(currentTime - event.getTimestamp());
 
     if (timeDifference > 1000) {
-      Log.warning("Ignore old event. Time difference: " + timeDifference + "ms");
+      Log.warning("ignore old event");
       return;
     }
 
@@ -86,7 +83,7 @@ public class RoboController implements IEventListener {
     if (stateToNotify != null) {
       stateToNotify.handleEvent(this, event);
     } else {
-      Log.warning("No current state to handle event");
+      Log.warning("no state to notify");
     }
   }
 
@@ -104,7 +101,7 @@ public class RoboController implements IEventListener {
     AbstractRoboState currentState = this.context.getCurrentState();
 
     if (newState == currentState) {
-      Log.warning("State is already set the same");
+      Log.warning("state already set");
       return;
     }
 
@@ -124,7 +121,7 @@ public class RoboController implements IEventListener {
     IDrivingStrategy currentStrategy = this.context.getCurrentDrivingStrategy();
 
     if (strategy == currentStrategy) {
-      Log.warning("Strategy is already set the same");
+      Log.warning("strategy already set");
       return;
     }
 
@@ -132,7 +129,7 @@ public class RoboController implements IEventListener {
       currentStrategy.deactivate(this);
     }
 
-    Log.info("Active strategy set to: " + (strategy != null ? strategy.getClass() : "null"));
+    Log.info("new strategy: " + (strategy != null ? strategy.getClass() : "null"));
     this.context.setCurrentDrivingStrategy(strategy);
 
     if (strategy != null) {

@@ -23,7 +23,7 @@ public class IdleState extends AbstractRoboState {
 
   @Override
   public void onEnter(RoboController controller) {
-    Log.info("Entering idle state");
+    Log.info("enter idle");
     LCD.clear();
     LCD.drawString("Idle", 0, 1);
 
@@ -32,7 +32,7 @@ public class IdleState extends AbstractRoboState {
 
   @Override
   public void onExit(RoboController controller) {
-    Log.info("Exiting idle state");
+    Log.info("exit idle");
   }
 
   /**

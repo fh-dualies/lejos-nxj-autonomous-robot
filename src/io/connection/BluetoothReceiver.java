@@ -69,14 +69,14 @@ public class BluetoothReceiver implements ICommunicationChannel {
       ICommand command = this.parseCommand(commandString);
 
       if (command == null) {
-        Log.warning("Command not recognized: " + commandString);
+        Log.warning("unknown command: " + commandString);
         return;
       }
 
       CommandEvent event = new CommandEvent(command);
       this.eventManager.dispatch(event);
     } catch (IOException e) {
-      Log.error("Error reading command", e);
+      Log.error("error parsing command", e);
 
       LCD.clear();
       LCD.drawString("Error reading cmd", 0, 4);
@@ -85,7 +85,7 @@ public class BluetoothReceiver implements ICommunicationChannel {
 
       this.closeConnection();
     } catch (Exception e) {
-      Log.error("Error processing command", e);
+      Log.error("error processing command", e);
       this.closeConnection();
     }
   }
@@ -122,7 +122,7 @@ public class BluetoothReceiver implements ICommunicationChannel {
       return moveCommand;
     }
 
-    Log.warning("Unknown command: " + command);
+    Log.warning("unknown command: " + command);
 
     return null;
   }
@@ -163,10 +163,10 @@ public class BluetoothReceiver implements ICommunicationChannel {
 
       return new MoveCommand(speed, turnAngle);
     } catch (NumberFormatException e) {
-      Log.warning("Invalid number format in command: " + command);
+      Log.warning("invalid command value: " + command);
       return null;
     } catch (IllegalArgumentException e) {
-      Log.warning("Invalid parameters in command: " + command);
+      Log.warning("invalid command param: " + command);
       return null;
     }
   }
@@ -189,8 +189,6 @@ public class BluetoothReceiver implements ICommunicationChannel {
       LCD.refresh();
       this.isConnected = false;
 
-      Log.warning("No connection");
-
       return false;
     }
 
@@ -202,12 +200,8 @@ public class BluetoothReceiver implements ICommunicationChannel {
       dataStream = connection.openDataInputStream();
       this.isConnected = true;
 
-      Log.info("BT DataStream established");
-
       return true;
     } catch (Exception e) {
-      Log.error("BT DataStream not established", e);
-
       LCD.drawString("Error opening stream", 0, 3);
       LCD.refresh();
 
@@ -219,18 +213,16 @@ public class BluetoothReceiver implements ICommunicationChannel {
 
   @Override
   public void closeConnection() {
-    Log.info("Closing connection");
+    Log.info("closing connection");
     this.isConnected = false;
 
     try {
       if (this.dataStream != null) {
         this.dataStream.close();
         this.dataStream = null;
-
-        Log.info("DataStream closed");
       }
     } catch (Exception e) {
-      Log.error("Error closing DataStream", e);
+      Log.error("error closing dataStream", e);
     }
 
     try {
@@ -238,14 +230,12 @@ public class BluetoothReceiver implements ICommunicationChannel {
         this.connection.close();
         this.connection = null;
 
-        Log.info("Connection closed");
-
         LCD.clear();
         LCD.drawString("Connection closed", 0, 1);
         LCD.refresh();
       }
     } catch (Exception e) {
-      Log.error("Error closing Connection", e);
+      Log.error("error closing Connection", e);
     }
   }
 

@@ -34,7 +34,7 @@ public class BluetoothTransmitter implements ICommunicationChannel {
    */
   public boolean setupConnection(BTConnection connection) {
     if (connection == null) {
-      Log.warning("Connection is null");
+      Log.warning("connection is null");
       return false;
     }
 
@@ -44,11 +44,11 @@ public class BluetoothTransmitter implements ICommunicationChannel {
       this.dataStream = connection.openDataOutputStream();
       this.isConnected = true;
 
-      Log.info("Bluetooth connection established");
+      Log.info("bt connected");
 
       return true;
     } catch (Exception e) {
-      Log.error("Error opening data stream", e);
+      Log.error("error opening data stream", e);
 
       this.connection = null;
       this.isConnected = false;
@@ -70,7 +70,7 @@ public class BluetoothTransmitter implements ICommunicationChannel {
     }
 
     if (message == null || message.isEmpty()) {
-      Log.warning("Message is null or empty");
+      Log.warning("empty message");
       return false;
     }
 
@@ -80,7 +80,7 @@ public class BluetoothTransmitter implements ICommunicationChannel {
 
       return true;
     } catch (Exception e) {
-      Log.error("Error sending data", e);
+      Log.error("error sending", e);
       this.isConnected = false;
 
       return false;
@@ -89,7 +89,6 @@ public class BluetoothTransmitter implements ICommunicationChannel {
 
   @Override
   public void closeConnection() {
-    Log.info("Closing connection");
     this.isConnected = false;
 
     if (this.dataStream == null) {
@@ -98,9 +97,9 @@ public class BluetoothTransmitter implements ICommunicationChannel {
 
     try {
       this.dataStream.close();
-      Log.info("DataStream closed");
+      Log.info("connection closed");
     } catch (Exception e) {
-      Log.error("Error closing DataStream", e);
+      Log.error("error closing dataStream", e);
     } finally {
       this.dataStream = null;
     }
