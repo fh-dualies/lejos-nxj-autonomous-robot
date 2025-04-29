@@ -27,7 +27,7 @@ public final class Log {
     builder.append(" - ");
     builder.append(message);
     java.io.PrintStream out = ERROR_LEVEL.equals(level) ? System.err : System.out;
-    out.println(builder);
+    //out.println(builder);
 
     if (thrown != null) {
       out.print("Stack trace for previous log entry:" + LINE_SEPARATOR);

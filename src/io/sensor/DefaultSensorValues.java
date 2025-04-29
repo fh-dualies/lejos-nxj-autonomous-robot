@@ -16,9 +16,9 @@ public enum DefaultSensorValues {
 
   DISTANCE_STOP_THRESHOLD(25), // the distance at which the robot should stop
 
-  MOTOR_MAX_SPEED(720),
+  MOTOR_MAX_SPEED(20),
   MOTOR_ACCELERATION(600),
-  MOTOR_MEDIUM_SPEED(300),
+  MOTOR_MEDIUM_SPEED(20),
   MOTOR_TURN_SPEED_FACTOR(2); // factor for outer-wheel speed in turns
 
   /**

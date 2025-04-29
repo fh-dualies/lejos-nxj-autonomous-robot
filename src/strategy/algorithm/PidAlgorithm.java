@@ -3,6 +3,7 @@ package strategy.algorithm;
 import core.RoboController;
 import io.actuator.IMotorController;
 import io.sensor.DefaultSensorValues;
+import lejos.nxt.Motor;
 import lejos.util.PIDController;
 import util.Log;
 
@@ -10,13 +11,13 @@ public class PidAlgorithm implements IFollowingAlgorithm {
   /**
    * The speed at which the robot moves forward.
    */
-  private static final int TARGET_SPEED = DefaultSensorValues.MOTOR_MEDIUM_SPEED.getValue();
+  private static final int TARGET_SPEED = 200;
 
   /**
    * The speed factor used for turning the robot.
    * This factor is used to adjust the speed of the outer wheel during turns.
    */
-  private static final int LINE_EDGE = DefaultSensorValues.LIGHT_TRANSITION_MID.getValue();
+  private static final int LINE_EDGE = 50;
 
   /**
    * The RoboController instance used to control the robot.
@@ -75,6 +76,11 @@ public class PidAlgorithm implements IFollowingAlgorithm {
     int leftSpeed = TARGET_SPEED + turn;
     int rightSpeed = TARGET_SPEED - turn;
 
-    this.motorController.forward(leftSpeed, rightSpeed);
+    System.out.println("" + leftSpeed + "-" + rightSpeed + "#" + currentLightValue);
+  
+    Motor.A.setSpeed(leftSpeed);
+    Motor.B.setSpeed(rightSpeed);
+    Motor.A.forward();
+    Motor.B.forward();
   }
 }

@@ -70,9 +70,6 @@ public class NxtMotorController implements IMotorController {
    */
   private void setInternalSpeed(int leftSpeed, int rightSpeed) {
     this.leftMotor.setSpeed(Math.abs(leftSpeed));
-    this.leftMotor.setSpeed(Math.abs(rightSpeed));
-
-    this.leftMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getValue());
-    this.rightMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getValue());
+    this.rightMotor.setSpeed(Math.abs(rightSpeed));
   }
 }

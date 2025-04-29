@@ -4,7 +4,7 @@ import core.RoboController;
 import event.base.AbstractEvent;
 import lejos.nxt.LCD;
 import strategy.LineFollowingStrategy;
-import strategy.algorithm.ZigZagAlgorithm;
+import strategy.algorithm.PidAlgorithm;
 import util.Log;
 
 /**
@@ -29,7 +29,7 @@ public class AutonomousState extends AbstractRoboState {
     LCD.clear();
     LCD.drawString("Autonomous", 0, 1);
 
-    controller.setCurrentDrivingStrategy(new LineFollowingStrategy(new ZigZagAlgorithm(controller)));
+    controller.setCurrentDrivingStrategy(new LineFollowingStrategy(new PidAlgorithm(controller)));
   }
 
   @Override

@@ -37,7 +37,6 @@ public class LightSensorReader extends AbstractSensorReader {
     }
 
     this.lightSensor = new LightSensor(port);
-    this.lightSensor.setFloodlight(true); // TODO: check if we have a floodlight!?
   }
 
   @Override

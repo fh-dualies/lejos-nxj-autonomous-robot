@@ -4,6 +4,7 @@ import io.connection.BluetoothReceiver;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
 import lejos.util.Delay;
+import lejos.nxt.Button;
 import util.Log;
 
 /**
@@ -19,7 +20,7 @@ public class EventLoop implements Runnable {
    * The delay in milliseconds between iterations of the event loop. This controls the frequency of
    * sensor checks and command processing.
    */
-  private static final int LOOP_DELAY = 20;
+  private static final int LOOP_DELAY = 10;
 
   /**
    * The RoboController instance that manages the robot's behavior. It serves as a context object,
@@ -76,20 +77,25 @@ public class EventLoop implements Runnable {
   public void run() {
     Log.info("EventLoop started...");
 
-    if (!this.bluetoothReceiver.waitForConnection()) {
-      Log.error("Failed to establish Bluetooth connection");
-      return;
-    }
+    //if (!this.bluetoothReceiver.waitForConnection()) {
+      //Log.error("Failed to establish Bluetooth connection");
+    //return;
+    //}
 
     Log.info("Bluetooth connection established");
     this.running = true;
 
     while (this.running) {
+    	if (Button.ESCAPE.isDown()) {
+    		this.stop();
+    		continue;
+    	}
+    	
       try {
         this.lightSensorReader.checkValue();
         this.ultrasonicSensorReader.checkValue();
 
-        this.bluetoothReceiver.checkForCommands();
+        //this.bluetoothReceiver.checkForCommands();
         this.controller.run();
 
         Delay.msDelay(LOOP_DELAY);
@@ -117,7 +123,7 @@ public class EventLoop implements Runnable {
    */
   private void cleanup() {
     try {
-      this.bluetoothReceiver.closeConnection();
+    	//this.bluetoothReceiver.closeConnection();
       this.controller.getContext().getMotorController().close();
       lightSensorReader.close();
     } catch (Exception e) {

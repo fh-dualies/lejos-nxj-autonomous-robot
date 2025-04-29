@@ -5,8 +5,13 @@ import event.base.CommandEvent;
 import io.command.ICommand;
 import io.command.MoveCommand;
 import io.command.SwitchStateCommand;
+
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
 import lejos.nxt.LCD;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
@@ -56,39 +61,71 @@ public class BluetoothReceiver implements ICommunicationChannel {
    * If a command is received, it is parsed and dispatched as a CommandEvent to the event manager.
    */
   public void checkForCommands() {
-    if (!this.isConnected || this.dataStream == null) {
-      return;
-    }
+	    if (!this.isConnected || this.dataStream == null) {
+	      return;
+	    }
 
-    try {
-      if (this.dataStream.available() <= 0) {
-        return;
-      }
+	    try {
+	      if (this.dataStream.available() <= 0) {
+	          return;
+	      }
 
-      String commandString = this.dataStream.readUTF();
-      ICommand command = this.parseCommand(commandString);
+	      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+	      int byteRead;
 
-      if (command == null) {
-        Log.warning("Command not recognized: " + commandString);
-        return;
-      }
+	      while ((byteRead = this.dataStream.read()) != -1) {
+	        if (byteRead == '\n') {
+	          break; 
+	        }
 
-      CommandEvent event = new CommandEvent(command);
-      this.eventManager.dispatch(event);
-    } catch (IOException e) {
-      Log.error("Error reading command", e);
+	        if (byteRead == '\r') {
+	           continue;
+	        }
+	        buffer.write(byteRead);
+	      }
 
-      LCD.clear();
-      LCD.drawString("Error reading cmd", 0, 4);
-      LCD.drawString("Closing connection", 0, 5);
-      LCD.refresh();
+	      if (byteRead == -1 && buffer.size() == 0) {
+	          // End of stream reached immediately, likely connection closed
+	          Log.warning("End of stream reached while waiting for command.");
+	          this.closeConnection();
+	          return;
+	      }
 
-      this.closeConnection();
-    } catch (Exception e) {
-      Log.error("Error processing command", e);
-      this.closeConnection();
-    }
-  }
+	      // Convert the collected bytes to a String using the specified encoding name
+	      // "UTF-8" is standard and recommended
+	      String commandString = buffer.toString("UTF-8");
+
+	      // Optional: Log the received string for debugging
+	      Log.info("Received command string: " + commandString);
+	      System.out.println("Received: " + commandString);
+
+	      ICommand command = this.parseCommand(commandString.trim());
+
+	      if (command == null) {
+	        return;
+	      }
+
+	      CommandEvent event = new CommandEvent(command);
+	      this.eventManager.dispatch(event);
+
+	    } catch (java.io.EOFException e) {
+	      Log.warning("Connection closed by remote device (EOF).");
+	      this.closeConnection();
+	    } catch (UnsupportedEncodingException e) {
+	      Log.error("UTF-8 encoding not supported on this platform!", e);
+	      this.closeConnection();
+	    } catch (IOException e) {
+	      Log.error("Error reading command", e);
+	      LCD.clear();
+	      LCD.drawString("Error reading cmd", 0, 4);
+	      LCD.drawString("Closing connection", 0, 5);
+	      LCD.refresh();
+	      this.closeConnection();
+	    } catch (Exception e) {
+	      Log.error("Error processing command", e);
+	      this.closeConnection();
+	    }
+	  }
 
   /**
    * Parses a command string and returns the corresponding ICommand object.
@@ -99,6 +136,8 @@ public class BluetoothReceiver implements ICommunicationChannel {
    * @return The corresponding ICommand object or null if the command is not recognized.
    */
   public ICommand parseCommand(String commandString) {
+	  System.out.println("try to parse");
+	  
     if (commandString == null) {
       return null;
     }
@@ -179,7 +218,7 @@ public class BluetoothReceiver implements ICommunicationChannel {
    */
   public boolean waitForConnection() {
     LCD.clear();
-    LCD.drawString("Waiting for BT", 0, 0);
+    LCD.drawString("Waiting for BT 1", 0, 0);
     LCD.refresh();
 
     connection = Bluetooth.waitForConnection();

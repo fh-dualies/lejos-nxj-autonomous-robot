@@ -6,7 +6,7 @@ import event.base.AbstractEvent;
 import event.base.SensorEvent;
 import io.actuator.IMotorController;
 import state.AbstractRoboState;
-import state.IdleState;
+import state.AutonomousState;
 import strategy.IDrivingStrategy;
 import util.Log;
 
@@ -27,7 +27,7 @@ public class RoboController implements IEventListener {
   public RoboController(EventManager eventManager, IMotorController motorController) {
     this.context = new RoboContext(eventManager, motorController);
 
-    this.setState(new IdleState());
+    this.setState(new AutonomousState());
     this.context.getEventManager().addListener(this);
 
     Log.info("RoboController initialized. Current state: IdleState");
@@ -38,7 +38,6 @@ public class RoboController implements IEventListener {
    * and handle any exceptions that occur.
    */
   public void run() {
-    Log.info("RoboController started...");
     IDrivingStrategy strategy = this.context.getCurrentDrivingStrategy();
 
     if (strategy == null) {

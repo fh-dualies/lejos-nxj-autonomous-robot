@@ -14,7 +14,7 @@ public abstract class AbstractSensorReader {
    * The default threshold for reporting changes in sensor values.
    * If the change in value is greater than or equal to this threshold, an event will be dispatched.
    */
-  protected static final int DEFAULT_REPORT_THRESHOLD = 5;
+  protected static final int DEFAULT_REPORT_THRESHOLD = 1;
 
   /**
    * The EventManager instance used to dispatch events.

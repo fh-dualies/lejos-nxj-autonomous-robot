@@ -29,9 +29,8 @@ public class RoboApplication {
 
     RoboController roboController = new RoboController(eventManager, nxtMotorController);
 
-    // TODO: check ports
-    LightSensorReader lightSensorReader = new LightSensorReader(SensorPort.S1, eventManager);
-    UltrasonicSensorReader ultrasonicSensorReader = new UltrasonicSensorReader(SensorPort.S2, eventManager);
+	LightSensorReader lightSensorReader = new LightSensorReader(SensorPort.S1, eventManager);
+    UltrasonicSensorReader ultrasonicSensorReader = new UltrasonicSensorReader(SensorPort.S4, eventManager);
 
     BluetoothReceiver bluetoothReceiver = new BluetoothReceiver(eventManager);
 
