@@ -1,8 +1,9 @@
 package core;
 
 import event.EventManager;
-import event.base.SensorEvent;
+import event.SensorEvent;
 import io.actuator.IMotorController;
+import io.connection.BluetoothTransmitter;
 import io.sensor.SensorType;
 import state.AbstractRoboState;
 import strategy.IDrivingStrategy;
@@ -21,6 +22,11 @@ public class RoboContext {
    * The motor controller. This is used to control the motors of the robot.
    */
   private final IMotorController motorController;
+
+  /**
+   * The Bluetooth transmitter. This is used to send data to the remote device.
+   */
+  private final BluetoothTransmitter bluetoothTransmitter;
 
   /**
    * The last value read from the light sensor. This is used to determine the current state of the robot. It is received
@@ -49,13 +55,15 @@ public class RoboContext {
    * @param eventManager    The event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
-  public RoboContext(EventManager eventManager, IMotorController motorController) {
+  public RoboContext(EventManager eventManager, IMotorController motorController,
+                     BluetoothTransmitter bluetoothTransmitter) {
     if (eventManager == null || motorController == null) {
       throw new NullPointerException();
     }
 
     this.eventManager = eventManager;
     this.motorController = motorController;
+    this.bluetoothTransmitter = bluetoothTransmitter;
   }
 
   /**
@@ -110,6 +118,11 @@ public class RoboContext {
    * @return The event manager.
    */
   public EventManager getEventManager() { return this.eventManager; }
+
+  /**
+   * @return The Bluetooth transmitter.
+   */
+  public BluetoothTransmitter getBluetoothTransmitter() { return this.bluetoothTransmitter; }
 
   /**
    * @return The last value read from the light sensor.

@@ -1,5 +1,7 @@
-package event.base;
+package event;
 
+import event.base.AbstractEvent;
+import event.base.IExposableEvent;
 import io.sensor.SensorType;
 
 /**
@@ -8,7 +10,7 @@ import io.sensor.SensorType;
  * measurements. It extends the AbstractEvent class and contains a reference to the sensor ID, sensor type, and sensor
  * value.
  */
-public class SensorEvent extends AbstractEvent {
+public class SensorEvent extends AbstractEvent implements IExposableEvent {
   /**
    * The ID of the sensor that generated the event.
    */
@@ -62,10 +64,8 @@ public class SensorEvent extends AbstractEvent {
    */
   public int getValue() { return this.value; }
 
-  @Override
-  public String toString() {
-    return "SensorEvent{"
-        + "sensorId='" + this.sensorId + '\'' + ", sensorType=" + this.sensorType + ", value=" + this.value +
-        ", timestamp=" + this.getTimestamp() + '}';
-  }
+  /**
+   * @return a string representation of the sensor event
+   */
+  public String toExposableString() { return this.sensorType.getName() + ":" + this.value; }
 }

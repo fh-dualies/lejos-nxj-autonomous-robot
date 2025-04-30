@@ -1,6 +1,7 @@
 package event;
 
 import event.base.AbstractEvent;
+import event.base.IEventListener;
 import java.util.Vector;
 import util.Log;
 

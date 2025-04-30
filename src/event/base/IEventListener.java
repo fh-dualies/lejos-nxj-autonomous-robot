@@ -1,6 +1,4 @@
-package event;
-
-import event.base.AbstractEvent;
+package event.base;
 
 /**
  * Interface for event listeners.

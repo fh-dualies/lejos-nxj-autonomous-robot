@@ -1,8 +1,8 @@
 package state;
 
 import core.RoboController;
+import event.CommandEvent;
 import event.base.AbstractEvent;
-import event.base.CommandEvent;
 import io.command.ICommand;
 import io.command.SwitchStateCommand;
 

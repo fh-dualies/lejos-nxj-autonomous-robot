@@ -1,7 +1,7 @@
 package io.sensor.reader;
 
 import event.EventManager;
-import event.base.SensorEvent;
+import event.SensorEvent;
 import io.sensor.SensorType;
 
 /**

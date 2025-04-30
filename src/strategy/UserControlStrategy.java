@@ -1,9 +1,9 @@
 package strategy;
 
 import core.RoboController;
-import event.IEventListener;
+import event.CommandEvent;
 import event.base.AbstractEvent;
-import event.base.CommandEvent;
+import event.base.IEventListener;
 import io.actuator.IMotorController;
 import io.command.ICommand;
 import io.command.MoveCommand;

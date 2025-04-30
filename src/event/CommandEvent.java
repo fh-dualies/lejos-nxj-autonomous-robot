@@ -1,5 +1,6 @@
-package event.base;
+package event;
 
+import event.base.AbstractEvent;
 import io.command.ICommand;
 
 /**

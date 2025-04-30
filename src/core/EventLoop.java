@@ -1,6 +1,7 @@
 package core;
 
 import io.connection.BluetoothReceiver;
+import io.connection.BluetoothTransmitter;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
 import lejos.nxt.Button;
@@ -36,6 +37,12 @@ public class EventLoop implements Runnable {
   private final BluetoothReceiver bluetoothReceiver;
 
   /**
+   * The BluetoothTransmitter instance that manages the Bluetooth transmission of data. It is
+   * responsible for sending data to the remote device over the established Bluetooth connection.
+   */
+  private final BluetoothTransmitter bluetoothTransmitter;
+
+  /**
    * The LightSensorReader instance that reads values from the light sensor. It is responsible for
    * checking the light sensor's value and providing it to the RoboController for processing.
    */
@@ -61,7 +68,8 @@ public class EventLoop implements Runnable {
    * @param bluetoothReceiver      The BluetoothReceiver instance for managing Bluetooth connections and commands.
    */
   public EventLoop(RoboController controller, LightSensorReader lightSensorReader,
-                   UltrasonicSensorReader ultrasonicSensorReader, BluetoothReceiver bluetoothReceiver) {
+                   UltrasonicSensorReader ultrasonicSensorReader, BluetoothReceiver bluetoothReceiver,
+                   BluetoothTransmitter bluetoothTransmitter) {
     if (controller == null || lightSensorReader == null || ultrasonicSensorReader == null ||
         bluetoothReceiver == null) {
       throw new NullPointerException();
@@ -71,6 +79,7 @@ public class EventLoop implements Runnable {
     this.lightSensorReader = lightSensorReader;
     this.ultrasonicSensorReader = ultrasonicSensorReader;
     this.bluetoothReceiver = bluetoothReceiver;
+    this.bluetoothTransmitter = bluetoothTransmitter;
   }
 
   @Override
@@ -81,6 +90,8 @@ public class EventLoop implements Runnable {
       Log.error("BT failed");
       return;
     }
+
+    this.bluetoothTransmitter.setupConnection(this.bluetoothReceiver.getConnection());
 
     Log.info("BT connected");
     this.running = true;
@@ -96,6 +107,7 @@ public class EventLoop implements Runnable {
         this.ultrasonicSensorReader.checkValue();
 
         this.bluetoothReceiver.checkForCommands();
+        this.bluetoothTransmitter.exposeEvents();
         this.controller.run();
 
         Delay.msDelay(LOOP_DELAY);
@@ -121,6 +133,7 @@ public class EventLoop implements Runnable {
   private void cleanup() {
     try {
       this.bluetoothReceiver.closeConnection();
+      this.bluetoothTransmitter.closeConnection();
       this.controller.getContext().getMotorController().close();
       lightSensorReader.close();
     } catch (Exception e) {

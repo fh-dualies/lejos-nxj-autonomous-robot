@@ -1,7 +1,7 @@
 package io.connection;
 
+import event.CommandEvent;
 import event.EventManager;
-import event.base.CommandEvent;
 import io.command.ICommand;
 import io.command.MoveCommand;
 import io.command.SwitchStateCommand;

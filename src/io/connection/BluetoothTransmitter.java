@@ -1,6 +1,8 @@
 package io.connection;
 
+import event.base.IExposableEvent;
 import java.io.DataOutputStream;
+import java.util.Vector;
 import lejos.nxt.comm.BTConnection;
 import util.Log;
 
@@ -10,17 +12,20 @@ import util.Log;
  * It provides methods to set up the connection, send data, and close the stream.
  */
 public class BluetoothTransmitter implements ICommunicationChannel {
+  /**
+   * A list of events that can be exposed to the Bluetooth connection.
+   * This is used to send events to the connected device.
+   */
+  private final Vector<IExposableEvent> exposableEvents = new Vector<>();
   /*
    * The BluetoothTransmitter class is responsible for managing the Bluetooth connection
    * and sending data to the connected device.
    */
   private BTConnection connection = null;
-
   /**
    * Used to send data to the Bluetooth connection.
    */
   private DataOutputStream dataStream = null;
-
   /**
    * Indicates whether the Bluetooth connection is currently active.
    */
@@ -56,6 +61,46 @@ public class BluetoothTransmitter implements ICommunicationChannel {
 
       return false;
     }
+  }
+
+  /**
+   * Processes and sends all queued events through the Bluetooth connection.
+   * Each event is converted to its string representation before sending.
+   * The event queue is cleared after processing all events.
+   * This method is called periodically from the event loop.
+   */
+  public synchronized void exposeEvents() {
+    for (int i = 0; i < this.exposableEvents.size(); i++) {
+      try {
+        IExposableEvent event = this.exposableEvents.elementAt(i);
+
+        if (event == null) {
+          Log.warning("exposable event is null");
+          continue;
+        }
+
+        this.sendMessage(event.toExposableString());
+      } catch (Exception e) {
+        Log.error("expose error: ", e);
+      }
+    }
+
+    this.exposableEvents.clear();
+  }
+
+  /**
+   * Adds an event to the queue of events to be exposed over Bluetooth.
+   * Events in this queue will be sent during the next call to exposeEvents().
+   *
+   * @param event The event to add to the exposure queue
+   * @throws IllegalArgumentException if the event is null
+   */
+  public synchronized void addExposableEvent(IExposableEvent event) {
+    if (event == null) {
+      throw new IllegalArgumentException("event is null");
+    }
+
+    this.exposableEvents.addElement(event);
   }
 
   /**

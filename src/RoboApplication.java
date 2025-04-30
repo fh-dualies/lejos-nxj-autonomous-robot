@@ -3,6 +3,7 @@ import core.RoboController;
 import event.EventManager;
 import io.actuator.NxtMotorController;
 import io.connection.BluetoothReceiver;
+import io.connection.BluetoothTransmitter;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
 import lejos.nxt.Button;
@@ -24,15 +25,17 @@ public class RoboApplication {
   private static EventLoop setupEventLoop() {
     EventManager eventManager = new EventManager();
     NxtMotorController nxtMotorController = new NxtMotorController();
+    BluetoothTransmitter bluetoothTransmitter = new BluetoothTransmitter();
 
-    RoboController roboController = new RoboController(eventManager, nxtMotorController);
+    RoboController roboController = new RoboController(eventManager, nxtMotorController, bluetoothTransmitter);
 
     LightSensorReader lightSensorReader = new LightSensorReader(SensorPort.S1, eventManager);
     UltrasonicSensorReader ultrasonicSensorReader = new UltrasonicSensorReader(SensorPort.S4, eventManager);
 
     BluetoothReceiver bluetoothReceiver = new BluetoothReceiver(eventManager);
 
-    return new EventLoop(roboController, lightSensorReader, ultrasonicSensorReader, bluetoothReceiver);
+    return new EventLoop(roboController, lightSensorReader, ultrasonicSensorReader, bluetoothReceiver,
+                         bluetoothTransmitter);
   }
 
   /**

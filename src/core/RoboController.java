@@ -1,10 +1,12 @@
 package core;
 
 import event.EventManager;
-import event.IEventListener;
+import event.SensorEvent;
 import event.base.AbstractEvent;
-import event.base.SensorEvent;
+import event.base.IEventListener;
+import event.base.IExposableEvent;
 import io.actuator.IMotorController;
+import io.connection.BluetoothTransmitter;
 import state.AbstractRoboState;
 import state.AutonomousState;
 import strategy.IDrivingStrategy;
@@ -24,8 +26,9 @@ public class RoboController implements IEventListener {
    * @param eventManager    The event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
-  public RoboController(EventManager eventManager, IMotorController motorController) {
-    this.context = new RoboContext(eventManager, motorController);
+  public RoboController(EventManager eventManager, IMotorController motorController,
+                        BluetoothTransmitter bluetoothTransmitter) {
+    this.context = new RoboContext(eventManager, motorController, bluetoothTransmitter);
 
     this.setState(new AutonomousState());
     this.context.getEventManager().addListener(this);
@@ -76,6 +79,10 @@ public class RoboController implements IEventListener {
 
     if (event instanceof SensorEvent) {
       this.context.updateFromSensorEvent((SensorEvent)event);
+    }
+
+    if (event instanceof IExposableEvent) {
+      this.context.getBluetoothTransmitter().addExposableEvent((IExposableEvent)event);
     }
 
     AbstractRoboState stateToNotify = this.context.getCurrentState();
