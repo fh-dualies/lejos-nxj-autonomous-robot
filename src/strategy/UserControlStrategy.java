@@ -59,6 +59,9 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
     int speed = moveCommand.getSpeed();
     int turnAngle = moveCommand.getTurnAngle();
 
-    Log.info("UserControlStrategy onEvent: speed=" + speed + ", turnAngle=" + turnAngle);
+    int leftSpeed = speed + turnAngle;
+    int rightSpeed = speed - turnAngle;
+
+    this.motorController.forward(leftSpeed, rightSpeed);
   }
 }
