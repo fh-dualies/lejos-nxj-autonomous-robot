@@ -1,11 +1,14 @@
 package core;
 
+import event.CommandEvent;
 import event.EventManager;
 import event.SensorEvent;
 import event.base.AbstractEvent;
 import event.base.IEventListener;
 import event.base.IExposableEvent;
 import io.actuator.IMotorController;
+import io.command.ExitCommand;
+import io.command.ICommand;
 import io.connection.BluetoothTransmitter;
 import state.AbstractRoboState;
 import state.AutonomousState;
@@ -77,6 +80,10 @@ public class RoboController implements IEventListener {
       return;
     }
 
+    if (event instanceof CommandEvent) {
+      this.handleCommandEvent((CommandEvent)event);
+    }
+
     if (event instanceof SensorEvent) {
       this.context.updateFromSensorEvent((SensorEvent)event);
     }
@@ -92,6 +99,25 @@ public class RoboController implements IEventListener {
     } else {
       Log.warning("no state to notify");
     }
+  }
+
+  /**
+   * This method is called to handle command events.
+   *
+   * @param event The command event to handle.
+   */
+  private void handleCommandEvent(CommandEvent event) {
+    if (event == null) {
+      return;
+    }
+
+    ICommand command = event.getCommand();
+
+    if (!(command instanceof ExitCommand)) {
+      return;
+    }
+
+    ((ExitCommand)command).execute();
   }
 
   /**

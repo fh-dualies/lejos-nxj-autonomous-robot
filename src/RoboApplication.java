@@ -6,8 +6,6 @@ import io.connection.BluetoothReceiver;
 import io.connection.BluetoothTransmitter;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
-import lejos.nxt.Button;
-import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import lejos.util.Delay;
 import util.Log;
@@ -57,11 +55,6 @@ public class RoboApplication {
     });
 
     eventLoop.run();
-
-    LCD.clear();
-    LCD.drawString("Megamen Robo App shutting down...", 0, 0);
-    LCD.refresh();
-    Button.ESCAPE.waitForPressAndRelease();
 
     Log.info("megamen out.");
   }

@@ -2,6 +2,7 @@ package io.connection;
 
 import event.CommandEvent;
 import event.EventManager;
+import io.command.ExitCommand;
 import io.command.ICommand;
 import io.command.MoveCommand;
 import io.command.SwitchStateCommand;
@@ -99,11 +100,15 @@ public class BluetoothReceiver implements ICommunicationChannel {
    * @return The corresponding ICommand object or null if the command is not recognized.
    */
   public ICommand parseCommand(String commandString) {
-    if (commandString == null) {
+    if (commandString == null || commandString.isEmpty()) {
       return null;
     }
 
     String command = commandString.trim().toUpperCase();
+
+    if (command.equals("EXIT")) {
+      return new ExitCommand();
+    }
 
     // switch state commands
     switch (command) {
