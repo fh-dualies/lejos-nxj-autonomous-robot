@@ -140,28 +140,22 @@ public class BluetoothReceiver implements ICommunicationChannel {
    * @return The corresponding MoveCommand object or null if the command is not recognized.
    */
   private ICommand parseMoveCommand(String command) {
-    // "MOVE()" minimal length
-    if (command.length() <= 6) {
+    if (command == null || command.isEmpty()) {
       return null;
     }
 
-    String movePrefix = command.substring(0, 5);
-    char lastChar = command.charAt(command.length() - 1);
-
-    if (!movePrefix.equals("MOVE(") || lastChar != ')') {
+    String[] parts = command.split("|");
+    if (parts.length != 3) {
       return null;
     }
 
-    String paramPart = command.substring(5, command.length() - 1);
-    int commaIndex = paramPart.indexOf(',');
-
-    if (commaIndex <= 0) {
+    if (!parts[0].equals("MOVE")) {
       return null;
     }
 
     try {
-      String speedStr = paramPart.substring(0, commaIndex);
-      String turnAngleStr = paramPart.substring(commaIndex + 1);
+      String speedStr = parts[1].trim();
+      String turnAngleStr = parts[2].trim();
 
       int speed = Integer.parseInt(speedStr);
       int turnAngle = Integer.parseInt(turnAngleStr);
