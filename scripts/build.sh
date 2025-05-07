@@ -6,7 +6,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${BLUE}Compiling RoboApplication.java...${NC}"
-nxjc -sourcepath src -d out src/RoboApplication.java
+nxjc -sourcepath src -d out src/main/RoboApplication.java
 
 if [ $? -ne 0 ]; then
   echo -e "${RED}Compilation failed. Exiting.${NC}"

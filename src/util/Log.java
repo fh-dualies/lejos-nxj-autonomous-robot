@@ -1,6 +1,8 @@
 package util;
 
-public final class Log {
+import main.RoboApplication;
+
+public class Log {
   private static final String INFO_LEVEL = "INFO";
   private static final String WARNING_LEVEL = "WARNING";
   private static final String ERROR_LEVEL = "SEVERE";
@@ -8,6 +10,10 @@ public final class Log {
   private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
 
   private static void log(String level, String message, Throwable thrown) {
+    if (!RoboApplication.DEBUG) {
+      return;
+    }
+
     StringBuilder builder = new StringBuilder();
     long timeMillis = System.currentTimeMillis();
 

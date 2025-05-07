@@ -1,3 +1,5 @@
+package main;
+
 import core.EventLoop;
 import core.RoboController;
 import event.EventManager;
@@ -15,6 +17,8 @@ import util.Log;
  * This class initializes the application, sets up the event loop, and handles shutdown procedures.
  */
 public class RoboApplication {
+  public static final boolean DEBUG = true;
+
   /**
    * Sets up the event loop and initializes the necessary parts for the robot.
    *
