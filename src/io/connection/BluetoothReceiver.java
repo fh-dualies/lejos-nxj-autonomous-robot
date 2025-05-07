@@ -144,21 +144,24 @@ public class BluetoothReceiver implements ICommunicationChannel {
       return null;
     }
 
-    String[] parts = command.split("|");
-    if (parts.length != 3) {
+    int firstSep = command.indexOf('|');
+    int secondSep = (firstSep >= 0) ? command.indexOf('|', firstSep + 1) : -1;
+
+    if (firstSep < 0 || secondSep < 0) {
       return null;
     }
 
-    if (!parts[0].equals("MOVE")) {
+    String cmd = command.substring(0, firstSep).trim();
+    if (!cmd.equals("MOVE")) {
       return null;
     }
 
     try {
-      String speedStr = parts[1].trim();
-      String turnAngleStr = parts[2].trim();
+      String speedString = command.substring(firstSep + 1, secondSep).trim();
+      String turnAngleString = command.substring(secondSep + 1).trim();
 
-      int speed = Integer.parseInt(speedStr);
-      int turnAngle = Integer.parseInt(turnAngleStr);
+      int speed = Integer.parseInt(speedString);
+      int turnAngle = Integer.parseInt(turnAngleString);
 
       return new MoveCommand(speed, turnAngle);
     } catch (NumberFormatException e) {
