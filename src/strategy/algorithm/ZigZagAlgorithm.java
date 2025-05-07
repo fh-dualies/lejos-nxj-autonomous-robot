@@ -15,13 +15,13 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
   /**
    * The speed at which the robot moves forward.
    */
-  private static final int FORWARD_SPEED = DefaultSensorValues.MOTOR_MEDIUM_SPEED.getValue();
+  private static final int FORWARD_SPEED = DefaultSensorValues.MOTOR_MIN_SPEED.getIntValue();
 
   /**
    * The speed factor used for turning the robot.
    * This factor is used to adjust the speed of the outer wheel during turns.
    */
-  private static final int TURN_SPEED_FACTOR = DefaultSensorValues.MOTOR_TURN_SPEED_FACTOR.getValue();
+  private static final int TURN_SPEED_FACTOR = DefaultSensorValues.MOTOR_TURN_SPEED_FACTOR.getIntValue();
 
   /**
    * The RoboController instance used to control the robot.
@@ -74,7 +74,7 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
       return;
     }
 
-    if (currentLightValue > DefaultSensorValues.LIGHT_STRIPE_EDGE.getValue()) {
+    if (currentLightValue > DefaultSensorValues.LIGHT_STRIPE_EDGE.getIntValue()) {
       if (this.searchRight) {
         int leftSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
         int rightSpeed = FORWARD_SPEED;

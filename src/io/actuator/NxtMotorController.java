@@ -24,8 +24,8 @@ public class NxtMotorController implements IMotorController {
     this.leftMotor = Motor.A;
     this.rightMotor = Motor.B;
 
-    this.setInternalSpeed(DefaultSensorValues.MOTOR_MAX_SPEED.getValue(),
-                          DefaultSensorValues.MOTOR_MAX_SPEED.getValue());
+    this.setInternalSpeed(DefaultSensorValues.MOTOR_MAX_SPEED.getIntValue(),
+                          DefaultSensorValues.MOTOR_MAX_SPEED.getIntValue());
   }
 
   @Override
@@ -71,7 +71,7 @@ public class NxtMotorController implements IMotorController {
     this.leftMotor.setSpeed(Math.abs(leftSpeed));
     this.rightMotor.setSpeed(Math.abs(rightSpeed));
 
-    this.leftMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getValue());
-    this.rightMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getValue());
+    this.leftMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getIntValue());
+    this.rightMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getIntValue());
   }
 }

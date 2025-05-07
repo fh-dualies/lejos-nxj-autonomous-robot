@@ -6,31 +6,40 @@ package io.sensor;
  * The values are defined as constants to ensure consistency and avoid magic numbers in the code.
  */
 public enum DefaultSensorValues {
-  LIGHT_FLOOR_MIN(510),
-  LIGHT_FLOOR_MAX(600),
-  LIGHT_STRIPE_MIN(400),
-  LIGHT_STRIPE_MAX(490),
-  LIGHT_STRIPE_EDGE(50),
+  LIGHT_FLOOR_MIN(510f),
+  LIGHT_FLOOR_MAX(600f),
+  LIGHT_STRIPE_MIN(400f),
+  LIGHT_STRIPE_MAX(490f),
+  LIGHT_STRIPE_EDGE(50f),
 
-  DISTANCE_STOP_THRESHOLD(25), // the distance at which the robot should stop
+  DISTANCE_STOP_THRESHOLD(25f),
 
-  MOTOR_MAX_SPEED(720),
-  MOTOR_ACCELERATION(4500),
-  MOTOR_MEDIUM_SPEED(300),
-  MOTOR_TURN_SPEED_FACTOR(2); // factor for outer-wheel speed in turns
+  PID_KP(10f),
+  PID_KI(0f),
+  PID_KD(20f),
 
-  /**
-   * The value of the default sensor value.
-   */
-  private final int value;
-
-  /**
-   * @param value The value of the default sensor value.
-   */
-  DefaultSensorValues(int value) { this.value = value; }
+  MOTOR_MIN_SPEED(300f),
+  MOTOR_MAX_SPEED(720f),
+  MOTOR_ACCELERATION(4500f),
+  MOTOR_TURN_SPEED_FACTOR(2f);
 
   /**
-   * @return The value of the default sensor value.
+   * The default value for the sensor or motor.
    */
-  public int getValue() { return value; }
+  private final float value;
+
+  /**
+   * @param value The default value for the sensor or motor.
+   */
+  DefaultSensorValues(float value) { this.value = value; }
+
+  /**
+   * @return as int (casts down)
+   */
+  public int getIntValue() { return (int)value; }
+
+  /**
+   * @return as float
+   */
+  public float getFloatValue() { return value; }
 }
