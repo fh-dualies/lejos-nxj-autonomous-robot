@@ -14,6 +14,12 @@ public class PidAlgorithm implements IFollowingAlgorithm {
   private static final int MAX_BASE_SPEED = DefaultSensorValues.MOTOR_MAX_SPEED.getIntValue();
 
   /**
+   * The distance threshold for stopping and slowing down the robot.
+   */
+  private static final int STOP_DISTANCE = DefaultSensorValues.DISTANCE_STOP_THRESHOLD.getIntValue();
+  private static final int SLOW_DOWN_DISTANCE = DefaultSensorValues.DISTANCE_SLOW_DOWN_THRESHOLD.getIntValue();
+
+  /**
    * The speed factor used for turning the robot.
    * This factor is used to adjust the speed of the outer wheel during turns.
    */
@@ -40,6 +46,11 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    * with larger turns. TODO: This needs tuning
    */
   private static final float SPEED_REDUCTION_FACTOR_PER_TURN_UNIT = 1.5f;
+
+  /**
+   * This factor determines how much the speed is reduced when a collision is near.
+   */
+  private static final float SPEED_REDUCTION_FACTOR_COLLISION = 0.5f;
 
   /**
    * The RoboController instance used to control the robot.
@@ -93,20 +104,48 @@ public class PidAlgorithm implements IFollowingAlgorithm {
     }
 
     int currentLightValue = this.controller.getContext().getLastLightSensorValue();
+    int currentDistanceValue = this.controller.getContext().getLastDistanceSensorValue();
 
     if (currentLightValue == -1) {
       return;
     }
 
     int turn = this.pidController.doPID(currentLightValue);
-
-    // TODO: check if this works at all
-    float speedReduction = Math.abs(turn) * SPEED_REDUCTION_FACTOR_PER_TURN_UNIT;
-    int dynamicTargetSpeed = Math.max(MIN_BASE_SPEED, Math.min((int)(MAX_BASE_SPEED - speedReduction), MAX_BASE_SPEED));
+    int dynamicTargetSpeed = this.calculateDynamicTargetSpeed(turn);
 
     int leftSpeed = dynamicTargetSpeed + turn;
     int rightSpeed = dynamicTargetSpeed - turn;
 
+    if (currentDistanceValue == -1) {
+      this.motorController.forward(leftSpeed, rightSpeed);
+      return;
+    }
+
+    // TODO: check if collision detection works
+    if (currentDistanceValue < STOP_DISTANCE) {
+      this.motorController.stopMotors(true);
+      return;
+    }
+
+    if (currentDistanceValue < SLOW_DOWN_DISTANCE) {
+      leftSpeed = (int)(leftSpeed * SPEED_REDUCTION_FACTOR_COLLISION);
+      rightSpeed = (int)(rightSpeed * SPEED_REDUCTION_FACTOR_COLLISION);
+    }
+
     this.motorController.forward(leftSpeed, rightSpeed);
+  }
+
+  /**
+   * Calculates the dynamic target speed based on the turn value.
+   * The speed is reduced based on the absolute value of the turn.
+   *
+   * @param turn The turn value from the PID controller.
+   * @return The calculated dynamic target speed.
+   */
+  private int calculateDynamicTargetSpeed(int turn) {
+    // TODO: check if this works at all
+    float speedReduction = Math.abs(turn) * SPEED_REDUCTION_FACTOR_PER_TURN_UNIT;
+
+    return Math.max(MIN_BASE_SPEED, Math.min((int)(MAX_BASE_SPEED - speedReduction), MAX_BASE_SPEED));
   }
 }

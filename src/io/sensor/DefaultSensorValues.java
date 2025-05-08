@@ -13,6 +13,7 @@ public enum DefaultSensorValues {
   LIGHT_STRIPE_EDGE(50f),
 
   DISTANCE_STOP_THRESHOLD(25f),
+  DISTANCE_SLOW_DOWN_THRESHOLD(50f),
 
   PID_KP(10f),
   PID_KI(0f),
