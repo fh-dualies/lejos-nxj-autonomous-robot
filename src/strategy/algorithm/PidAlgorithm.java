@@ -128,11 +128,27 @@ public class PidAlgorithm implements IFollowingAlgorithm {
     }
 
     if (currentDistanceValue < SLOW_DOWN_DISTANCE) {
-      leftSpeed = (int)(leftSpeed * SPEED_REDUCTION_FACTOR_COLLISION);
-      rightSpeed = (int)(rightSpeed * SPEED_REDUCTION_FACTOR_COLLISION);
+      float dynamicReduction = this.calculateDynamicReduction(currentDistanceValue);
+
+      leftSpeed = (int)(leftSpeed * dynamicReduction);
+      rightSpeed = (int)(rightSpeed * dynamicReduction);
     }
 
     this.motorController.forward(leftSpeed, rightSpeed);
+  }
+
+  /**
+   * Calculates the dynamic reduction factor based on the current distance value.
+   * The reduction factor is calculated based on the distance to the stop threshold.
+   *
+   * @param currentDistanceValue The current distance value from the distance sensor.
+   * @return The calculated dynamic reduction factor.
+   */
+  private float calculateDynamicReduction(int currentDistanceValue) {
+    float range = SLOW_DOWN_DISTANCE - STOP_DISTANCE;
+    float ratio = (SLOW_DOWN_DISTANCE - currentDistanceValue) / range;
+
+    return 1f - (1f - SPEED_REDUCTION_FACTOR_COLLISION) * ratio;
   }
 
   /**
