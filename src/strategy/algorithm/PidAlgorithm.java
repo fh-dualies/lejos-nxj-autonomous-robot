@@ -2,55 +2,55 @@ package strategy.algorithm;
 
 import core.RoboController;
 import io.actuator.IMotorController;
-import io.sensor.DefaultSensorValues;
 import lejos.util.PIDController;
+import main.Config;
 import util.Log;
 
 public class PidAlgorithm implements IFollowingAlgorithm {
   /**
    * The minimum and maximum speed of the robot.
    */
-  private static final int MIN_BASE_SPEED = DefaultSensorValues.MOTOR_MIN_SPEED.getIntValue();
-  private static final int MAX_BASE_SPEED = DefaultSensorValues.MOTOR_MAX_SPEED.getIntValue();
+  private static final int MIN_BASE_SPEED = Config.MOTOR_MIN_SPEED.getIntValue();
+  private static final int MAX_BASE_SPEED = Config.MOTOR_MAX_SPEED.getIntValue();
 
   /**
    * The distance threshold for stopping and slowing down the robot.
    */
-  private static final int STOP_DISTANCE = DefaultSensorValues.DISTANCE_STOP_THRESHOLD.getIntValue();
-  private static final int SLOW_DOWN_DISTANCE = DefaultSensorValues.DISTANCE_SLOW_DOWN_THRESHOLD.getIntValue();
+  private static final int STOP_DISTANCE = Config.DISTANCE_STOP_THRESHOLD.getIntValue();
+  private static final int SLOW_DOWN_DISTANCE = Config.DISTANCE_SLOW_DOWN_THRESHOLD.getIntValue();
 
   /**
    * The speed factor used for turning the robot.
    * This factor is used to adjust the speed of the outer wheel during turns.
    */
-  private static final int LINE_EDGE_TARGET = DefaultSensorValues.LIGHT_STRIPE_EDGE.getIntValue();
+  private static final int LINE_EDGE_TARGET = Config.LIGHT_STRIPE_EDGE.getIntValue();
 
   /**
    * Proportional gain for the PID controller.
    */
-  private static final float KP = DefaultSensorValues.PID_KP.getFloatValue();
+  private static final float KP = Config.PID_KP.getFloatValue();
 
   /**
    * Integral gain for the PID controller.
    */
-  private static final float KI = DefaultSensorValues.PID_KI.getFloatValue();
+  private static final float KI = Config.PID_KI.getFloatValue();
 
   /**
    * Derivative gain for the PID controller.
    */
-  private static final float KD = DefaultSensorValues.PID_KD.getFloatValue();
+  private static final float KD = Config.PID_KD.getFloatValue();
 
   /**
    * This factor determines how much the absolute PID output (turn value)
    * reduces the base speed. A higher value means speed drops more quickly
    * with larger turns. TODO: This needs tuning
    */
-  private static final float SPEED_REDUCTION_FACTOR_PER_TURN_UNIT = 1.5f;
+  private static final float SPEED_REDUCTION_FACTOR_TURN = Config.SPEED_REDUCTION_FACTOR_TURN.getFloatValue();
 
   /**
    * This factor determines how much the speed is reduced when a collision is near.
    */
-  private static final float SPEED_REDUCTION_FACTOR_COLLISION = 0.5f;
+  private static final float SPEED_REDUCTION_FACTOR_COLLISION = Config.SPEED_REDUCTION_FACTOR_COLLISION.getFloatValue();
 
   /**
    * The RoboController instance used to control the robot.
@@ -144,7 +144,7 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    */
   private int calculateDynamicTargetSpeed(int turn) {
     // TODO: check if this works at all
-    float speedReduction = Math.abs(turn) * SPEED_REDUCTION_FACTOR_PER_TURN_UNIT;
+    float speedReduction = Math.abs(turn) * SPEED_REDUCTION_FACTOR_TURN;
 
     return Math.max(MIN_BASE_SPEED, Math.min((int)(MAX_BASE_SPEED - speedReduction), MAX_BASE_SPEED));
   }

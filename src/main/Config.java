@@ -1,11 +1,11 @@
-package io.sensor;
+package main;
 
 /**
- * DefaultSensorValues is an enumeration that defines default values for various sensors and motors.
- * These values are used as a reference for sensor readings and motor configurations.
- * The values are defined as constants to ensure consistency and avoid magic numbers in the code.
+ * Config is an enum that contains configuration values for the robot's sensors and motors.
+ * These values are used to set thresholds, PID parameters, and motor speeds.
+ * The values are defined as constants and can be accessed using the enum name.
  */
-public enum DefaultSensorValues {
+public enum Config {
   LIGHT_FLOOR_MIN(510f),
   LIGHT_FLOOR_MAX(600f),
   LIGHT_STRIPE_MIN(400f),
@@ -14,6 +14,9 @@ public enum DefaultSensorValues {
 
   DISTANCE_STOP_THRESHOLD(25f),
   DISTANCE_SLOW_DOWN_THRESHOLD(50f),
+
+  SPEED_REDUCTION_FACTOR_TURN(1.5f),
+  SPEED_REDUCTION_FACTOR_COLLISION(0.5f),
 
   PID_KP(10f),
   PID_KI(0f),
@@ -32,7 +35,7 @@ public enum DefaultSensorValues {
   /**
    * @param value The default value for the sensor or motor.
    */
-  DefaultSensorValues(float value) { this.value = value; }
+  Config(float value) { this.value = value; }
 
   /**
    * @return as int (casts down)

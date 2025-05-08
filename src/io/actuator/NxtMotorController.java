@@ -1,8 +1,8 @@
 package io.actuator;
 
-import io.sensor.DefaultSensorValues;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
+import main.Config;
 
 /**
  * NxtMotorController is a class that controls the motors of the NXT robot.
@@ -24,8 +24,7 @@ public class NxtMotorController implements IMotorController {
     this.leftMotor = Motor.A;
     this.rightMotor = Motor.B;
 
-    this.setInternalSpeed(DefaultSensorValues.MOTOR_MAX_SPEED.getIntValue(),
-                          DefaultSensorValues.MOTOR_MAX_SPEED.getIntValue());
+    this.setInternalSpeed(Config.MOTOR_MAX_SPEED.getIntValue(), Config.MOTOR_MAX_SPEED.getIntValue());
   }
 
   @Override
@@ -71,7 +70,7 @@ public class NxtMotorController implements IMotorController {
     this.leftMotor.setSpeed(Math.abs(leftSpeed));
     this.rightMotor.setSpeed(Math.abs(rightSpeed));
 
-    this.leftMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getIntValue());
-    this.rightMotor.setAcceleration(DefaultSensorValues.MOTOR_ACCELERATION.getIntValue());
+    this.leftMotor.setAcceleration(Config.MOTOR_ACCELERATION.getIntValue());
+    this.rightMotor.setAcceleration(Config.MOTOR_ACCELERATION.getIntValue());
   }
 }
