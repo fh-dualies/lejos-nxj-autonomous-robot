@@ -4,7 +4,6 @@ import io.connection.BluetoothReceiver;
 import io.connection.BluetoothTransmitter;
 import io.sensor.reader.LightSensorReader;
 import io.sensor.reader.UltrasonicSensorReader;
-import lejos.nxt.Button;
 import lejos.util.Delay;
 import util.Log;
 
@@ -97,17 +96,14 @@ public class EventLoop implements Runnable {
     this.running = true;
 
     while (this.running) {
-      if (Button.ESCAPE.isDown()) {
-        this.stop();
-        continue;
-      }
-
       try {
         this.lightSensorReader.checkValue();
         this.ultrasonicSensorReader.checkValue();
 
         this.bluetoothReceiver.checkForCommands();
         this.bluetoothTransmitter.exposeEvents();
+
+        this.controller.checkForPressedButtons();
         this.controller.run();
 
         Delay.msDelay(LOOP_DELAY);

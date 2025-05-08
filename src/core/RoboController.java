@@ -1,5 +1,6 @@
 package core;
 
+import event.ButtonEvent;
 import event.CommandEvent;
 import event.EventManager;
 import event.SensorEvent;
@@ -10,6 +11,7 @@ import io.actuator.IMotorController;
 import io.command.ExitCommand;
 import io.command.ICommand;
 import io.connection.BluetoothTransmitter;
+import lejos.nxt.Button;
 import state.AbstractRoboState;
 import state.AutonomousState;
 import strategy.IDrivingStrategy;
@@ -56,6 +58,22 @@ public class RoboController implements IEventListener {
   }
 
   /**
+   * This method is called to check for pressed buttons. It checks if the ENTER or ESCAPE button
+   * is pressed and dispatches the corresponding event.
+   */
+  public void checkForPressedButtons() {
+    EventManager eventManager = this.context.getEventManager();
+
+    if (Button.ENTER.isDown()) {
+      eventManager.dispatch(new ButtonEvent(Button.ENTER.toString()));
+    }
+
+    if (Button.ESCAPE.isDown()) {
+      eventManager.dispatch(new ButtonEvent(Button.ESCAPE.toString()));
+    }
+  }
+
+  /**
    * This method is called to handle incoming events. It dispatches the event to the
    * current state and handles any exceptions that occur.
    *
@@ -80,6 +98,10 @@ public class RoboController implements IEventListener {
       return;
     }
 
+    if (event instanceof ButtonEvent) {
+      this.handleButtonEvent((ButtonEvent)event);
+    }
+
     if (event instanceof CommandEvent) {
       this.handleCommandEvent((CommandEvent)event);
     }
@@ -98,6 +120,24 @@ public class RoboController implements IEventListener {
       stateToNotify.handleEvent(this, event);
     } else {
       Log.warning("no state to notify");
+    }
+  }
+
+  private void handleButtonEvent(ButtonEvent event) {
+    if (event == null) {
+      return;
+    }
+
+    String buttonId = event.getButtonId();
+
+    if (buttonId == null || buttonId.isEmpty()) {
+      return;
+    }
+
+    if (buttonId.equals(Button.ESCAPE.toString())) {
+      System.exit(0);
+    } else {
+      Log.warning("unknown button pressed: " + buttonId);
     }
   }
 
