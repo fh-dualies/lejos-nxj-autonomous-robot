@@ -121,7 +121,6 @@ public class PidAlgorithm implements IFollowingAlgorithm {
       return;
     }
 
-    // TODO: check if collision detection works
     if (currentDistanceValue < STOP_DISTANCE) {
       this.motorController.stopMotors(true);
       return;
@@ -159,7 +158,6 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    * @return The calculated dynamic target speed.
    */
   private int calculateDynamicTargetSpeed(int turn) {
-    // TODO: check if this works at all
     float speedReduction = Math.abs(turn) * SPEED_REDUCTION_FACTOR_TURN;
 
     return Math.max(MIN_BASE_SPEED, Math.min((int)(MAX_BASE_SPEED - speedReduction), MAX_BASE_SPEED));

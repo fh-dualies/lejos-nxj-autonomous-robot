@@ -1,7 +1,6 @@
-package io.sensor.reader;
+package io.sensor;
 
 import event.EventManager;
-import io.sensor.SensorType;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 

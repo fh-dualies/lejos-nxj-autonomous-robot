@@ -1,8 +1,7 @@
-package io.sensor.reader;
+package io.sensor;
 
 import event.EventManager;
 import event.SensorEvent;
-import io.sensor.SensorType;
 
 /**
  * Abstract class for reading sensor values.

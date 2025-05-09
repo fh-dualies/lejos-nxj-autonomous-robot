@@ -2,8 +2,8 @@ package core;
 
 import io.connection.BluetoothReceiver;
 import io.connection.BluetoothTransmitter;
-import io.sensor.reader.LightSensorReader;
-import io.sensor.reader.UltrasonicSensorReader;
+import io.sensor.LightSensorReader;
+import io.sensor.UltrasonicSensorReader;
 import lejos.util.Delay;
 import util.Log;
 
