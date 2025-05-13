@@ -8,6 +8,7 @@ package main;
 public enum Config {
   LOOP_DELAY(15),
   SENSOR_REPORT_THRESHOLD(3),
+  SYSTEM_MONITOR_LOG_DELAY(1000),
 
   LIGHT_FLOOR_MIN(510f),
   LIGHT_FLOOR_MAX(600f),
