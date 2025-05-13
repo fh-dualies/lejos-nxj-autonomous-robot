@@ -26,14 +26,10 @@ public class Log {
 
     builder.append(timeMillis);
     builder.append(" [").append(level);
-
-    for (int i = level.length(); i < 7; i++) {
-      builder.append(' ');
-    }
-
     builder.append("] ");
     builder.append(message);
     builder.append(LINE_SEPARATOR);
+    
     java.io.PrintStream out = ERROR_LEVEL.equals(level) ? System.err : System.out;
     String msg = builder.toString();
     out.println(msg);

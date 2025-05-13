@@ -1,6 +1,7 @@
 package core;
 
 import io.connection.BluetoothReceiver;
+import util.SystemMonitor;
 import io.connection.BluetoothTransmitter;
 import io.sensor.LightSensorReader;
 import io.sensor.UltrasonicSensorReader;
@@ -105,7 +106,8 @@ public class EventLoop implements Runnable {
 
         this.controller.checkForPressedButtons();
         this.controller.run();
-
+        
+        SystemMonitor.readMemoryUsage();
         Delay.msDelay(LOOP_DELAY);
       } catch (Exception e) {
         Log.error("loop error", e);

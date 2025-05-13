@@ -18,7 +18,7 @@ public enum Config {
   SPEED_REDUCTION_FACTOR_TURN(1.15f),
   SPEED_REDUCTION_FACTOR_COLLISION(0.5f),
 
-  PID_KP(10f),
+  PID_KP(15f),
   PID_KI(0f),
   PID_KD(20f),
 

@@ -13,18 +13,9 @@
 - Tom Steinbach
 - Floriane Monga
 
-### Value ranges
+### TODO
 
-#### Light
-
-- floor: 510 - 600
-- mid: 490 - 510
-- stripe: 400 - 490
-
-#### Speed
-
-- safe max. 720
-
-#### Distance
-
-- hard stop: <25
+- Find line state
+- Calibration state + history of ~Light values to find optimal "middle" value
+- System monitor (CPU, RAM)
+- 
