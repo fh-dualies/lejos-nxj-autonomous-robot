@@ -20,7 +20,7 @@ public class EventLoop implements Runnable {
    * The delay in milliseconds between iterations of the event loop. This controls the frequency of
    * sensor checks and command processing.
    */
-  private static final int LOOP_DELAY = 20;
+  private static final int LOOP_DELAY = 15;
 
   /**
    * The RoboController instance that manages the robot's behavior. It serves as a context object,
