@@ -13,6 +13,7 @@ import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import state.RoboStates;
 import util.Log;
+import util.StringUtil;
 
 /**
  * BluetoothReceiver is responsible for managing the Bluetooth connection and receiving commands
@@ -111,20 +112,16 @@ public class BluetoothReceiver implements ICommunicationChannel {
     }
 
     // switch state commands
-    switch (command) {
-    case "IDLE":
-      return new SwitchStateCommand(RoboStates.IDLE);
-    case "AUTONOMOUS":
-      return new SwitchStateCommand(RoboStates.AUTONOMOUS);
-    case "MANUAL":
-      return new SwitchStateCommand(RoboStates.MANUAL);
+    ICommand result = null;
+    result = this.parseStateCommand(command);
+    if (result != null) {
+      return result;
     }
 
     // move commands
-    ICommand moveCommand = this.parseMoveCommand(command);
-
-    if (moveCommand != null) {
-      return moveCommand;
+    result = this.parseMoveCommand(command);
+    if (result != null) {
+      return result;
     }
 
     Log.warning("unknown command: " + command);
@@ -144,21 +141,20 @@ public class BluetoothReceiver implements ICommunicationChannel {
       return null;
     }
 
-    int firstSep = command.indexOf('|');
-    int secondSep = (firstSep >= 0) ? command.indexOf('|', firstSep + 1) : -1;
+    String[] parts = StringUtil.split(command, "|");
 
-    if (firstSep < 0 || secondSep < 0) {
+    if (parts.length != 3) {
       return null;
     }
 
-    String cmd = command.substring(0, firstSep).trim();
+    String cmd = parts[0].trim();
     if (!cmd.equals("MOVE")) {
       return null;
     }
 
     try {
-      String speedString = command.substring(firstSep + 1, secondSep).trim();
-      String turnAngleString = command.substring(secondSep + 1).trim();
+      String speedString = parts[1].trim();
+      String turnAngleString = parts[2].trim();
 
       int speed = Integer.parseInt(speedString);
       int turnAngle = Integer.parseInt(turnAngleString);
@@ -173,6 +169,36 @@ public class BluetoothReceiver implements ICommunicationChannel {
     }
   }
 
+  private ICommand parseStateCommand(String command) {
+    if (command == null || command.isEmpty()) {
+      return null;
+    }
+
+    String[] parts = StringUtil.split(command, "|");
+
+    if (parts.length != 2) {
+      return null;
+    }
+
+    String cmd = parts[0].trim();
+    if (!cmd.equals("STATE")) {
+      return null;
+    }
+
+    String stateString = parts[1].trim();
+
+    switch (stateString) {
+    case "IDLE":
+      return new SwitchStateCommand(RoboStates.IDLE);
+    case "AUTONOMOUS":
+      return new SwitchStateCommand(RoboStates.AUTONOMOUS);
+    case "MANUAL":
+      return new SwitchStateCommand(RoboStates.MANUAL);
+    }
+
+    Log.warning("unknown state in command: " + command);
+    return null;
+  }
   /**
    * Establishes a Bluetooth connection and waits for a remote device to connect.
    * It displays the connection status on the LCD screen.
