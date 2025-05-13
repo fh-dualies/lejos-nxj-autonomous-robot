@@ -43,7 +43,7 @@ public class PidAlgorithm implements IFollowingAlgorithm {
   /**
    * This factor determines how much the absolute PID output (turn value)
    * reduces the base speed. A higher value means speed drops more quickly
-   * with larger turns. TODO: This needs tuning
+   * with larger turns.
    */
   private static final float SPEED_REDUCTION_FACTOR_TURN = Config.SPEED_REDUCTION_FACTOR_TURN.getFloatValue();
 

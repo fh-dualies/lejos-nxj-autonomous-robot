@@ -199,6 +199,7 @@ public class BluetoothReceiver implements ICommunicationChannel {
     Log.warning("unknown state in command: " + command);
     return null;
   }
+
   /**
    * Establishes a Bluetooth connection and waits for a remote device to connect.
    * It displays the connection status on the LCD screen.

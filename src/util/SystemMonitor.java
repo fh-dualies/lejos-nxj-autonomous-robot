@@ -1,7 +1,7 @@
 package util;
 
 public class SystemMonitor {
-  public static void readMemoryUsage( ) {
+  public static void logMemoryUsage() {
     Runtime runtime = Runtime.getRuntime();
 
     long totalMemory = runtime.totalMemory();
@@ -15,8 +15,8 @@ public class SystemMonitor {
       return bytes + "B";
     }
 
-    int exp = (int) (Math.log(bytes) / Math.log(1024));
-    String pre = "KMGTPE".charAt(exp-1) + "";
+    int exp = (int)(Math.log(bytes) / Math.log(1024));
+    String pre = "KMGTPE".charAt(exp - 1) + "";
 
     return bytes / Math.pow(1024, exp) + " " + pre;
   }

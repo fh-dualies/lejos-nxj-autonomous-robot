@@ -6,6 +6,9 @@ package main;
  * The values are defined as constants and can be accessed using the enum name.
  */
 public enum Config {
+  LOOP_DELAY(15),
+  SENSOR_REPORT_THRESHOLD(3),
+
   LIGHT_FLOOR_MIN(510f),
   LIGHT_FLOOR_MAX(600f),
   LIGHT_STRIPE_MIN(400f),
@@ -22,7 +25,7 @@ public enum Config {
   PID_KI(0f),
   PID_KD(20f),
 
-  MOTOR_MIN_SPEED(150f), 
+  MOTOR_MIN_SPEED(150f),
   MOTOR_MAX_SPEED(350f),
   MOTOR_ACCELERATION(2500f),
   MOTOR_TURN_SPEED_FACTOR(2f);

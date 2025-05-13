@@ -1,12 +1,13 @@
 package core;
 
 import io.connection.BluetoothReceiver;
-import util.SystemMonitor;
 import io.connection.BluetoothTransmitter;
 import io.sensor.LightSensorReader;
 import io.sensor.UltrasonicSensorReader;
 import lejos.util.Delay;
+import main.Config;
 import util.Log;
+import util.SystemMonitor;
 
 /**
  * The main event loop for the robot.
@@ -21,7 +22,7 @@ public class EventLoop implements Runnable {
    * The delay in milliseconds between iterations of the event loop. This controls the frequency of
    * sensor checks and command processing.
    */
-  private static final int LOOP_DELAY = 15;
+  private static final int LOOP_DELAY = Config.LOOP_DELAY.getIntValue();
 
   /**
    * The RoboController instance that manages the robot's behavior. It serves as a context object,
@@ -106,8 +107,8 @@ public class EventLoop implements Runnable {
 
         this.controller.checkForPressedButtons();
         this.controller.run();
-        
-        SystemMonitor.readMemoryUsage();
+
+        SystemMonitor.logMemoryUsage();
         Delay.msDelay(LOOP_DELAY);
       } catch (Exception e) {
         Log.error("loop error", e);

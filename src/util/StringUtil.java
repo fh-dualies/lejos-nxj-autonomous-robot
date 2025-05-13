@@ -9,7 +9,7 @@ public class StringUtil {
       return new String[0];
     }
 
-    List<String> list = new ArrayList<String>();
+    List<String> list = new ArrayList<>();
 
     int start = 0;
     int index = 0;
@@ -25,6 +25,7 @@ public class StringUtil {
     for (int i = 0; i < list.size(); i++) {
       result[i] = list.get(i);
     }
+
     return result;
   }
 
@@ -39,7 +40,7 @@ public class StringUtil {
       return result;
     }
 
-    List<String> list = new ArrayList<String>();
+    List<String> list = new ArrayList<>();
 
     int start = 0;
     int index = 0;
@@ -58,6 +59,7 @@ public class StringUtil {
     for (int i = 0; i < list.size(); i++) {
       result[i] = list.get(i);
     }
+
     return result;
   }
 }

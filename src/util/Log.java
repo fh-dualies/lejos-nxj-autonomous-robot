@@ -8,13 +8,10 @@ public class Log {
   private static final String INFO_LEVEL = "INFO";
   private static final String WARNING_LEVEL = "WARNING";
   private static final String ERROR_LEVEL = "SEVERE";
+  private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
   private static EventManager eventManager = null;
 
-  public static void setEventManager(EventManager eventManager) {
-    Log.eventManager = eventManager;
-  }
-
-  private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
+  public static void setEventManager(EventManager eventManager) { Log.eventManager = eventManager; }
 
   private static void log(String level, String message, Throwable thrown) {
     if (!RoboApplication.DEBUG) {
@@ -29,7 +26,7 @@ public class Log {
     builder.append("] ");
     builder.append(message);
     builder.append(LINE_SEPARATOR);
-    
+
     java.io.PrintStream out = ERROR_LEVEL.equals(level) ? System.err : System.out;
     String msg = builder.toString();
     out.println(msg);

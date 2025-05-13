@@ -49,9 +49,5 @@ public class AutonomousState extends AbstractRoboState {
    * @param controller The RoboController instance that manages the robot's state.
    * @param event      The event that occurred.
    */
-  public void handleEvent(RoboController controller, AbstractEvent event) {
-    this.handleSwitchEvent(controller, event);
-
-    // TODO: handle other events
-  }
+  public void handleEvent(RoboController controller, AbstractEvent event) { this.handleSwitchEvent(controller, event); }
 }
