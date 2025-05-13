@@ -26,6 +26,7 @@ public class RoboApplication {
    */
   private static EventLoop setupEventLoop() {
     EventManager eventManager = new EventManager();
+    Log.setEventManager(eventManager);
     NxtMotorController nxtMotorController = new NxtMotorController();
     BluetoothTransmitter bluetoothTransmitter = new BluetoothTransmitter();
 

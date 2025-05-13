@@ -1,11 +1,18 @@
 package util;
 
+import event.EventManager;
+import event.RemoteLogEvent;
 import main.RoboApplication;
 
 public class Log {
   private static final String INFO_LEVEL = "INFO";
   private static final String WARNING_LEVEL = "WARNING";
   private static final String ERROR_LEVEL = "SEVERE";
+  private static EventManager eventManager = null;
+
+  public static void setEventManager(EventManager eventManager) {
+    Log.eventManager = eventManager;
+  }
 
   private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
 
@@ -28,7 +35,12 @@ public class Log {
     builder.append(message);
     builder.append(LINE_SEPARATOR);
     java.io.PrintStream out = ERROR_LEVEL.equals(level) ? System.err : System.out;
-    out.println(builder);
+    String msg = builder.toString();
+    out.println(msg);
+
+    if (Log.eventManager != null) {
+      Log.eventManager.dispatch(new RemoteLogEvent(msg));
+    }
 
     if (thrown != null) {
       out.print("Stack trace for previous log entry:" + LINE_SEPARATOR);
