@@ -1,9 +1,6 @@
 package core;
 
-import event.ButtonEvent;
-import event.CommandEvent;
-import event.EventManager;
-import event.SensorEvent;
+import event.*;
 import event.base.AbstractEvent;
 import event.base.IEventListener;
 import event.base.IExposableEvent;
@@ -184,6 +181,8 @@ public class RoboController implements IEventListener {
 
     this.context.setCurrentState(newState);
     newState.onEnter(this);
+
+    this.getContext().getEventManager().dispatch(new ChangeStateEvent(newState.getState()));
   }
 
   /**

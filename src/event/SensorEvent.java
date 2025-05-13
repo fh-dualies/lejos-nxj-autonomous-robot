@@ -67,5 +67,5 @@ public class SensorEvent extends AbstractEvent implements IExposableEvent {
   /**
    * @return a string representation of the sensor event
    */
-  public String toExposableString() { return this.sensorType.getName() + ":" + this.value; }
+  public String toExposableString() { return "SENSOR|" + this.sensorType.getName() + "|" + this.value; }
 }
