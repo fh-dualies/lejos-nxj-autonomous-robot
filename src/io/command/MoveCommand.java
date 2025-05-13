@@ -12,10 +12,10 @@ public class MoveCommand implements ICommand {
   private final int turnAngle;
 
   /**
-   * @throws IllegalArgumentException if speed or turnAngle are lower then zero
+   * @throws IllegalArgumentException if speed is lower then zero
    */
   public MoveCommand(int speed, int turnAngle) {
-    if (speed < 0 || turnAngle < 0) {
+    if (speed < 0) {
       throw new IllegalArgumentException();
     }
 

@@ -112,7 +112,7 @@ public class BluetoothReceiver implements ICommunicationChannel {
     }
 
     // switch state commands
-    ICommand result = null;
+    ICommand result;
     result = this.parseStateCommand(command);
     if (result != null) {
       return result;
