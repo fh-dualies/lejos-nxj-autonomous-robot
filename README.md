@@ -16,4 +16,3 @@
 ### TODO
 
 - Find line state
-- history of Light values to find optimal "middle" value

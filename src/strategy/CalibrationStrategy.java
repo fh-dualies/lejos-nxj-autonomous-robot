@@ -6,6 +6,7 @@ import event.SensorEvent;
 import event.base.AbstractEvent;
 import event.base.IEventListener;
 import io.sensor.SensorType;
+import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import state.IdleState;
@@ -13,7 +14,12 @@ import util.Log;
 
 public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
   /**
-   * The motor controller used to control the robot's motors.
+   * The sensor value store used to store the light sensor values.
+   */
+  private final SensorValueStore sensorValueStore;
+
+  /**
+   * The RoboController instance used to control the robot.
    */
   private final RoboController controller;
 
@@ -33,11 +39,12 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
    * @throws NullPointerException if the motor controller is null.
    */
   public CalibrationStrategy(RoboController controller) {
-    if (controller == null) {
+    if (controller == null || controller.getContext().getSensorValueStore() == null) {
       throw new NullPointerException();
     }
 
     this.controller = controller;
+    this.sensorValueStore = controller.getContext().getSensorValueStore();
   }
 
   @Override
@@ -109,7 +116,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
       return;
     }
 
-    int currentValue = this.controller.getContext().getLastLightSensorValue();
+    int currentValue = this.sensorValueStore.getLastLightSensorValue();
 
     switch (step) {
     case FLOOR:
@@ -121,7 +128,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
       this.step = CalibrationStep.DONE;
       break;
     case DONE:
-      this.controller.getContext().updateCalibrationValues(this.floorLightValue, this.stripeLightValue);
+      this.sensorValueStore.updateCalibrationValues(this.floorLightValue, this.stripeLightValue);
       this.controller.setState(new IdleState());
       break;
     }

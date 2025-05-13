@@ -68,7 +68,7 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
 
   @Override
   public void run() {
-    int currentLightValue = this.controller.getContext().getLastLightSensorValue();
+    int currentLightValue = this.controller.getContext().getSensorValueStore().getLastLightSensorValue();
 
     if (currentLightValue == -1) {
       return;

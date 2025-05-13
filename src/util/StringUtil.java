@@ -3,7 +3,7 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringUtil {
+public final class StringUtil {
   public static String[] split(String str, String delimiter) {
     if (str == null || delimiter == null) {
       return new String[0];

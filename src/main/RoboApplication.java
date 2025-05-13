@@ -16,7 +16,7 @@ import util.Log;
  * Main class for the Megamen Robo Application.
  * This class initializes the application, sets up the event loop, and handles shutdown procedures.
  */
-public class RoboApplication {
+public final class RoboApplication {
   public static final boolean DEBUG = true;
 
   /**

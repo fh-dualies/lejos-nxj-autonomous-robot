@@ -8,6 +8,7 @@ import io.actuator.IMotorController;
 import io.command.ExitCommand;
 import io.command.ICommand;
 import io.connection.BluetoothTransmitter;
+import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
 import state.AbstractRoboState;
 import state.CalibrationState;
@@ -18,7 +19,7 @@ import util.Log;
  * RoboController is the main controller for the robot. It handles events and executes
  * the robot's driving strategy, using RoboContext to store and access state.
  */
-public class RoboController implements IEventListener {
+public final class RoboController implements IEventListener {
   /**
    * The context containing all state data for the robot.
    */
@@ -30,7 +31,7 @@ public class RoboController implements IEventListener {
    */
   public RoboController(EventManager eventManager, IMotorController motorController,
                         BluetoothTransmitter bluetoothTransmitter) {
-    this.context = new RoboContext(eventManager, motorController, bluetoothTransmitter);
+    this.context = new RoboContext(eventManager, motorController, bluetoothTransmitter, new SensorValueStore());
 
     this.setState(new CalibrationState());
     this.context.getEventManager().addListener(this);
@@ -104,7 +105,7 @@ public class RoboController implements IEventListener {
     }
 
     if (event instanceof SensorEvent) {
-      this.context.updateFromSensorEvent((SensorEvent)event);
+      this.context.getSensorValueStore().updateFromSensorEvent((SensorEvent)event);
     }
 
     if (event instanceof IExposableEvent) {

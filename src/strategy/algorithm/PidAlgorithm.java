@@ -1,8 +1,8 @@
 package strategy.algorithm;
 
-import core.RoboContext;
 import core.RoboController;
 import io.actuator.IMotorController;
+import io.sensor.SensorValueStore;
 import lejos.util.PIDController;
 import main.Config;
 import util.Log;
@@ -58,10 +58,9 @@ public class PidAlgorithm implements IFollowingAlgorithm {
   private final IMotorController motorController;
 
   /**
-   * The speed factor used for turning the robot.
-   * This factor is used to adjust the speed of the outer wheel during turns.
+   * The sensor value store used to hold the latest sensor readings and calibration values.
    */
-  private int lineEdgeTarget = -1;
+  private final SensorValueStore sensorValueStore;
 
   /**
    * The PID controller used to control the robot's speed and direction.
@@ -69,33 +68,27 @@ public class PidAlgorithm implements IFollowingAlgorithm {
   private PIDController pidController = null;
 
   public PidAlgorithm(RoboController controller) {
-    if (controller == null || controller.getContext().getMotorController() == null) {
+    if (controller == null || controller.getContext().getMotorController() == null ||
+        controller.getContext().getSensorValueStore() == null) {
       throw new NullPointerException();
     }
 
     this.controller = controller;
     this.motorController = controller.getContext().getMotorController();
-
-    RoboContext context = controller.getContext();
-
-    if (context.getFloorCalibrationLightValue() < 0 || context.getStripeCalibrationLightValue() < 0) {
-      throw new IllegalStateException("Calibration light value not set");
-    }
-
-    this.lineEdgeTarget = (context.getFloorCalibrationLightValue() + context.getStripeCalibrationLightValue()) / 2;
+    this.sensorValueStore = controller.getContext().getSensorValueStore();
   }
 
   @Override
   public void initialize() {
     Log.info("PidAlgorithm initialized");
 
-    if (this.lineEdgeTarget < 0) {
+    if (this.sensorValueStore.getLineEdgeLightValue() < 0) {
       throw new IllegalStateException("LINE_EDGE_TARGET is negative");
     }
 
-    Log.info("PidAlgorithm initialized with LINE_EDGE_TARGET: " + this.lineEdgeTarget);
+    Log.info("PidAlgorithm initialized with LINE_EDGE_TARGET: " + this.sensorValueStore.getLineEdgeLightValue());
 
-    this.pidController = new PIDController(this.lineEdgeTarget, 0);
+    this.pidController = new PIDController(this.sensorValueStore.getLineEdgeLightValue(), 0);
     this.pidController.setPIDParam(PIDController.PID_KP, KP);
     this.pidController.setPIDParam(PIDController.PID_KI, KI);
     this.pidController.setPIDParam(PIDController.PID_KD, KD);
@@ -118,8 +111,8 @@ public class PidAlgorithm implements IFollowingAlgorithm {
       return;
     }
 
-    int currentLightValue = this.controller.getContext().getLastLightSensorValue();
-    int currentDistanceValue = this.controller.getContext().getLastDistanceSensorValue();
+    int currentLightValue = this.sensorValueStore.getLastLightSensorValue();
+    int currentDistanceValue = this.sensorValueStore.getLastDistanceSensorValue();
 
     if (currentLightValue == -1) {
       return;

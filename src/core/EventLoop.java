@@ -17,7 +17,7 @@ import util.SystemMonitor;
  * with a fixed delay between iterations. It also handles resource
  * cleanup when the loop is terminated.
  */
-public class EventLoop implements Runnable {
+public final class EventLoop implements Runnable {
   /**
    * The delay in milliseconds between iterations of the event loop. This controls the frequency of
    * sensor checks and command processing.

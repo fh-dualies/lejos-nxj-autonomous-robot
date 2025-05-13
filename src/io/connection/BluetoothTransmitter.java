@@ -11,7 +11,7 @@ import util.Log;
  * It is intended to be as the remote control for the robot.
  * It provides methods to set up the connection, send data, and close the stream.
  */
-public class BluetoothTransmitter implements ICommunicationChannel {
+public final class BluetoothTransmitter implements ICommunicationChannel {
   /**
    * A list of events that can be exposed to the Bluetooth connection.
    * This is used to send events to the connected device.

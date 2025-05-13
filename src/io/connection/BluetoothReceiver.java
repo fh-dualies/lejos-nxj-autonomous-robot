@@ -20,7 +20,7 @@ import util.StringUtil;
  * from a connected device. It is intended to be used for the robot to receive commands from a remote connection.
  * It listens for incoming commands, parses them, and dispatches them to the event manager.
  */
-public class BluetoothReceiver implements ICommunicationChannel {
+public final class BluetoothReceiver implements ICommunicationChannel {
   /**
    * Used to send command events to the event manager for processing.
    */

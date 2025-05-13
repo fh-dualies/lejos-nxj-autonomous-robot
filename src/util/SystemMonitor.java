@@ -6,7 +6,7 @@ import main.Config;
  * The SystemMonitor class is responsible for monitoring the system's memory usage and logging it
  * periodically. It provides a method to log the current memory usage in a human-readable format.
  */
-public class SystemMonitor {
+public final class SystemMonitor {
   /**
    * The delay in milliseconds between memory usage logs. This controls how frequently the memory
    * usage is logged.

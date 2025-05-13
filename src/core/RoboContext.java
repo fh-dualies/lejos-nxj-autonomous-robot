@@ -1,11 +1,9 @@
 package core;
 
 import event.EventManager;
-import event.SensorEvent;
 import io.actuator.IMotorController;
 import io.connection.BluetoothTransmitter;
-import io.sensor.SensorType;
-import main.Config;
+import io.sensor.SensorValueStore;
 import state.AbstractRoboState;
 import strategy.IDrivingStrategy;
 
@@ -13,7 +11,7 @@ import strategy.IDrivingStrategy;
  * RoboContext stores all the state and configuration data for the robot.
  * It is used by the RoboController to access and modify the robot's state.
  */
-public class RoboContext {
+public final class RoboContext {
   /**
    * The event manager. This is used to dispatch events and register listeners.
    */
@@ -30,26 +28,9 @@ public class RoboContext {
   private final BluetoothTransmitter bluetoothTransmitter;
 
   /**
-   * The last value read from the light sensor. This is used to determine the current state of the robot. It is received
-   * by sensor events.
+   * Store for sensor values. This is used to store the last values read from the sensors.
    */
-  private volatile int lastLightSensorValue = -1;
-
-  /**
-   * The last value read from the distance sensor. This is used to determine the current state of the robot. It is
-   * received by sensor events.
-   */
-  private volatile int lastDistanceSensorValue = -1;
-
-  /**
-   * The calibration value for the floor light sensor.
-   */
-  private volatile int floorCalibrationLightValue = Config.DEFAULT_FLOOR_LIGHT.getIntValue();
-
-  /**
-   * The calibration value for the stripe light sensor.
-   */
-  private volatile int stripeCalibrationLightValue = Config.DEFAULT_STRIPE_LIGHT.getIntValue();
+  private final SensorValueStore sensorValueStore;
 
   /**
    * The current state of the robot. This is the state that is currently active and will be called to handle incoming
@@ -67,7 +48,7 @@ public class RoboContext {
    * @param motorController The motor controller used to control the motors of the robot.
    */
   public RoboContext(EventManager eventManager, IMotorController motorController,
-                     BluetoothTransmitter bluetoothTransmitter) {
+                     BluetoothTransmitter bluetoothTransmitter, SensorValueStore sensorValueStore) {
     if (eventManager == null || motorController == null) {
       throw new NullPointerException();
     }
@@ -75,40 +56,7 @@ public class RoboContext {
     this.eventManager = eventManager;
     this.motorController = motorController;
     this.bluetoothTransmitter = bluetoothTransmitter;
-  }
-
-  /**
-   * Updates the sensor values based on a sensor event.
-   *
-   * @param event The sensor event containing new sensor data.
-   */
-  public void updateFromSensorEvent(SensorEvent event) {
-    if (event == null) {
-      throw new NullPointerException();
-    }
-
-    if (event.getSensorType() == SensorType.LIGHT) {
-      this.lastLightSensorValue = event.getValue();
-    }
-
-    if (event.getSensorType() == SensorType.ULTRASONIC) {
-      this.lastDistanceSensorValue = event.getValue();
-    }
-  }
-
-  /**
-   * Updates the calibration values for the light sensors.
-   *
-   * @param floorLightValue  The new calibration value for the floor light sensor.
-   * @param stripeLightValue The new calibration value for the stripe light sensor.
-   */
-  public void updateCalibrationValues(int floorLightValue, int stripeLightValue) {
-    if (floorLightValue < 0 || stripeLightValue < 0) {
-      throw new IllegalArgumentException("Light values must be non-negative.");
-    }
-
-    this.floorCalibrationLightValue = floorLightValue;
-    this.stripeCalibrationLightValue = stripeLightValue;
+    this.sensorValueStore = sensorValueStore;
   }
 
   /**
@@ -151,22 +99,7 @@ public class RoboContext {
   public BluetoothTransmitter getBluetoothTransmitter() { return this.bluetoothTransmitter; }
 
   /**
-   * @return The last value read from the light sensor.
+   * @return The sensor value store.
    */
-  public int getLastLightSensorValue() { return this.lastLightSensorValue; }
-
-  /**
-   * @return The last value read from the distance sensor.
-   */
-  public int getLastDistanceSensorValue() { return this.lastDistanceSensorValue; }
-
-  /**
-   * @return The calibration value for the floor light sensor.
-   */
-  public int getFloorCalibrationLightValue() { return this.floorCalibrationLightValue; }
-
-  /**
-   * @return The calibration value for the stripe light sensor.
-   */
-  public int getStripeCalibrationLightValue() { return this.stripeCalibrationLightValue; }
+  public SensorValueStore getSensorValueStore() { return this.sensorValueStore; }
 }
