@@ -10,8 +10,15 @@ import io.command.MoveCommand;
 import util.Log;
 
 public class UserControlStrategy implements IDrivingStrategy, IEventListener {
+  /**
+   * The motor controller used to control the robot's motors.
+   */
   private final IMotorController motorController;
 
+  /**
+   * @param controller The RoboController instance used to control the robot.
+   * @throws NullPointerException if the motor controller is null.
+   */
   public UserControlStrategy(RoboController controller) {
     if (controller.getContext().getMotorController() == null) {
       throw new NullPointerException();

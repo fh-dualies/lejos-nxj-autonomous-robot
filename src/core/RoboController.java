@@ -10,7 +10,7 @@ import io.command.ICommand;
 import io.connection.BluetoothTransmitter;
 import lejos.nxt.Button;
 import state.AbstractRoboState;
-import state.AutonomousState;
+import state.CalibrationState;
 import strategy.IDrivingStrategy;
 import util.Log;
 
@@ -32,7 +32,7 @@ public class RoboController implements IEventListener {
                         BluetoothTransmitter bluetoothTransmitter) {
     this.context = new RoboContext(eventManager, motorController, bluetoothTransmitter);
 
-    this.setState(new AutonomousState());
+    this.setState(new CalibrationState());
     this.context.getEventManager().addListener(this);
   }
 

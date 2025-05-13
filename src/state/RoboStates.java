@@ -8,4 +8,5 @@ public enum RoboStates {
   IDLE,
   AUTONOMOUS,
   MANUAL,
+  CALIBRATION,
 }

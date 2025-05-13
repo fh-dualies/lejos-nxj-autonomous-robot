@@ -1,0 +1,131 @@
+package strategy;
+
+import core.RoboController;
+import event.ButtonEvent;
+import event.SensorEvent;
+import event.base.AbstractEvent;
+import event.base.IEventListener;
+import io.sensor.SensorType;
+import lejos.nxt.Button;
+import lejos.nxt.LCD;
+import state.IdleState;
+import util.Log;
+
+public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
+  /**
+   * The motor controller used to control the robot's motors.
+   */
+  private final RoboController controller;
+
+  /**
+   * The light values for the floor and stripe.
+   */
+  private int floorLightValue = -1;
+  private int stripeLightValue = -1;
+
+  /**
+   * The current calibration step.
+   */
+  private CalibrationStep step = CalibrationStep.FLOOR;
+
+  /**
+   * @param controller The RoboController instance used to control the robot.
+   * @throws NullPointerException if the motor controller is null.
+   */
+  public CalibrationStrategy(RoboController controller) {
+    if (controller == null) {
+      throw new NullPointerException();
+    }
+
+    this.controller = controller;
+  }
+
+  @Override
+  public void execute(RoboController controller) {
+    LCD.refresh();
+    LCD.clear();
+    LCD.drawString("Calibrating", 0, 1);
+
+    switch (step) {
+    case FLOOR:
+      LCD.drawString("Confirm floor light", 0, 2);
+      break;
+    case STRIPE:
+      LCD.drawString("Floor: " + floorLightValue, 0, 2);
+      LCD.drawString("Confirm stripe light", 0, 3);
+      break;
+    case DONE:
+      LCD.drawString("Floor: " + floorLightValue, 0, 2);
+      LCD.drawString("Stripe: " + stripeLightValue, 0, 3);
+      break;
+    }
+  }
+
+  @Override
+  public void activate(RoboController controller) {
+    Log.info("CalibrationStrategy activated");
+
+    controller.getContext().getEventManager().addListener(this);
+  }
+
+  @Override
+  public void deactivate(RoboController controller) {
+    Log.info("CalibrationStrategy deactivated");
+
+    controller.getContext().getEventManager().removeListener(this);
+  }
+
+  @Override
+  public void onEvent(AbstractEvent event) {
+    if (event instanceof SensorEvent) {
+      this.handleSensorEvent((SensorEvent)event);
+    }
+
+    if (event instanceof ButtonEvent) {
+      this.handleButtonEvent((ButtonEvent)event);
+    }
+  }
+
+  /**
+   * Handles sensor events.
+   *
+   * @param sensorEvent The sensor event to handle.
+   */
+  private void handleSensorEvent(SensorEvent sensorEvent) {
+    if (!sensorEvent.getSensorType().equals(SensorType.LIGHT)) {
+      return;
+    }
+
+    LCD.drawString("#" + sensorEvent.getValue(), 0, 4);
+  }
+
+  /**
+   * Handles button events.
+   *
+   * @param event The button event to handle.
+   */
+  private void handleButtonEvent(ButtonEvent event) {
+    if (!event.getButtonId().equals(Button.ENTER.toString())) {
+      return;
+    }
+
+    int currentValue = this.controller.getContext().getLastLightSensorValue();
+
+    switch (step) {
+    case FLOOR:
+      this.floorLightValue = currentValue;
+      this.step = CalibrationStep.STRIPE;
+      break;
+    case STRIPE:
+      this.stripeLightValue = currentValue;
+      this.step = CalibrationStep.DONE;
+      break;
+    case DONE:
+      this.controller.getContext().updateCalibrationValues(this.floorLightValue, this.stripeLightValue);
+      this.controller.setState(new IdleState());
+      break;
+    }
+  }
+
+  private enum CalibrationStep { FLOOR, STRIPE, DONE }
+}

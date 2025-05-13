@@ -1,5 +1,6 @@
 package strategy.algorithm;
 
+import core.RoboContext;
 import core.RoboController;
 import io.actuator.IMotorController;
 import lejos.util.PIDController;
@@ -18,12 +19,6 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    */
   private static final int STOP_DISTANCE = Config.DISTANCE_STOP_THRESHOLD.getIntValue();
   private static final int SLOW_DOWN_DISTANCE = Config.DISTANCE_SLOW_DOWN_THRESHOLD.getIntValue();
-
-  /**
-   * The speed factor used for turning the robot.
-   * This factor is used to adjust the speed of the outer wheel during turns.
-   */
-  private static final int LINE_EDGE_TARGET = Config.LIGHT_STRIPE_EDGE.getIntValue();
 
   /**
    * Proportional gain for the PID controller.
@@ -63,6 +58,12 @@ public class PidAlgorithm implements IFollowingAlgorithm {
   private final IMotorController motorController;
 
   /**
+   * The speed factor used for turning the robot.
+   * This factor is used to adjust the speed of the outer wheel during turns.
+   */
+  private int lineEdgeTarget = -1;
+
+  /**
    * The PID controller used to control the robot's speed and direction.
    */
   private PIDController pidController = null;
@@ -74,13 +75,27 @@ public class PidAlgorithm implements IFollowingAlgorithm {
 
     this.controller = controller;
     this.motorController = controller.getContext().getMotorController();
+
+    RoboContext context = controller.getContext();
+
+    if (context.getFloorCalibrationLightValue() < 0 || context.getStripeCalibrationLightValue() < 0) {
+      throw new IllegalStateException("Calibration light value not set");
+    }
+
+    this.lineEdgeTarget = (context.getFloorCalibrationLightValue() + context.getStripeCalibrationLightValue()) / 2;
   }
 
   @Override
   public void initialize() {
     Log.info("PidAlgorithm initialized");
 
-    this.pidController = new PIDController(LINE_EDGE_TARGET, 0);
+    if (this.lineEdgeTarget < 0) {
+      throw new IllegalStateException("LINE_EDGE_TARGET is negative");
+    }
+
+    Log.info("PidAlgorithm initialized with LINE_EDGE_TARGET: " + this.lineEdgeTarget);
+
+    this.pidController = new PIDController(this.lineEdgeTarget, 0);
     this.pidController.setPIDParam(PIDController.PID_KP, KP);
     this.pidController.setPIDParam(PIDController.PID_KI, KI);
     this.pidController.setPIDParam(PIDController.PID_KD, KD);

@@ -5,6 +5,7 @@ import event.SensorEvent;
 import io.actuator.IMotorController;
 import io.connection.BluetoothTransmitter;
 import io.sensor.SensorType;
+import main.Config;
 import state.AbstractRoboState;
 import strategy.IDrivingStrategy;
 
@@ -39,6 +40,16 @@ public class RoboContext {
    * received by sensor events.
    */
   private volatile int lastDistanceSensorValue = -1;
+
+  /**
+   * The calibration value for the floor light sensor.
+   */
+  private volatile int floorCalibrationLightValue = Config.DEFAULT_FLOOR_LIGHT.getIntValue();
+
+  /**
+   * The calibration value for the stripe light sensor.
+   */
+  private volatile int stripeCalibrationLightValue = Config.DEFAULT_STRIPE_LIGHT.getIntValue();
 
   /**
    * The current state of the robot. This is the state that is currently active and will be called to handle incoming
@@ -83,6 +94,21 @@ public class RoboContext {
     if (event.getSensorType() == SensorType.ULTRASONIC) {
       this.lastDistanceSensorValue = event.getValue();
     }
+  }
+
+  /**
+   * Updates the calibration values for the light sensors.
+   *
+   * @param floorLightValue  The new calibration value for the floor light sensor.
+   * @param stripeLightValue The new calibration value for the stripe light sensor.
+   */
+  public void updateCalibrationValues(int floorLightValue, int stripeLightValue) {
+    if (floorLightValue < 0 || stripeLightValue < 0) {
+      throw new IllegalArgumentException("Light values must be non-negative.");
+    }
+
+    this.floorCalibrationLightValue = floorLightValue;
+    this.stripeCalibrationLightValue = stripeLightValue;
   }
 
   /**
@@ -133,4 +159,14 @@ public class RoboContext {
    * @return The last value read from the distance sensor.
    */
   public int getLastDistanceSensorValue() { return this.lastDistanceSensorValue; }
+
+  /**
+   * @return The calibration value for the floor light sensor.
+   */
+  public int getFloorCalibrationLightValue() { return this.floorCalibrationLightValue; }
+
+  /**
+   * @return The calibration value for the stripe light sensor.
+   */
+  public int getStripeCalibrationLightValue() { return this.stripeCalibrationLightValue; }
 }

@@ -16,6 +16,4 @@
 ### TODO
 
 - Find line state
-- Calibration state + history of ~Light values to find optimal "middle" value
-- System monitor (CPU, RAM)
-- 
+- history of Light values to find optimal "middle" value
