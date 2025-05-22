@@ -19,23 +19,23 @@ public abstract class AbstractSensorReader {
   /**
    * The EventManager instance used to dispatch events.
    */
-  protected final EventManager eventManager;
+  private final EventManager eventManager;
 
   /**
    * The last reported value of the sensor.
    * This is used to determine if the current value is significantly different from the last reported value.
    */
-  protected int lastValue = -1;
+  private int lastValue = -1;
 
   /**
-   * @param eventManager The EventManager instance used to dispatch events.
+   * @param pEventManager The EventManager instance used to dispatch events.
    */
-  public AbstractSensorReader(EventManager eventManager) {
-    if (eventManager == null) {
+  public AbstractSensorReader(EventManager pEventManager) {
+    if (pEventManager == null) {
       throw new NullPointerException();
     }
 
-    this.eventManager = eventManager;
+    this.eventManager = pEventManager;
   }
 
   /**

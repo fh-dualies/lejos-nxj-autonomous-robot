@@ -14,14 +14,14 @@ public class ButtonEvent extends AbstractEvent implements IExposableEvent {
   private final String buttonId;
 
   /**
-   * @param buttonId the ID of the button that generated the event
+   * @param pButtonId the ID of the button that generated the event
    */
-  public ButtonEvent(String buttonId) {
-    if (buttonId == null || buttonId.isEmpty()) {
+  public ButtonEvent(String pButtonId) {
+    if (pButtonId == null || pButtonId.isEmpty()) {
       throw new IllegalArgumentException("Button ID cannot be null or empty");
     }
 
-    this.buttonId = buttonId;
+    this.buttonId = pButtonId;
   }
 
   /**

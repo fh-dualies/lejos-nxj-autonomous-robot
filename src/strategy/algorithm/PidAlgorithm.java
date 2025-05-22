@@ -67,17 +67,20 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    */
   private PIDController pidController = null;
 
-  public PidAlgorithm(RoboController controller) {
-    if (controller == null || controller.getContext().getMotorController() == null ||
-        controller.getContext().getSensorValueStore() == null) {
+  public PidAlgorithm(RoboController pController) {
+    if (pController == null || pController.getContext().getMotorController() == null ||
+            pController.getContext().getSensorValueStore() == null) {
       throw new NullPointerException();
     }
 
-    this.controller = controller;
+    this.controller = pController;
     this.motorController = controller.getContext().getMotorController();
     this.sensorValueStore = controller.getContext().getSensorValueStore();
   }
 
+  /**
+   * Initializes the PID controller with the target light value and sets the PID parameters.
+   */
   @Override
   public void initialize() {
     Log.info("PidAlgorithm initialized");
@@ -96,6 +99,9 @@ public class PidAlgorithm implements IFollowingAlgorithm {
     this.motorController.stopMotors(true);
   }
 
+  /**
+   * Deinitializes the PID controller and stops the motors.
+   */
   @Override
   public void deinitialize() {
     Log.info("PidAlgorithm deinitialize");
@@ -104,6 +110,11 @@ public class PidAlgorithm implements IFollowingAlgorithm {
     this.motorController.stopMotors(true);
   }
 
+  /**
+   * Runs the PID algorithm to control the robot's movement.
+   * It reads the current light and distance values, calculates the turn value,
+   * and adjusts the motor speeds accordingly.
+   */
   @Override
   public void run() {
     if (this.pidController == null) {
