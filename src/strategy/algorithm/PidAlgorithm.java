@@ -67,13 +67,13 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    */
   private PIDController pidController = null;
 
-  public PidAlgorithm(RoboController pController) {
-    if (pController == null || pController.getContext().getMotorController() == null ||
-            pController.getContext().getSensorValueStore() == null) {
+  public PidAlgorithm(RoboController controller) {
+    if (controller == null || controller.getContext().getMotorController() == null ||
+            controller.getContext().getSensorValueStore() == null) {
       throw new NullPointerException();
     }
 
-    this.controller = pController;
+    this.controller = controller;
     this.motorController = controller.getContext().getMotorController();
     this.sensorValueStore = controller.getContext().getSensorValueStore();
   }

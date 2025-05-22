@@ -28,14 +28,14 @@ public abstract class AbstractSensorReader {
   private int lastValue = -1;
 
   /**
-   * @param pEventManager The EventManager instance used to dispatch events.
+   * @param eventManager The EventManager instance used to dispatch events.
    */
-  public AbstractSensorReader(EventManager pEventManager) {
-    if (pEventManager == null) {
+  public AbstractSensorReader(EventManager eventManager) {
+    if (eventManager == null) {
       throw new NullPointerException();
     }
 
-    this.eventManager = pEventManager;
+    this.eventManager = eventManager;
   }
 
   /**

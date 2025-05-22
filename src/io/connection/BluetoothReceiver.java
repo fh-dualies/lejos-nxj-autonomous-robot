@@ -42,6 +42,30 @@ public final class BluetoothReceiver implements ICommunicationChannel {
   private boolean isConnected = false;
 
   /**
+   * The y-coordinate on the LCD screen for displaying error messages.
+   * This is used to indicate the position of error messages on the LCD screen.
+   */
+  private static final int YCOORDERROR = 4;
+
+  /**
+   * The y-coordinate on the LCD screen for displaying connection messages.
+   * This is used to indicate the position of connection messages on the LCD screen.
+   */
+  private static final int YCOORDCONN = 5;
+
+  /**
+   * The y-coordinate on the LCD screen for displaying error stream messages.
+   * This is used to indicate the position of error messages related to the data stream on the LCD screen.
+   */
+  private static final int YCOORDERRORSTREAM = 3;
+
+  /**
+   * The number of commands that can be received.
+   * This is used to limit the number of commands that can be processed at a time.
+   */
+  private static final int NROFCOMMANDS = 3;
+
+  /**
    * @param eventManager The event manager to dispatch command events to.
    * @throws NullPointerException if eventManager is null.
    */
@@ -81,8 +105,8 @@ public final class BluetoothReceiver implements ICommunicationChannel {
       Log.error("error parsing command", e);
 
       LCD.clear();
-      LCD.drawString("Error reading cmd", 0, 4);
-      LCD.drawString("Closing connection", 0, 5);
+      LCD.drawString("Error reading cmd", 0, YCOORDERROR);
+      LCD.drawString("Closing connection", 0, YCOORDCONN);
       LCD.refresh();
 
       this.closeConnection();
@@ -143,7 +167,7 @@ public final class BluetoothReceiver implements ICommunicationChannel {
 
     String[] parts = StringUtil.split(command, "|");
 
-    if (parts.length != 3) {
+    if (parts.length != NROFCOMMANDS) {
       return null;
     }
 
@@ -231,7 +255,7 @@ public final class BluetoothReceiver implements ICommunicationChannel {
 
       return true;
     } catch (Exception e) {
-      LCD.drawString("Error opening stream", 0, 3);
+      LCD.drawString("Error opening stream", 0, YCOORDERRORSTREAM);
       LCD.refresh();
 
       this.closeConnection();

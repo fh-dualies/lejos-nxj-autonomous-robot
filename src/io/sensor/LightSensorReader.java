@@ -38,16 +38,31 @@ public class LightSensorReader extends AbstractSensorReader {
     this.lightSensor = new LightSensor(port);
   }
 
+  /**
+   * Sets the floodlight state of the light sensor.
+   *
+   * @param state The state to set the floodlight to.
+   */
   @Override
   public String getSensorId() {
     return SENSOR_ID;
   }
 
+  /**
+   * Sets the floodlight state of the light sensor.
+   *
+   * @param state The state to set the floodlight to.
+   */
   @Override
   public SensorType getSensorType() {
     return SENSOR_TYPE;
   }
 
+  /**
+   * Sets the floodlight state of the light sensor.
+   *
+   * @param state The state to set the floodlight to.
+   */
   @Override
   protected int readSensorValue() {
     return this.lightSensor.getLightValue();

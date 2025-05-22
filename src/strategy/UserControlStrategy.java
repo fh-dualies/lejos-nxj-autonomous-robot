@@ -27,12 +27,24 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
     this.motorController = controller.getContext().getMotorController();
   }
 
+  /**
+   * Executes the command to control the robot's motors.
+   * This method is intentionally left empty as the actual command handling is done in the onEvent method.
+   *
+   * @param controller The RoboController instance used to control the robot.
+   */
   @Override
   public void execute(RoboController controller) {
     // This method is intentionally left empty.
     // The actual command handling is done in the onEvent method.
   }
 
+  /**
+   * Activates the UserControlStrategy.
+   * This method sets up the event listener for command events and logs the activation.
+   *
+   * @param controller The RoboController instance used to control the robot.
+   */
   @Override
   public void activate(RoboController controller) {
     Log.info("UserControlStrategy activated");
@@ -40,6 +52,12 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
     controller.getContext().getEventManager().addListener(this);
   }
 
+  /**
+   * Deactivates the UserControlStrategy.
+   * This method removes the event listener for command events and stops the motors.
+   *
+   * @param controller The RoboController instance used to control the robot.
+   */
   @Override
   public void deactivate(RoboController controller) {
     Log.info("UserControlStrategy deactivated");
@@ -48,6 +66,14 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
     this.motorController.stopMotors(true);
   }
 
+  /**
+   * Handles command events and executes the corresponding command.
+   * This method checks if the event is a CommandEvent and if the command is a MoveCommand.
+   * If so, it calculates the left and right motor speeds based on the command parameters and
+   * sends the command to the motor controller.
+   *
+   * @param event The event to handle.
+   */
   @Override
   public void onEvent(AbstractEvent event) {
     if (!(event instanceof CommandEvent)) {

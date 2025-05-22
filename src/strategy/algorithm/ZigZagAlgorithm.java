@@ -51,6 +51,11 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
     this.motorController = controller.getContext().getMotorController();
   }
 
+  /**
+   * Initializes the ZigZagAlgorithm.
+   * This method is called when the algorithm is activated.
+   * It sets the initial state of the robot and stops the motors.
+   */
   @Override
   public void initialize() {
     Log.info("ZigZagAlgorithm initialized");
@@ -59,6 +64,11 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
     this.motorController.stopMotors(true);
   }
 
+  /**
+   * Deinitializes the ZigZagAlgorithm.
+   * This method is called when the algorithm is deactivated.
+   * It stops the motors and resets the state of the robot.
+   */
   @Override
   public void deinitialize() {
     Log.info("ZigZagAlgorithm deinitialized");
@@ -66,6 +76,11 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
     this.motorController.stopMotors(true);
   }
 
+  /**
+   * Executes the zigzag following algorithm.
+   * This method is called periodically to adjust the speed of the motors based on the light sensor values.
+   * It alternates the speed of the left and right motors to create a zigzag pattern.
+   */
   @Override
   public void run() {
     int currentLightValue = this.controller.getContext().getSensorValueStore().getLastLightSensorValue();
