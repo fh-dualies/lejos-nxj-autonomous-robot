@@ -16,6 +16,8 @@ public class CommandEvent extends AbstractEvent {
   private final ICommand command;
 
   /**
+   * Constructor that initializes the CommandEvent with the command.
+   *
    * @param command the command that has to be executed in the system
    */
   public CommandEvent(ICommand command) {
@@ -27,10 +29,19 @@ public class CommandEvent extends AbstractEvent {
   }
 
   /**
+   * Returns the command that has to be executed in the system.
+   *
    * @return the command that has to be executed in the system
    */
-  public ICommand getCommand() { return this.command; }
+  public ICommand getCommand() {
+    return this.command;
+  }
 
+  /**
+   * Returns the string representation of the command event.
+   *
+   * @return the string representation of the command event
+   */
   @Override
   public String toString() {
     return "CommandEvent{"

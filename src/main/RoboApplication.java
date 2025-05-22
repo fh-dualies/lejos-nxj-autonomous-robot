@@ -42,6 +42,8 @@ public final class RoboApplication {
   }
 
   /**
+   * Main method to start the Megamen Robo Application.
+   *
    * @param args Command line arguments (not used).
    */
   public static void main(String[] args) {

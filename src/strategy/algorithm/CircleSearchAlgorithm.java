@@ -6,6 +6,11 @@ import io.sensor.SensorValueStore;
 import util.Log;
 import main.Config;
 
+/**
+ * CircleSearchAlgorithm is a concrete implementation of the IFollowingAlgorithm interface.
+ * This class represents a circle search algorithm used to find a line by moving in circles.
+ * It handles the initialization, deinitialization, and execution of the algorithm.
+ */
 public class CircleSearchAlgorithm implements IFollowingAlgorithm{
     /**
      * The RoboController instance used to control the robot.
@@ -42,9 +47,15 @@ public class CircleSearchAlgorithm implements IFollowingAlgorithm{
      */
     private static final int DEFAULT_TOLERANCE = 2;
 
+    /**
+     * Constructor for the CircleSearchAlgorithm class.
+     *
+     * @param controller The RoboController instance used to control the robot.
+     * @throws NullPointerException if the motor controller or sensor value store is null.
+     */
     public CircleSearchAlgorithm(RoboController controller) {
-        if (controller == null || controller.getContext().getMotorController() == null ||
-                controller.getContext().getSensorValueStore() == null) {
+        if (controller == null || controller.getContext().getMotorController() == null
+                || controller.getContext().getSensorValueStore() == null) {
             throw new NullPointerException();
         }
 
@@ -75,9 +86,8 @@ public class CircleSearchAlgorithm implements IFollowingAlgorithm{
                 motorController.forward(Config.MOTOR_MIN_SPEED.getIntValue(),
                                         Config.MOTOR_MAX_SPEED.getIntValue());
                 int lightValue = sensorValueStore.getLastLightSensorValue();
-                if (lightValue >= 0 &&
-                    Math.abs(lightValue - sensorValueStore.getLineEdgeLightValue()) <= DEFAULT_TOLERANCE)
-                {
+                if (lightValue >= 0
+                    && Math.abs(lightValue - sensorValueStore.getLineEdgeLightValue()) <= DEFAULT_TOLERANCE) {
                     Log.info("Line found in Circle No.: " + i);
                     return;
                 }
@@ -85,7 +95,7 @@ public class CircleSearchAlgorithm implements IFollowingAlgorithm{
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
-
+                    // schlucken
                 }
             }
 
@@ -93,7 +103,7 @@ public class CircleSearchAlgorithm implements IFollowingAlgorithm{
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
-
+                // schlucken
             }
         }
 

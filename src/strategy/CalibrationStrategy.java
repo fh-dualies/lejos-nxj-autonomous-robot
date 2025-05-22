@@ -12,6 +12,11 @@ import lejos.nxt.LCD;
 import state.IdleState;
 import util.Log;
 
+/**
+ * CalibrationStrategy is a concrete implementation of the IDrivingStrategy interface.
+ * This class represents the calibration strategy of the robot, where it calibrates its sensors.
+ * It handles entering and exiting the strategy, as well as processing events that occur while in this strategy.
+ */
 public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
   /**
    * The sensor value store used to store the light sensor values.
@@ -35,6 +40,8 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
   private CalibrationStep step = CalibrationStep.FLOOR;
 
   /**
+   * Constructor for the CalibrationStrategy class.
+   *
    * @param controller The RoboController instance used to control the robot.
    * @throws NullPointerException if the motor controller is null.
    */
@@ -47,6 +54,9 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
     this.sensorValueStore = controller.getContext().getSensorValueStore();
   }
 
+  /**
+   * Executes the calibration strategy.
+   */
   @Override
   public void execute(RoboController controller) {
     LCD.refresh();
@@ -65,9 +75,16 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
       LCD.drawString("Floor: " + floorLightValue, 0, 2);
       LCD.drawString("Stripe: " + stripeLightValue, 0, 3);
       break;
+    default:
+      throw new IllegalStateException("Unexpected value: " + step);
     }
   }
 
+  /**
+   * Activates the calibration strategy.
+   *
+   * @param controller The RoboController instance that manages the robot's operations.
+   */
   @Override
   public void activate(RoboController controller) {
     Log.info("CalibrationStrategy activated");
@@ -75,6 +92,11 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
     controller.getContext().getEventManager().addListener(this);
   }
 
+  /**
+   * Deactivates the calibration strategy.
+   *
+   * @param controller The RoboController instance that manages the robot's operations.
+   */
   @Override
   public void deactivate(RoboController controller) {
     Log.info("CalibrationStrategy deactivated");
@@ -82,6 +104,14 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
     controller.getContext().getEventManager().removeListener(this);
   }
 
+  /**
+   * Handles events that occur while in the calibration strategy.
+   * This method processes the event and calls the appropriate methods to handle it.
+   * It also handles state switching events by calling the handleSwitchEvent method.
+   * Will be called by the RoboController after an event is received.
+   *
+   * @param event The event that occurred.
+   */
   @Override
   public void onEvent(AbstractEvent event) {
     if (event instanceof SensorEvent) {
@@ -131,8 +161,15 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
       this.sensorValueStore.updateCalibrationValues(this.floorLightValue, this.stripeLightValue);
       this.controller.setState(new IdleState());
       break;
+    default:
+      throw new IllegalStateException("Unexpected value: " + step);
     }
   }
 
-  private enum CalibrationStep { FLOOR, STRIPE, DONE }
+  /**
+   * The possible calibration steps.
+   */
+  private enum CalibrationStep {
+    FLOOR, STRIPE, DONE
+  }
 }

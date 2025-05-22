@@ -6,6 +6,8 @@ package event.base;
  */
 public interface IExposableEvent {
   /**
+   * Returns the string representation of the event that will be sent to the external system.
+   *
    * @return the string representation of the string that will be sent to the external system
    */
   String toExposableString();

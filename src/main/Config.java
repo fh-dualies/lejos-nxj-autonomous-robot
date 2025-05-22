@@ -42,17 +42,29 @@ public enum Config {
   private final float value;
 
   /**
+   * Constructor for the Config enum.
+   *
    * @param value The default value for the sensor or motor.
    */
-  Config(float value) { this.value = value; }
+  Config(float value) {
+    this.value = value;
+  }
 
   /**
+   * Returns the default value for the sensor or motor.
+   *
    * @return as int (casts down)
    */
-  public int getIntValue() { return (int)value; }
+  public int getIntValue() {
+    return (int)value;
+  }
 
   /**
+   * Returns the default value for the sensor or motor.
+   *
    * @return as float
    */
-  public float getFloatValue() { return value; }
+  public float getFloatValue() {
+    return value;
+  }
 }

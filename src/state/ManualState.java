@@ -6,17 +6,33 @@ import lejos.nxt.LCD;
 import strategy.UserControlStrategy;
 import util.Log;
 
+/**
+ * ManualState is a concrete implementation of the AbstractRoboState class.
+ * This class represents the manual state of the robot, where it is controlled by the user.
+ * It handles entering and exiting the state, as well as processing events that occur while in this state.
+ */
 public class ManualState extends AbstractRoboState {
   /**
    * The name of the idle state.
    */
   private static final RoboStates STATE = RoboStates.MANUAL;
 
+  /**
+   * Constructor for the ManualState class.
+   * This constructor initializes the state and sets up any necessary resources.
+   */
   @Override
   public RoboStates getState() {
     return STATE;
   }
 
+  /**
+   * Handles the entry into the manual state.
+   * This method is called when the robot enters the manual state.
+   * It initializes the state and sets up any necessary resources.
+   *
+   * @param controller The RoboController instance that manages the robot's state.
+   */
   @Override
   public void onEnter(RoboController controller) {
     Log.info("enter manual");
@@ -26,6 +42,13 @@ public class ManualState extends AbstractRoboState {
     controller.setCurrentDrivingStrategy(new UserControlStrategy(controller));
   }
 
+  /**
+   * Handles the exit from the manual state.
+   * This method is called when the robot exits the manual state.
+   * It cleans up any resources and stops the motors.
+   *
+   * @param controller The RoboController instance that manages the robot's state.
+   */
   @Override
   public void onExit(RoboController controller) {
     Log.info("exit manual");
@@ -43,5 +66,7 @@ public class ManualState extends AbstractRoboState {
    * @param controller The RoboController instance that manages the robot's state.
    * @param event      The event that occurred.
    */
-  public void handleEvent(RoboController controller, AbstractEvent event) { this.handleSwitchEvent(controller, event); }
+  public void handleEvent(RoboController controller, AbstractEvent event) {
+    this.handleSwitchEvent(controller, event);
+  }
 }

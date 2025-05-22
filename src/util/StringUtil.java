@@ -3,7 +3,14 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * StringUtil is a utility class that provides methods for manipulating strings.
+ * It includes methods for splitting strings based on a specified delimiter.
+ */
 public final class StringUtil {
+  /**
+   * Private constructor to prevent instantiation of the utility class.
+   */
   public static String[] split(String str, String delimiter) {
     if (str == null || delimiter == null) {
       return new String[0];
@@ -29,6 +36,14 @@ public final class StringUtil {
     return result;
   }
 
+  /**
+   * Splits a string into an array of strings based on a specified delimiter and limit.
+   *
+   * @param str      the string to be split
+   * @param delimiter the delimiter used to split the string
+   * @param limit    the maximum number of substrings to return
+   * @return an array of strings obtained by splitting the input string
+   */
   public static String[] split(String str, String delimiter, int limit) {
     if (str == null || delimiter == null) {
       return new String[0];

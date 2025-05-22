@@ -27,6 +27,8 @@ public class SensorEvent extends AbstractEvent implements IExposableEvent {
   private final int value;
 
   /**
+   * Constructor for the SensorEvent class.
+   *
    * @param sensorId   the ID of the sensor that generated the event
    * @param sensorType the type of the sensor that generated the event
    * @param value      the value of the sensor that generated the event
@@ -50,22 +52,38 @@ public class SensorEvent extends AbstractEvent implements IExposableEvent {
   }
 
   /**
+   * returns the sensor ID of the sensor that generated the event.
+   *
    * @return the ID of the sensor that generated the event
    */
-  public String getSensorId() { return this.sensorId; }
+  public String getSensorId() {
+    return this.sensorId;
+  }
 
   /**
+   * returns the sensor type of the sensor that generated the event.
+   *
    * @return the type of the sensor that generated the event
    */
-  public SensorType getSensorType() { return this.sensorType; }
+  public SensorType getSensorType() {
+    return this.sensorType;
+  }
 
   /**
+   * returns the sensor value of the sensor that generated the event.
+   *
    * @return the value of the sensor that generated the event
    */
-  public int getValue() { return this.value; }
+  public int getValue() {
+    return this.value;
+  }
 
   /**
+   * returns a string representation of the sensor event.
+   *
    * @return a string representation of the sensor event
    */
-  public String toExposableString() { return "SENSOR|" + this.sensorType.getName() + "|" + this.value; }
+  public String toExposableString() {
+    return "SENSOR|" + this.sensorType.getName() + "|" + this.value;
+  }
 }

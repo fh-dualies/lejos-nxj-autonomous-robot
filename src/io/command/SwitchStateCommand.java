@@ -15,6 +15,8 @@ public class SwitchStateCommand implements ICommand {
   private final RoboStates targetState;
 
   /**
+   * Constructor for the SwitchStateCommand class.
+   *
    * @param targetState The state to switch to.
    * @throws NullPointerException if targetState is null.
    */
@@ -27,7 +29,11 @@ public class SwitchStateCommand implements ICommand {
   }
 
   /**
+   * Executes the command to switch the robot's state.
+   *
    * @return The target state to switch to.
    */
-  public RoboStates getTargetState() { return this.targetState; }
+  public RoboStates getTargetState() {
+    return this.targetState;
+  }
 }

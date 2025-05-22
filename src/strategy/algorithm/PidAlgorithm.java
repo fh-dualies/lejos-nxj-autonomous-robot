@@ -7,6 +7,11 @@ import lejos.util.PIDController;
 import main.Config;
 import util.Log;
 
+/**
+ * PidAlgorithm is a concrete implementation of the IFollowingAlgorithm interface.
+ * This class implements a PID controller to follow a line based on light sensor values.
+ * It also handles distance sensor values to avoid collisions and adjust the robot's speed.
+ */
 public class PidAlgorithm implements IFollowingAlgorithm {
   /**
    * The minimum and maximum speed of the robot.
@@ -67,9 +72,16 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    */
   private PIDController pidController = null;
 
+  /**
+   * Constructor for the PidAlgorithm class.
+   * It initializes the PID controller with the RoboController instance.
+   *
+   * @param controller The RoboController instance used to control the robot.
+   * @throws NullPointerException if the controller is null or if it does not have a motor controller or sensor value store.
+   */
   public PidAlgorithm(RoboController controller) {
-    if (controller == null || controller.getContext().getMotorController() == null ||
-            controller.getContext().getSensorValueStore() == null) {
+    if (controller == null || controller.getContext().getMotorController() == null
+        || controller.getContext().getSensorValueStore() == null) {
       throw new NullPointerException();
     }
 

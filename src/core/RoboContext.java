@@ -44,6 +44,8 @@ public final class RoboContext {
   private IDrivingStrategy currentDrivingStrategy = null;
 
   /**
+   * Constructor for the RoboContext class.
+   *
    * @param eventManager    The event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
@@ -60,46 +62,74 @@ public final class RoboContext {
   }
 
   /**
+   * Returns the Current state of the robot.
+   *
    * @return The current state of the robot.
    */
-  public synchronized AbstractRoboState getCurrentState() { return this.currentState; }
+  public synchronized AbstractRoboState getCurrentState() {
+    return this.currentState;
+  }
 
   /**
    * Sets the current state of the robot.
    *
    * @param currentState The new state to set.
    */
-  public synchronized void setCurrentState(AbstractRoboState currentState) { this.currentState = currentState; }
+  public synchronized void setCurrentState(AbstractRoboState currentState) {
+    this.currentState = currentState;
+  }
 
   /**
+   * Returns the current driving strategy.
+   *
    * @return The current driving strategy.
    */
-  public IDrivingStrategy getCurrentDrivingStrategy() { return this.currentDrivingStrategy; }
+  public IDrivingStrategy getCurrentDrivingStrategy() {
+    return this.currentDrivingStrategy;
+  }
 
   /**
    * Sets the current driving strategy.
    *
    * @param strategy The new strategy to set.
    */
-  public void setCurrentDrivingStrategy(IDrivingStrategy strategy) { this.currentDrivingStrategy = strategy; }
+  public void setCurrentDrivingStrategy(IDrivingStrategy strategy) {
+    this.currentDrivingStrategy = strategy;
+  }
 
   /**
+   * Returns the motor controller.
+   *
    * @return The motor controller.
    */
-  public IMotorController getMotorController() { return this.motorController; }
+  public IMotorController getMotorController() {
+    return this.motorController;
+  }
 
   /**
+   * Returns the event manager.
+   *
    * @return The event manager.
    */
-  public EventManager getEventManager() { return this.eventManager; }
+  public EventManager getEventManager() {
+    return this.eventManager;
+  }
 
   /**
+   * Returns the Bluetooth transmitter.
+   *
    * @return The Bluetooth transmitter.
    */
-  public BluetoothTransmitter getBluetoothTransmitter() { return this.bluetoothTransmitter; }
+  public BluetoothTransmitter getBluetoothTransmitter() {
+    return this.bluetoothTransmitter;
+  }
 
   /**
+   * Returns the sensor value store.
+   *
    * @return The sensor value store.
    */
-  public SensorValueStore getSensorValueStore() { return this.sensorValueStore; }
+  public SensorValueStore getSensorValueStore() {
+    return this.sensorValueStore;
+  }
 }

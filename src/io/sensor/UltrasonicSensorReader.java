@@ -25,6 +25,8 @@ public class UltrasonicSensorReader extends AbstractSensorReader {
   private final UltrasonicSensor ultrasonicSensor;
 
   /**
+   * Constructor for the UltrasonicSensorReader class.
+   *
    * @param port         The SensorPort where the ultrasonic sensor is connected.
    * @param eventManager The EventManager instance used to dispatch events.
    */
@@ -38,16 +40,31 @@ public class UltrasonicSensorReader extends AbstractSensorReader {
     this.ultrasonicSensor = new UltrasonicSensor(port);
   }
 
+  /**
+   * Returns the ID of the sensor.
+   *
+   * @return The ID of the sensor.
+   */
   @Override
   public String getSensorId() {
     return SENSOR_ID;
   }
 
+  /**
+   * Returns the type of the sensor.
+   *
+   * @return The type of the sensor.
+   */
   @Override
   public SensorType getSensorType() {
     return SENSOR_TYPE;
   }
 
+  /**
+   * Reads the value from the ultrasonic sensor.
+   *
+   * @return The distance measured by the ultrasonic sensor in centimeters.
+   */
   @Override
   protected int readSensorValue() {
     return ultrasonicSensor.getDistance();

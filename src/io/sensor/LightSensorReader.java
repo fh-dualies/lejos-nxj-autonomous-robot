@@ -25,6 +25,8 @@ public class LightSensorReader extends AbstractSensorReader {
   private final LightSensor lightSensor;
 
   /**
+   * Constructor for the LightSensorReader class.
+   *
    * @param port         The port where the light sensor is connected.
    * @param eventManager The event manager to handle events.
    */
@@ -39,9 +41,7 @@ public class LightSensorReader extends AbstractSensorReader {
   }
 
   /**
-   * Sets the floodlight state of the light sensor.
-   *
-   * @param state The state to set the floodlight to.
+   * Gets the floodlight state of the light sensor.
    */
   @Override
   public String getSensorId() {
@@ -49,9 +49,7 @@ public class LightSensorReader extends AbstractSensorReader {
   }
 
   /**
-   * Sets the floodlight state of the light sensor.
-   *
-   * @param state The state to set the floodlight to.
+   * Gets the type of the light sensor.
    */
   @Override
   public SensorType getSensorType() {
@@ -59,9 +57,7 @@ public class LightSensorReader extends AbstractSensorReader {
   }
 
   /**
-   * Sets the floodlight state of the light sensor.
-   *
-   * @param state The state to set the floodlight to.
+   * Reads the value from the light sensor.
    */
   @Override
   protected int readSensorValue() {
@@ -71,5 +67,7 @@ public class LightSensorReader extends AbstractSensorReader {
   /**
    * Cleans up the resources used by the light sensor.
    */
-  public void close() { this.lightSensor.setFloodlight(false); }
+  public void close() {
+    this.lightSensor.setFloodlight(false);
+  }
 }

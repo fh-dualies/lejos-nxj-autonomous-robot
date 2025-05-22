@@ -26,6 +26,8 @@ public final class RoboController implements IEventListener {
   private final RoboContext context;
 
   /**
+   * Constructor for the RoboController class.
+   *
    * @param eventManager    The event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
@@ -215,5 +217,7 @@ public final class RoboController implements IEventListener {
    *
    * @return The current driving strategy.
    */
-  public RoboContext getContext() { return this.context; }
+  public RoboContext getContext() {
+    return this.context;
+  }
 }

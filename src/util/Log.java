@@ -4,6 +4,13 @@ import event.EventManager;
 import event.RemoteLogEvent;
 import main.RoboApplication;
 
+/**
+ * The Log class provides a simple logging utility for the application.
+ * It allows logging messages at different levels (INFO, WARNING, ERROR)
+ * and can also log exceptions. The logs are printed to the standard
+ * output or error stream, and can be dispatched to an event manager
+ * if one is set.
+ */
 public final class Log {
   private static final String INFO_LEVEL = "INFO";
   private static final String WARNING_LEVEL = "WARNING";
@@ -11,7 +18,9 @@ public final class Log {
   private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
   private static EventManager eventManager = null;
 
-  public static void setEventManager(EventManager eventManager) { Log.eventManager = eventManager; }
+  public static void setEventManager(EventManager eventManager) {
+    Log.eventManager = eventManager;
+  }
 
   private static void log(String level, String message, Throwable thrown) {
     if (!RoboApplication.DEBUG) {
@@ -41,13 +50,49 @@ public final class Log {
     }
   }
 
-  public static void info(String message) { log(INFO_LEVEL, message, null); }
+  /**
+   * Logs an informational message.
+   *
+   * @param message The message to log.
+   */
+  public static void info(String message) {
+    log(INFO_LEVEL, message, null);
+  }
 
-  public static void warning(String message) { log(WARNING_LEVEL, message, null); }
+  /**
+   * Logs a warning message.
+   *
+   * @param message The message to log.
+   */
+  public static void warning(String message) {
+    log(WARNING_LEVEL, message, null);
+  }
 
-  public static void warning(String message, Throwable thrown) { log(WARNING_LEVEL, message, thrown); }
+  /**
+   * Logs an error message.
+   *
+   * @param message The message to log.
+   */
+  public static void warning(String message, Throwable thrown) {
+    log(WARNING_LEVEL, message, thrown);
+  }
 
-  public static void error(String message) { log(ERROR_LEVEL, message, null); }
+  /**
+   * Logs an error message.
+   *
+   * @param message The message to log.
+   */
+  public static void error(String message) {
+    log(ERROR_LEVEL, message, null);
+  }
 
-  public static void error(String message, Throwable thrown) { log(ERROR_LEVEL, message, thrown); }
+  /**
+   * Logs an error message with an exception.
+   *
+   * @param message The message to log.
+   * @param thrown  The exception to log.
+   */
+  public static void error(String message, Throwable thrown) {
+    log(ERROR_LEVEL, message, thrown);
+  }
 }

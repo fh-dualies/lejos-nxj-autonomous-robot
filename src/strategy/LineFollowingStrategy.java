@@ -18,6 +18,8 @@ public class LineFollowingStrategy implements IDrivingStrategy {
   private final IFollowingAlgorithm followingAlgorithm;
 
   /**
+   * Constructor for the LineFollowingStrategy class.
+   *
    * @param followingAlgorithm The IFollowingAlgorithm instance used to implement the following algorithm.
    * @throws NullPointerException if the followingAlgorithm is null.
    */

@@ -28,6 +28,8 @@ public abstract class AbstractSensorReader {
   private int lastValue = -1;
 
   /**
+   * Constructor that initializes the AbstractSensorReader with an EventManager instance.
+   *
    * @param eventManager The EventManager instance used to dispatch events.
    */
   public AbstractSensorReader(EventManager eventManager) {
@@ -57,16 +59,24 @@ public abstract class AbstractSensorReader {
   }
 
   /**
+   * Returns the last reported value of the sensor.
+   *
    * @return The last reported value of the sensor.
    */
-  public int getLastValue() { return this.lastValue; }
+  public int getLastValue() {
+    return this.lastValue;
+  }
 
   /**
+   * Returns the EventManager instance used to dispatch events.
+   *
    * @return The ID of the sensor.
    */
   abstract String getSensorId();
 
   /**
+   * Returns the type of the sensor.
+   *
    * @return The type of the sensor.
    */
   abstract SensorType getSensorType();
@@ -84,5 +94,7 @@ public abstract class AbstractSensorReader {
    *
    * @return The threshold for reporting changes in sensor values.
    */
-  protected int getReportThreshold() { return DEFAULT_REPORT_THRESHOLD; }
+  protected int getReportThreshold() {
+    return DEFAULT_REPORT_THRESHOLD;
+  }
 }

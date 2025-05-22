@@ -10,5 +10,7 @@ public class ExitCommand implements ICommand {
    * Executes the exit command.
    * This method will typically be called to terminate the program or application.
    */
-  public void execute() { System.exit(0); }
+  public void execute() {
+    System.exit(0);
+  }
 }

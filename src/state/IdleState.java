@@ -5,7 +5,7 @@ import event.base.AbstractEvent;
 import lejos.nxt.LCD;
 import util.Log;
 
-/*
+/**
  * IdleState is a concrete implementation of the AbstractRoboState class.
  * This class represents the idle state of the robot, where it stops all motors and waits for commands.
  * It handles entering and exiting the state, as well as processing events that occur while in this state.
@@ -44,5 +44,7 @@ public class IdleState extends AbstractRoboState {
    * @param controller The RoboController instance that manages the robot's state.
    * @param event      The event that occurred.
    */
-  public void handleEvent(RoboController controller, AbstractEvent event) { this.handleSwitchEvent(controller, event); }
+  public void handleEvent(RoboController controller, AbstractEvent event) {
+    this.handleSwitchEvent(controller, event);
+  }
 }

@@ -39,6 +39,8 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
   private boolean searchRight = true;
 
   /**
+   * Constructor for the ZigZagAlgorithm class.
+   *
    * @param controller The RoboController instance used to control the robot.
    * @throws NullPointerException if the controller or motor controller is null.
    */

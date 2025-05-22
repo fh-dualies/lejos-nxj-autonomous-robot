@@ -5,9 +5,18 @@ package strategy.algorithm;
  * This interface is used to implement different following algorithms for the robot (e.g., pid or zigzag).
  */
 public interface IFollowingAlgorithm {
+  /**
+   * The RoboController instance used to control the robot.
+   */
   void initialize();
 
+  /**
+   * The RoboController instance used to control the robot.
+   */
   void deinitialize();
 
+  /**
+   * The RoboController instance used to control the robot.
+   */
   void run();
 }

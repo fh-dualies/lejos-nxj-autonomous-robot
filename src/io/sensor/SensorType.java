@@ -14,12 +14,20 @@ public enum SensorType {
   private final String name;
 
   /**
+   * Constructor for the SensorType enumeration.
+   *
    * @param name The name of the sensor type.
    */
-  SensorType(String name) { this.name = name; }
+  SensorType(String name) {
+    this.name = name;
+  }
 
   /**
+   * Returns the name of the sensor type.
+   *
    * @return The name of the sensor type.
    */
-  public String getName() { return name; }
+  public String getName() {
+    return name;
+  }
 }

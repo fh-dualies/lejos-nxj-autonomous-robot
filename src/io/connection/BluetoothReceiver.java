@@ -66,6 +66,8 @@ public final class BluetoothReceiver implements ICommunicationChannel {
   private static final int NROFCOMMANDS = 3;
 
   /**
+   * Constructor that initializes the BluetoothReceiver with an EventManager instance.
+   *
    * @param eventManager The event manager to dispatch command events to.
    * @throws NullPointerException if eventManager is null.
    */
@@ -218,10 +220,10 @@ public final class BluetoothReceiver implements ICommunicationChannel {
       return new SwitchStateCommand(RoboStates.AUTONOMOUS);
     case "MANUAL":
       return new SwitchStateCommand(RoboStates.MANUAL);
+    default:
+      Log.warning("unknown state in command: " + command);
+      return null;
     }
-
-    Log.warning("unknown state in command: " + command);
-    return null;
   }
 
   /**

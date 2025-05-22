@@ -11,10 +11,19 @@ abstract public class AbstractEvent {
    */
   private final long timestamp;
 
-  public AbstractEvent() { this.timestamp = System.currentTimeMillis(); }
+  /**
+   * Constructor that initializes the timestamp of the event to the current system time in milliseconds.
+   */
+  public AbstractEvent() {
+    this.timestamp = System.currentTimeMillis();
+  }
 
   /**
+   * Returns the timestamp of the event.
+   *
    * @return the timestamp of the event in milliseconds.
    */
-  public long getTimestamp() { return this.timestamp; }
+  public long getTimestamp() {
+    return this.timestamp;
+  }
 }

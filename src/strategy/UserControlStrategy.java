@@ -9,6 +9,11 @@ import io.command.ICommand;
 import io.command.MoveCommand;
 import util.Log;
 
+/**
+ * UserControlStrategy is a driving strategy that allows the user to control the robot's motors
+ * using commands received from the event manager.
+ * It implements the IDrivingStrategy and IEventListener interfaces.
+ */
 public class UserControlStrategy implements IDrivingStrategy, IEventListener {
   /**
    * The motor controller used to control the robot's motors.
@@ -16,6 +21,8 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
   private final IMotorController motorController;
 
   /**
+   * Constructor for the UserControlStrategy class.
+   *
    * @param controller The RoboController instance used to control the robot.
    * @throws NullPointerException if the motor controller is null.
    */

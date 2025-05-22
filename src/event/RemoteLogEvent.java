@@ -14,6 +14,8 @@ public class RemoteLogEvent extends AbstractEvent implements IExposableEvent {
   private final String message;
 
   /**
+   * Constructor for the RemoteLogEvent class.
+   *
    * @param message the log message that generated the event
    */
   public RemoteLogEvent(String message) {
