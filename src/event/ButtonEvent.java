@@ -31,16 +31,12 @@ public class ButtonEvent extends AbstractEvent implements IExposableEvent {
    *
    * @return the ID of the button that generated the event
    */
-  public String getButtonId() {
-    return this.buttonId;
-  }
+  public String getButtonId() { return this.buttonId; }
 
   /**
    * Returns the string representation of the button event.
    *
    * @return the string representation of the button event
    */
-  public String toExposableString() {
-    return "BUTTON:" + this.buttonId;
-  }
+  public String toExposableString() { return "BUTTON:" + this.buttonId; }
 }

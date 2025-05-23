@@ -63,9 +63,7 @@ public abstract class AbstractSensorReader {
    *
    * @return The last reported value of the sensor.
    */
-  public int getLastValue() {
-    return this.lastValue;
-  }
+  public int getLastValue() { return this.lastValue; }
 
   /**
    * Returns the EventManager instance used to dispatch events.
@@ -94,7 +92,5 @@ public abstract class AbstractSensorReader {
    *
    * @return The threshold for reporting changes in sensor values.
    */
-  protected int getReportThreshold() {
-    return DEFAULT_REPORT_THRESHOLD;
-  }
+  protected int getReportThreshold() { return DEFAULT_REPORT_THRESHOLD; }
 }

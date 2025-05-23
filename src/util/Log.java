@@ -18,9 +18,7 @@ public final class Log {
   private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
   private static EventManager eventManager = null;
 
-  public static void setEventManager(EventManager eventManager) {
-    Log.eventManager = eventManager;
-  }
+  public static void setEventManager(EventManager eventManager) { Log.eventManager = eventManager; }
 
   private static void log(String level, String message, Throwable thrown) {
     if (!RoboApplication.DEBUG) {
@@ -55,36 +53,28 @@ public final class Log {
    *
    * @param message The message to log.
    */
-  public static void info(String message) {
-    log(INFO_LEVEL, message, null);
-  }
+  public static void info(String message) { log(INFO_LEVEL, message, null); }
 
   /**
    * Logs a warning message.
    *
    * @param message The message to log.
    */
-  public static void warning(String message) {
-    log(WARNING_LEVEL, message, null);
-  }
+  public static void warning(String message) { log(WARNING_LEVEL, message, null); }
 
   /**
    * Logs an error message.
    *
    * @param message The message to log.
    */
-  public static void warning(String message, Throwable thrown) {
-    log(WARNING_LEVEL, message, thrown);
-  }
+  public static void warning(String message, Throwable thrown) { log(WARNING_LEVEL, message, thrown); }
 
   /**
    * Logs an error message.
    *
    * @param message The message to log.
    */
-  public static void error(String message) {
-    log(ERROR_LEVEL, message, null);
-  }
+  public static void error(String message) { log(ERROR_LEVEL, message, null); }
 
   /**
    * Logs an error message with an exception.
@@ -92,7 +82,5 @@ public final class Log {
    * @param message The message to log.
    * @param thrown  The exception to log.
    */
-  public static void error(String message, Throwable thrown) {
-    log(ERROR_LEVEL, message, thrown);
-  }
+  public static void error(String message, Throwable thrown) { log(ERROR_LEVEL, message, thrown); }
 }

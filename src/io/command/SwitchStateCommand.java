@@ -33,7 +33,5 @@ public class SwitchStateCommand implements ICommand {
    *
    * @return The target state to switch to.
    */
-  public RoboStates getTargetState() {
-    return this.targetState;
-  }
+  public RoboStates getTargetState() { return this.targetState; }
 }

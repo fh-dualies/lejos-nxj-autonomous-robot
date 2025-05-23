@@ -5,6 +5,7 @@ import event.base.AbstractEvent;
 import lejos.nxt.LCD;
 import strategy.LineFollowingStrategy;
 import strategy.algorithm.PidAlgorithm;
+import util.LcdUtil;
 import util.Log;
 
 /**
@@ -26,8 +27,8 @@ public class AutonomousState extends AbstractRoboState {
   @Override
   public void onEnter(RoboController controller) {
     Log.info("enter autonomous");
-    LCD.clear();
-    LCD.drawString("Autonomous", 0, 1);
+    LcdUtil.clear();
+    LcdUtil.print("Autonomous", LcdUtil.Position.INFO);
 
     controller.setCurrentDrivingStrategy(new LineFollowingStrategy(new PidAlgorithm(controller)));
   }
@@ -49,7 +50,5 @@ public class AutonomousState extends AbstractRoboState {
    * @param controller The RoboController instance that manages the robot's state.
    * @param event      The event that occurred.
    */
-  public void handleEvent(RoboController controller, AbstractEvent event) {
-    this.handleSwitchEvent(controller, event);
-  }
+  public void handleEvent(RoboController controller, AbstractEvent event) { this.handleSwitchEvent(controller, event); }
 }

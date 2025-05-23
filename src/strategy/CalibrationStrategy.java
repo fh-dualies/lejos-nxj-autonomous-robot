@@ -10,6 +10,7 @@ import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import state.IdleState;
+import util.LcdUtil;
 import util.Log;
 
 /**
@@ -59,21 +60,20 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
    */
   @Override
   public void execute(RoboController controller) {
-    LCD.refresh();
-    LCD.clear();
-    LCD.drawString("Calibrating", 0, 1);
+    LcdUtil.clear();
+    LcdUtil.print("Calibrating", LcdUtil.Position.INFO);
 
     switch (step) {
     case FLOOR:
-      LCD.drawString("Confirm floor light", 0, 2);
+      LcdUtil.print("Confirm floor light", LcdUtil.Position.INFO);
       break;
     case STRIPE:
-      LCD.drawString("Floor: " + floorLightValue, 0, 2);
-      LCD.drawString("Confirm stripe light", 0, 3);
+      LcdUtil.print("Floor: " + floorLightValue, LcdUtil.Position.INFO);
+      LcdUtil.print("Confirm stripe light", LcdUtil.Position.ERROR);
       break;
     case DONE:
-      LCD.drawString("Floor: " + floorLightValue, 0, 2);
-      LCD.drawString("Stripe: " + stripeLightValue, 0, 3);
+      LcdUtil.print("Floor: " + floorLightValue, LcdUtil.Position.INFO);
+      LcdUtil.print("Stripe: " + stripeLightValue, LcdUtil.Position.ERROR);
       break;
     default:
       throw new IllegalStateException("Unexpected value: " + step);
@@ -133,7 +133,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
       return;
     }
 
-    LCD.drawString("#" + sensorEvent.getValue(), 0, 4);
+    LcdUtil.print("#" + sensorEvent.getValue(), LcdUtil.Position.STREAM);
   }
 
   /**
@@ -169,7 +169,5 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
   /**
    * The possible calibration steps.
    */
-  private enum CalibrationStep {
-    FLOOR, STRIPE, DONE
-  }
+  private enum CalibrationStep { FLOOR, STRIPE, DONE }
 }

@@ -73,8 +73,8 @@ public final class EventLoop implements Runnable {
   public EventLoop(RoboController controller, LightSensorReader lightSensorReader,
                    UltrasonicSensorReader ultrasonicSensorReader, BluetoothReceiver bluetoothReceiver,
                    BluetoothTransmitter bluetoothTransmitter) {
-    if (controller == null || lightSensorReader == null || ultrasonicSensorReader == null
-            || bluetoothReceiver == null) {
+    if (controller == null || lightSensorReader == null || ultrasonicSensorReader == null ||
+        bluetoothReceiver == null) {
       throw new NullPointerException();
     }
 
@@ -125,9 +125,7 @@ public final class EventLoop implements Runnable {
   /**
    * Stops the event loop by setting the running flag to false. This will cause the loop to exit gracefully
    */
-  public void stop() {
-    this.running = false;
-  }
+  public void stop() { this.running = false; }
 
   /**
    * Cleans up resources used by the event loop. This includes closing the Bluetooth connection,

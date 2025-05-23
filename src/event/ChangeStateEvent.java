@@ -32,9 +32,7 @@ public class ChangeStateEvent extends AbstractEvent implements IExposableEvent {
    *
    * @return the new state of the robot that generated the event
    */
-  public RoboStates getNewState() {
-    return this.newState;
-  }
+  public RoboStates getNewState() { return this.newState; }
 
   /**
    * Returns the string representation of the change state event.

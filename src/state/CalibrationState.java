@@ -2,8 +2,8 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
-import lejos.nxt.LCD;
 import strategy.CalibrationStrategy;
+import util.LcdUtil;
 
 /**
  * CalibrationState is a concrete implementation of the AbstractRoboState class.
@@ -33,7 +33,7 @@ public class CalibrationState extends AbstractRoboState {
    */
   @Override
   public void onEnter(RoboController controller) {
-    LCD.clear();
+    LcdUtil.clear();
 
     controller.getContext().getMotorController().stopMotors(true);
     controller.setCurrentDrivingStrategy(new CalibrationStrategy(controller));
@@ -48,7 +48,7 @@ public class CalibrationState extends AbstractRoboState {
    */
   @Override
   public void onExit(RoboController controller) {
-    LCD.clear();
+    LcdUtil.clear();
 
     controller.setCurrentDrivingStrategy(null);
   }
@@ -62,7 +62,5 @@ public class CalibrationState extends AbstractRoboState {
    * @param controller The RoboController instance that manages the robot's state.
    * @param event      The event that occurred.
    */
-  public void handleEvent(RoboController controller, AbstractEvent event) {
-    this.handleSwitchEvent(controller, event);
-  }
+  public void handleEvent(RoboController controller, AbstractEvent event) { this.handleSwitchEvent(controller, event); }
 }

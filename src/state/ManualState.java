@@ -4,6 +4,7 @@ import core.RoboController;
 import event.base.AbstractEvent;
 import lejos.nxt.LCD;
 import strategy.UserControlStrategy;
+import util.LcdUtil;
 import util.Log;
 
 /**
@@ -36,8 +37,8 @@ public class ManualState extends AbstractRoboState {
   @Override
   public void onEnter(RoboController controller) {
     Log.info("enter manual");
-    LCD.clear();
-    LCD.drawString("Manual", 0, 1);
+    LcdUtil.clear();
+    LcdUtil.print("Manual", LcdUtil.Position.INFO);
 
     controller.setCurrentDrivingStrategy(new UserControlStrategy(controller));
   }
@@ -66,7 +67,5 @@ public class ManualState extends AbstractRoboState {
    * @param controller The RoboController instance that manages the robot's state.
    * @param event      The event that occurred.
    */
-  public void handleEvent(RoboController controller, AbstractEvent event) {
-    this.handleSwitchEvent(controller, event);
-  }
+  public void handleEvent(RoboController controller, AbstractEvent event) { this.handleSwitchEvent(controller, event); }
 }

@@ -12,6 +12,7 @@ import lejos.nxt.LCD;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import state.RoboStates;
+import util.LcdUtil;
 import util.Log;
 import util.StringUtil;
 
@@ -40,30 +41,6 @@ public final class BluetoothReceiver implements ICommunicationChannel {
    * Indicates whether the Bluetooth connection is currently active.
    */
   private boolean isConnected = false;
-
-  /**
-   * The y-coordinate on the LCD screen for displaying error messages.
-   * This is used to indicate the position of error messages on the LCD screen.
-   */
-  private static final int YCOORDERROR = 4;
-
-  /**
-   * The y-coordinate on the LCD screen for displaying connection messages.
-   * This is used to indicate the position of connection messages on the LCD screen.
-   */
-  private static final int YCOORDCONN = 5;
-
-  /**
-   * The y-coordinate on the LCD screen for displaying error stream messages.
-   * This is used to indicate the position of error messages related to the data stream on the LCD screen.
-   */
-  private static final int YCOORDERRORSTREAM = 3;
-
-  /**
-   * The number of commands that can be received.
-   * This is used to limit the number of commands that can be processed at a time.
-   */
-  private static final int NROFCOMMANDS = 3;
 
   /**
    * Constructor that initializes the BluetoothReceiver with an EventManager instance.
@@ -106,10 +83,9 @@ public final class BluetoothReceiver implements ICommunicationChannel {
     } catch (IOException e) {
       Log.error("error parsing command", e);
 
-      LCD.clear();
-      LCD.drawString("Error reading cmd", 0, YCOORDERROR);
-      LCD.drawString("Closing connection", 0, YCOORDCONN);
-      LCD.refresh();
+      LcdUtil.clear();
+      LcdUtil.print("Error reading cmd", LcdUtil.Position.ERROR);
+      LcdUtil.print("Closing connection", LcdUtil.Position.INFO);
 
       this.closeConnection();
     } catch (Exception e) {
@@ -169,7 +145,7 @@ public final class BluetoothReceiver implements ICommunicationChannel {
 
     String[] parts = StringUtil.split(command, "|");
 
-    if (parts.length != NROFCOMMANDS) {
+    if (parts.length != 3) {
       return null;
     }
 
@@ -233,23 +209,19 @@ public final class BluetoothReceiver implements ICommunicationChannel {
    * @return true if the connection is established successfully, false otherwise.
    */
   public boolean waitForConnection() {
-    LCD.clear();
-    LCD.drawString("Waiting for BT", 0, 0);
-    LCD.refresh();
+    LcdUtil.clear();
+    LcdUtil.print("Waiting for BT", LcdUtil.Position.INFO);
 
     connection = Bluetooth.waitForConnection();
 
     if (connection == null) {
-      LCD.drawString("No connection", 0, 1);
-      LCD.refresh();
+      LcdUtil.print("No connection", LcdUtil.Position.ERROR);
       this.isConnected = false;
 
       return false;
     }
 
-    LCD.drawString("Connected", 0, 1);
-    LCD.drawString(connection.getAddress(), 0, 2);
-    LCD.refresh();
+    LcdUtil.print("Connected", LcdUtil.Position.INFO);
 
     try {
       dataStream = connection.openDataInputStream();
@@ -257,9 +229,7 @@ public final class BluetoothReceiver implements ICommunicationChannel {
 
       return true;
     } catch (Exception e) {
-      LCD.drawString("Error opening stream", 0, YCOORDERRORSTREAM);
-      LCD.refresh();
-
+      LcdUtil.print("Error opening stream", LcdUtil.Position.ERROR);
       this.closeConnection();
 
       return false;
@@ -285,9 +255,8 @@ public final class BluetoothReceiver implements ICommunicationChannel {
         this.connection.close();
         this.connection = null;
 
-        LCD.clear();
-        LCD.drawString("Connection closed", 0, 1);
-        LCD.refresh();
+        LcdUtil.clear();
+        LcdUtil.print("Connection closed", LcdUtil.Position.INFO);
       }
     } catch (Exception e) {
       Log.error("error closing Connection", e);

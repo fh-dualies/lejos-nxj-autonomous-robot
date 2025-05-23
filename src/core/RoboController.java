@@ -217,7 +217,5 @@ public final class RoboController implements IEventListener {
    *
    * @return The current driving strategy.
    */
-  public RoboContext getContext() {
-    return this.context;
-  }
+  public RoboContext getContext() { return this.context; }
 }

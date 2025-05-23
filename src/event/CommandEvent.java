@@ -33,9 +33,7 @@ public class CommandEvent extends AbstractEvent {
    *
    * @return the command that has to be executed in the system
    */
-  public ICommand getCommand() {
-    return this.command;
-  }
+  public ICommand getCommand() { return this.command; }
 
   /**
    * Returns the string representation of the command event.

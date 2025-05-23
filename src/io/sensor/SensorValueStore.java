@@ -135,43 +135,33 @@ public final class SensorValueStore {
    *
    * @return The last value read from the light sensor.
    */
-  public int getLastLightSensorValue() {
-    return this.lastLightSensorValue;
-  }
+  public int getLastLightSensorValue() { return this.lastLightSensorValue; }
 
   /**
    * Returns the last value read from the distance sensor.
    *
    * @return The last value read from the distance sensor.
    */
-  public int getLastDistanceSensorValue() {
-    return this.lastDistanceSensorValue;
-  }
+  public int getLastDistanceSensorValue() { return this.lastDistanceSensorValue; }
 
   /**
    * Returns the calibration value for the floor light sensor.
    *
    * @return The calibration value for the floor light sensor.
    */
-  public int getFloorCalibrationLightValue() {
-    return this.floorCalibrationLightValue;
-  }
+  public int getFloorCalibrationLightValue() { return this.floorCalibrationLightValue; }
 
   /**
    * Returns the calibration value for the stripe light sensor.
    *
    * @return The calibration value for the stripe light sensor.
    */
-  public int getStripeCalibrationLightValue() {
-    return this.stripeCalibrationLightValue;
-  }
+  public int getStripeCalibrationLightValue() { return this.stripeCalibrationLightValue; }
 
   /**
    * Returns the self-optimizing light value for the line edge.
    *
    * @return The self-optimizing light value for the line edge.
    */
-  public int getLineEdgeLightValue() {
-    return this.lineEdgeLightValue;
-  }
+  public int getLineEdgeLightValue() { return this.lineEdgeLightValue; }
 }

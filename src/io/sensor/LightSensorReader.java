@@ -67,7 +67,5 @@ public class LightSensorReader extends AbstractSensorReader {
   /**
    * Cleans up the resources used by the light sensor.
    */
-  public void close() {
-    this.lightSensor.setFloodlight(false);
-  }
+  public void close() { this.lightSensor.setFloodlight(false); }
 }

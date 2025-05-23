@@ -74,7 +74,5 @@ public class EventManager {
    *
    * @return the number of listeners.
    */
-  public int getListenerCount() {
-    return this.listeners.size();
-  }
+  public int getListenerCount() { return this.listeners.size(); }
 }
