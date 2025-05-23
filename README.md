@@ -12,7 +12,3 @@
 - Dennis Höllmann
 - Tom Steinbach
 - Floriane Monga
-
-### TODO
-
-- Find line state

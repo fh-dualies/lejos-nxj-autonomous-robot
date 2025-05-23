@@ -21,7 +21,7 @@ public class CircleSearchAlgorithm implements IFollowingAlgorithm {
    */
   private static final int INITIAL_RADIUS_DURATION_MS = 1000;
   /**
-   * The increment in duration for each subsequent circle search radius.
+   * The increment in duration for each later circle search radius.
    */
   private static final int RADIUS_INCREMENT_MS = 500;
   /**
@@ -72,6 +72,8 @@ public class CircleSearchAlgorithm implements IFollowingAlgorithm {
 
   @Override
   public void run() {
+    // TODO: Refactor & Convert to "FindLineStrategy" instead "...Algorithm"
+
     for (int i = 0; i < MAX_SEARCH_RADIUS; i++) {
       int duration = INITIAL_RADIUS_DURATION_MS + i * RADIUS_INCREMENT_MS;
       long startTime = System.currentTimeMillis();
@@ -86,16 +88,14 @@ public class CircleSearchAlgorithm implements IFollowingAlgorithm {
 
         try {
           Thread.sleep(50);
-        } catch (InterruptedException e) {
-          // schlucken
+        } catch (InterruptedException ignored) {
         }
       }
 
       motorController.stopMotors(true);
       try {
         Thread.sleep(200);
-      } catch (InterruptedException e) {
-        // schlucken
+      } catch (InterruptedException ignored) {
       }
     }
 

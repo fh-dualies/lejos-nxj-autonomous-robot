@@ -19,7 +19,7 @@ public final class StringUtil {
     List<String> list = new ArrayList<>();
 
     int start = 0;
-    int index = 0;
+    int index;
 
     while ((index = str.indexOf(delimiter, start)) != -1) {
       list.add(str.substring(start, index));
@@ -58,7 +58,7 @@ public final class StringUtil {
     List<String> list = new ArrayList<>();
 
     int start = 0;
-    int index = 0;
+    int index;
 
     while ((index = str.indexOf(delimiter, start)) != -1) {
       list.add(str.substring(start, index));

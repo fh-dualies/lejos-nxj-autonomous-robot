@@ -6,7 +6,7 @@ import main.Config;
 import util.Log;
 
 /**
- * ZigZagAlgorithm is a concrete implementation of IFollowingAlgorithm that implements a zigzag following algorithm.
+ * ZigZagAlgorithm is a concrete implementation of IFollowingAlgorithm that implements a zigzag-following algorithm.
  * This algorithm is used to follow a line by adjusting the speed of the motors based on the light sensor values.
  * It alternates the speed of the left and right motors to create a zigzag pattern.
  * The algorithm assumes that the robot is searching for the line on the right side initially.
@@ -94,28 +94,23 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
     if (currentLightValue > Config.LIGHT_STRIPE_EDGE.getIntValue()) {
       if (this.searchRight) {
         int leftSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
-        int rightSpeed = FORWARD_SPEED;
 
-        this.motorController.forward(leftSpeed, rightSpeed);
+        this.motorController.forward(leftSpeed, FORWARD_SPEED);
         this.searchRight = false;
       } else {
-        int leftSpeed = FORWARD_SPEED;
         int rightSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
 
-        this.motorController.forward(leftSpeed, rightSpeed);
+        this.motorController.forward(FORWARD_SPEED, rightSpeed);
         this.searchRight = true;
       }
     } else {
+      int rightSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
       if (this.searchRight) {
-        int leftSpeed = FORWARD_SPEED;
-        int rightSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
 
-        this.motorController.forward(leftSpeed, rightSpeed);
+        this.motorController.forward(FORWARD_SPEED, rightSpeed);
       } else {
-        int leftSpeed = FORWARD_SPEED / TURN_SPEED_FACTOR;
-        int rightSpeed = FORWARD_SPEED;
 
-        this.motorController.forward(leftSpeed, rightSpeed);
+        this.motorController.forward(rightSpeed, FORWARD_SPEED);
       }
     }
   }

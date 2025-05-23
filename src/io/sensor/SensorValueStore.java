@@ -6,7 +6,7 @@ import main.Config;
 
 /**
  * Holds the latest sensor readings, calibration values, and a self-adjusting
- * history for the light sensor to compute a dynamic edge threshold.
+ * history for the light sensor to compute a dynamic-edge threshold.
  */
 public final class SensorValueStore {
   /**

@@ -8,7 +8,7 @@ import main.RoboApplication;
  * The Log class provides a simple logging utility for the application.
  * It allows logging messages at different levels (INFO, WARNING, ERROR)
  * and can also log exceptions. The logs are printed to the standard
- * output or error stream, and can be dispatched to an event manager
+ * output or error stream and can be dispatched to an event manager
  * if one is set.
  */
 public final class Log {

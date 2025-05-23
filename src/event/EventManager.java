@@ -7,7 +7,7 @@ import util.Log;
 
 /**
  * EventManager is responsible for managing event listeners and dispatching events to them.
- * It allows adding and removing listeners, and ensures thread-safe operations using CopyOnWriteArrayList.
+ * It allows adding and removing listeners and ensures thread-safe operations using CopyOnWriteArrayList.
  */
 public class EventManager {
   /**
