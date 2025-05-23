@@ -78,7 +78,7 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    *
    * @param controller The RoboController instance used to control the robot.
    * @throws NullPointerException if the controller is null or if it does not have a motor controller or sensor value
-   *     store.
+   *                              store.
    */
   public PidAlgorithm(RoboController controller) {
     if (controller == null || controller.getContext().getMotorController() == null ||

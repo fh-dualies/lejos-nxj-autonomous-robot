@@ -13,39 +13,33 @@ import util.Log;
  */
 public class CircleSearchAlgorithm implements IFollowingAlgorithm {
   /**
-   * The RoboController instance used to control the robot.
-   */
-  private final RoboController controller;
-
-  /**
-   * The motor controller used to control the motors of the robot.
-   */
-  private final IMotorController motorController;
-
-  /**
-   * The sensor value store used to access the latest sensor readings.
-   */
-  private final SensorValueStore sensorValueStore;
-
-  /**
    * The maximum search radius for the circle search algorithm.
    */
   private static final int MAX_SEARCH_RADIUS = 5;
-
   /**
    * The initial duration for the first circle search radius.
    */
   private static final int INITIAL_RADIUS_DURATION_MS = 1000;
-
   /**
    * The increment in duration for each subsequent circle search radius.
    */
   private static final int RADIUS_INCREMENT_MS = 500;
-
   /**
    * The default tolerance for light value comparison.
    */
   private static final int DEFAULT_TOLERANCE = 2;
+  /**
+   * The RoboController instance used to control the robot.
+   */
+  private final RoboController controller;
+  /**
+   * The motor controller used to control the motors of the robot.
+   */
+  private final IMotorController motorController;
+  /**
+   * The sensor value store used to access the latest sensor readings.
+   */
+  private final SensorValueStore sensorValueStore;
 
   /**
    * Constructor for the CircleSearchAlgorithm class.

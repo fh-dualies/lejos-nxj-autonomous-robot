@@ -9,16 +9,6 @@ import lejos.nxt.LCD;
  */
 public final class LcdUtil {
   /**
-   * Enum representing the position on the LCD screen.
-   */
-  public enum Position {
-    ERROR,
-    INFO,
-    STREAM,
-    WARNING,
-  }
-
-  /**
    * Prints a message at the specified position on the LCD screen by using the Position enum.
    */
   public static void print(String message, Position position) {
@@ -39,4 +29,14 @@ public final class LcdUtil {
    * Clears the LCD screen.
    */
   public static void clear() { LCD.clear(); }
+
+  /**
+   * Enum representing the position on the LCD screen.
+   */
+  public enum Position {
+    ERROR,
+    INFO,
+    STREAM,
+    WARNING,
+  }
 }

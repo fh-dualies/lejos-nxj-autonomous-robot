@@ -1,10 +1,12 @@
 # leJOS NXJ Installation Guide on macOS (64-bit)
 
-> **Note:** This guide assumes you have the Java Development Kit (JDK) installed and that you have extracted the leJOS NXJ package.
+> **Note:** This guide assumes you have the Java Development Kit (JDK) installed and that you have extracted the leJOS
+> NXJ package.
 
 ## 1. Download the Package
 
-Download the latest leJOS NXJ package for macOS from the [leJOS website](https://lejos.sourceforge.io/nxj-downloads.php).
+Download the latest leJOS NXJ package for macOS from
+the [leJOS website](https://lejos.sourceforge.io/nxj-downloads.php).
 
 ## 2. Extract the Package
 

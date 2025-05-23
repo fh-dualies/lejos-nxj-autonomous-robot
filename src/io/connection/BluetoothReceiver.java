@@ -8,7 +8,6 @@ import io.command.MoveCommand;
 import io.command.SwitchStateCommand;
 import java.io.DataInputStream;
 import java.io.IOException;
-import lejos.nxt.LCD;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import state.RoboStates;

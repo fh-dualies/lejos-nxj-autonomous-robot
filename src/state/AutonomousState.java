@@ -2,7 +2,6 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
-import lejos.nxt.LCD;
 import strategy.LineFollowingStrategy;
 import strategy.algorithm.PidAlgorithm;
 import util.LcdUtil;

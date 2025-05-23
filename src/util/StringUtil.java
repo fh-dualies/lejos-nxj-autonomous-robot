@@ -39,9 +39,9 @@ public final class StringUtil {
   /**
    * Splits a string into an array of strings based on a specified delimiter and limit.
    *
-   * @param str      the string to be split
+   * @param str       the string to be split
    * @param delimiter the delimiter used to split the string
-   * @param limit    the maximum number of substrings to return
+   * @param limit     the maximum number of substrings to return
    * @return an array of strings obtained by splitting the input string
    */
   public static String[] split(String str, String delimiter, int limit) {
