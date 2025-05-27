@@ -8,7 +8,6 @@ import event.base.IEventListener;
 import io.sensor.SensorType;
 import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
-import lejos.util.Delay;
 import state.IdleState;
 import util.LcdUtil;
 import util.Log;
@@ -19,6 +18,17 @@ import util.Log;
  * It handles entering and exiting the strategy, as well as processing events that occur while in this strategy.
  */
 public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
+  /**
+   * The delay in milliseconds to debounce button events.
+   */
+  private static final int DEBOUNCE_DELAY = 1000;
+
+  /**
+   * The last time a button event was processed.
+   * This is used to prevent multiple button events from being processed too quickly.
+   */
+  private long lastButtonEventProcessedTime = 0;
+
   /**
    * The sensor value store used to store the light sensor values.
    */
@@ -146,6 +156,13 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
       return;
     }
 
+    long now = System.currentTimeMillis();
+
+    if (now - this.lastButtonEventProcessedTime < DEBOUNCE_DELAY) {
+      return;
+    }
+
+    this.lastButtonEventProcessedTime = now;
     int currentValue = this.sensorValueStore.getLastLightSensorValue();
 
     switch (step) {
@@ -164,8 +181,6 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
     default:
       throw new IllegalStateException("Unexpected value: " + step);
     }
-
-    Delay.msDelay(1000); // TODO: fix
   }
 
   /**
