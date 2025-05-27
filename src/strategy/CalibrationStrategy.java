@@ -64,11 +64,11 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
 
     switch (step) {
     case FLOOR:
-      LcdUtil.print("Confirm floor light", LcdUtil.Position.INFO);
+      LcdUtil.print("Floor light", LcdUtil.Position.INFO);
       break;
     case STRIPE:
       LcdUtil.print("Floor: " + floorLightValue, LcdUtil.Position.INFO);
-      LcdUtil.print("Confirm stripe light", LcdUtil.Position.ERROR);
+      LcdUtil.print("Stripe light", LcdUtil.Position.ERROR);
       break;
     case DONE:
       LcdUtil.print("Floor: " + floorLightValue, LcdUtil.Position.INFO);

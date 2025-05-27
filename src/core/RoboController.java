@@ -26,6 +26,13 @@ public final class RoboController implements IEventListener {
   private final RoboContext context;
 
   /**
+   * Flags to track the last state of the ENTER and ESCAPE buttons.
+   * These are used to prevent multiple events from being dispatched for a single button press.
+   */
+  private boolean lastEnterPressed = false;
+  private boolean lastEscapePressed = false;
+
+  /**
    * Constructor for the RoboController class.
    *
    * @param eventManager    The event manager used to dispatch events and register listeners.
@@ -64,13 +71,21 @@ public final class RoboController implements IEventListener {
   public void checkForPressedButtons() {
     EventManager eventManager = this.context.getEventManager();
 
-    if (Button.ENTER.isDown()) {
+    boolean enterDown = Button.ENTER.isDown();
+
+    if (enterDown && !lastEnterPressed) {
       eventManager.dispatch(new ButtonEvent(Button.ENTER.toString()));
     }
 
-    if (Button.ESCAPE.isDown()) {
+    lastEnterPressed = enterDown;
+
+    boolean escapeDown = Button.ESCAPE.isDown();
+
+    if (escapeDown && !lastEscapePressed) {
       eventManager.dispatch(new ButtonEvent(Button.ESCAPE.toString()));
     }
+
+    lastEscapePressed = escapeDown;
   }
 
   /**
@@ -136,8 +151,6 @@ public final class RoboController implements IEventListener {
 
     if (buttonId.equals(Button.ESCAPE.toString())) {
       System.exit(0);
-    } else {
-      Log.warning("unknown button pressed: " + buttonId);
     }
   }
 
