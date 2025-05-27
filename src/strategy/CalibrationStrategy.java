@@ -8,6 +8,7 @@ import event.base.IEventListener;
 import io.sensor.SensorType;
 import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
+import lejos.util.Delay;
 import state.IdleState;
 import util.LcdUtil;
 import util.Log;
@@ -163,6 +164,8 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
     default:
       throw new IllegalStateException("Unexpected value: " + step);
     }
+
+    Delay.msDelay(1000); // TODO: fix
   }
 
   /**

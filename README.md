@@ -3,6 +3,13 @@
 
 ---
 
+## TODO
+
+- [ ] adjustable configs while running (low)
+- [ ] calibration by command (low)
+- [ ] find line strategy
+- [ ] line orientation by command (aka overtake)
+
 ## Overview
 
 - [Members](https://github.com/fh-dualies/lejos-nxj-autonomous-robot#members)
