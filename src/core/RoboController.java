@@ -11,7 +11,7 @@ import io.connection.BluetoothTransmitter;
 import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
 import state.AbstractRoboState;
-import state.CalibrationState;
+import state.IdleState;
 import strategy.IDrivingStrategy;
 import util.Log;
 
@@ -42,7 +42,7 @@ public final class RoboController implements IEventListener {
                         BluetoothTransmitter bluetoothTransmitter) {
     this.context = new RoboContext(eventManager, motorController, bluetoothTransmitter, new SensorValueStore());
 
-    this.setState(new CalibrationState());
+    this.setState(new IdleState());
     this.context.getEventManager().addListener(this);
   }
 
