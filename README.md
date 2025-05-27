@@ -6,7 +6,7 @@
 ## TODO
 
 - [ ] adjustable configs while running (low)
-- [ ] calibration by command (low)
+- [x] calibration by command (low)
 - [ ] find line strategy
 - [ ] line orientation by command (aka overtake)
 

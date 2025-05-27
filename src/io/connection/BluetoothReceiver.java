@@ -2,15 +2,13 @@ package io.connection;
 
 import event.CommandEvent;
 import event.EventManager;
-import io.command.ExitCommand;
-import io.command.ICommand;
-import io.command.MoveCommand;
-import io.command.SwitchStateCommand;
+import io.command.*;
 import java.io.DataInputStream;
 import java.io.IOException;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import state.RoboStates;
+import strategy.CalibrationStepEnum;
 import util.LcdUtil;
 import util.Log;
 import util.StringUtil;
@@ -125,9 +123,43 @@ public final class BluetoothReceiver implements ICommunicationChannel {
       return result;
     }
 
+    // calibration command
+    result = this.parseCalibrationCommand(command);
+    if (result != null) {
+      return result;
+    }
+
     Log.warning("unknown command: " + command);
 
     return null;
+  }
+
+  /**
+   * Parses a calibration command string and returns the corresponding CalibrationCommand object.
+   * The command should be in the format "CALIBRATE(step)".
+   *
+   * @param command The command string to parse.
+   * @return The corresponding CalibrationCommand object or null if the command is not recognized.
+   */
+  private ICommand parseCalibrationCommand(String command) {
+    if (command == null || command.isEmpty()) {
+      return null;
+    }
+
+    String[] parts = StringUtil.split(command, "|");
+
+    if (parts.length != 2 || !parts[0].trim().equals("CALIBRATE")) {
+      return null;
+    }
+
+    String stepString = parts[1].trim();
+
+    try {
+      return new CalibrationCommand(CalibrationStepEnum.valueOf(stepString));
+    } catch (IllegalArgumentException e) {
+      Log.warning("unknown calibration step in command: " + command);
+      return null;
+    }
   }
 
   /**

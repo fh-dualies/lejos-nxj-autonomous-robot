@@ -2,9 +2,11 @@ package strategy;
 
 import core.RoboController;
 import event.ButtonEvent;
+import event.CommandEvent;
 import event.SensorEvent;
 import event.base.AbstractEvent;
 import event.base.IEventListener;
+import io.command.CalibrationCommand;
 import io.sensor.SensorType;
 import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
@@ -22,23 +24,19 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
    * The delay in milliseconds to debounce button events.
    */
   private static final int DEBOUNCE_DELAY = 1000;
-
+  /**
+   * The sensor value store used to store the light sensor values.
+   */
+  private final SensorValueStore sensorValueStore;
+  /**
+   * The RoboController instance used to control the robot.
+   */
+  private final RoboController controller;
   /**
    * The last time a button event was processed.
    * This is used to prevent multiple button events from being processed too quickly.
    */
   private long lastButtonEventProcessedTime = 0;
-
-  /**
-   * The sensor value store used to store the light sensor values.
-   */
-  private final SensorValueStore sensorValueStore;
-
-  /**
-   * The RoboController instance used to control the robot.
-   */
-  private final RoboController controller;
-
   /**
    * The light values for the floor and stripe.
    */
@@ -48,7 +46,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
   /**
    * The current calibration step.
    */
-  private CalibrationStep step = CalibrationStep.FLOOR;
+  private CalibrationStepEnum step = CalibrationStepEnum.FLOOR;
 
   /**
    * Constructor for the CalibrationStrategy class.
@@ -131,10 +129,15 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
     if (event instanceof ButtonEvent) {
       this.handleButtonEvent((ButtonEvent)event);
     }
+
+    if (event instanceof CommandEvent) {
+      this.handleCommandEvent((CommandEvent)event);
+    }
   }
 
   /**
    * Handles sensor events.
+   * This method checks if the sensor type is LIGHT and prints the sensor value to the LCD.
    *
    * @param sensorEvent The sensor event to handle.
    */
@@ -148,6 +151,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
 
   /**
    * Handles button events.
+   * This method checks if the button pressed is the ENTER button and calls handleStateChange to process the event.
    *
    * @param event The button event to handle.
    */
@@ -156,6 +160,41 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
       return;
     }
 
+    this.handleStateChange();
+  }
+
+  /**
+   * Handles command events.
+   * This method checks if the command is a CalibrationCommand and if the step matches the current step.
+   * If so, it calls handleStateChange to process the command.
+   *
+   * @param event The command event to handle.
+   */
+  private void handleCommandEvent(CommandEvent event) {
+    if (!(event.getCommand() instanceof CalibrationCommand)) {
+      return;
+    }
+
+    CalibrationStepEnum commandStep = ((CalibrationCommand)event.getCommand()).getStep();
+
+    if (commandStep == null) {
+      return;
+    }
+
+    if (!commandStep.equals(this.step)) {
+      Log.warning("Received command for step " + commandStep + ", but current step is " + this.step);
+      return;
+    }
+
+    this.handleStateChange();
+  }
+
+  /**
+   * Handles the state change based on the current step.
+   * This method updates the light values for the floor and stripe based on the sensor readings.
+   * It also updates the calibration values in the sensor value store and transitions to the next step.
+   */
+  private void handleStateChange() {
     long now = System.currentTimeMillis();
 
     if (now - this.lastButtonEventProcessedTime < DEBOUNCE_DELAY) {
@@ -168,11 +207,11 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
     switch (step) {
     case FLOOR:
       this.floorLightValue = currentValue;
-      this.step = CalibrationStep.STRIPE;
+      this.step = CalibrationStepEnum.STRIPE;
       break;
     case STRIPE:
       this.stripeLightValue = currentValue;
-      this.step = CalibrationStep.DONE;
+      this.step = CalibrationStepEnum.DONE;
       break;
     case DONE:
       this.sensorValueStore.updateCalibrationValues(this.floorLightValue, this.stripeLightValue);
@@ -182,9 +221,4 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
       throw new IllegalStateException("Unexpected value: " + step);
     }
   }
-
-  /**
-   * The possible calibration steps.
-   */
-  private enum CalibrationStep { FLOOR, STRIPE, DONE }
 }
