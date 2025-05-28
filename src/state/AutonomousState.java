@@ -7,7 +7,7 @@ import state.abstracts.AbstractRoboState;
 import strategy.LineFollowingStrategy;
 import strategy.algorithm.PidAlgorithm;
 import util.LcdUtil;
-import util.Log;
+import util.Logger;
 
 /**
  * AutonomousState is a concrete implementation of the AbstractRoboState class.
@@ -27,7 +27,7 @@ public class AutonomousState extends AbstractRoboState {
 
   @Override
   public void onEnter(RoboController controller) {
-    Log.info("enter autonomous");
+    Logger.info("enter autonomous");
     LcdUtil.clear();
     LcdUtil.print("Autonomous", LcdUtil.Position.INFO);
 
@@ -36,7 +36,7 @@ public class AutonomousState extends AbstractRoboState {
 
   @Override
   public void onExit(RoboController controller) {
-    Log.info("exit autonomous");
+    Logger.info("exit autonomous");
 
     controller.getContext().getMotorController().stopMotors(false);
     controller.setCurrentDrivingStrategy(null);

@@ -3,7 +3,7 @@ package event;
 import event.abstracts.AbstractEvent;
 import event.abstracts.IEventListener;
 import java.util.Vector;
-import util.Log;
+import util.Logger;
 
 /**
  * EventManager is responsible for managing event listeners and dispatching events to them.
@@ -31,7 +31,7 @@ public class EventManager {
       try {
         this.listeners.elementAt(i).onEvent(event);
       } catch (Exception e) {
-        Log.error("dispatching error: ", e);
+        Logger.error("dispatching error: ", e);
       }
     }
   }

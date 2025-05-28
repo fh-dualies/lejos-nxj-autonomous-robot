@@ -14,7 +14,7 @@ import lejos.nxt.Button;
 import state.IdleState;
 import strategy.abstracts.IDrivingStrategy;
 import util.LcdUtil;
-import util.Log;
+import util.Logger;
 
 /**
  * CalibrationStrategy is a concrete implementation of the IDrivingStrategy interface.
@@ -97,7 +97,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
    */
   @Override
   public void activate(RoboController controller) {
-    Log.info("CalibrationStrategy activated");
+    Logger.info("CalibrationStrategy activated");
 
     controller.getContext().getEventManager().addListener(this);
   }
@@ -109,7 +109,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
    */
   @Override
   public void deactivate(RoboController controller) {
-    Log.info("CalibrationStrategy deactivated");
+    Logger.info("CalibrationStrategy deactivated");
 
     controller.getContext().getEventManager().removeListener(this);
   }
@@ -184,7 +184,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
     }
 
     if (!commandStep.equals(this.step)) {
-      Log.warning("Received command for step " + commandStep + ", but current step is " + this.step);
+      Logger.warning("Received command for step " + commandStep + ", but current step is " + this.step);
       return;
     }
 

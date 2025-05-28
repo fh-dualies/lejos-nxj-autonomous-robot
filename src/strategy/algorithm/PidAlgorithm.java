@@ -2,11 +2,12 @@ package strategy.algorithm;
 
 import core.RoboController;
 import io.abstracts.IMotorController;
+import io.constants.OrientationEnum;
 import io.sensor.SensorValueStore;
 import lejos.util.PIDController;
 import main.Config;
 import strategy.abstracts.IFollowingAlgorithm;
-import util.Log;
+import util.Logger;
 
 /**
  * PidAlgorithm is a concrete implementation of the IFollowingAlgorithm interface.
@@ -97,13 +98,13 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    */
   @Override
   public void initialize() {
-    Log.info("PidAlgorithm initialized");
+    Logger.info("PidAlgorithm initialized");
 
     if (this.sensorValueStore.getLineEdgeLightValue() < 0) {
       throw new IllegalStateException("LINE_EDGE_TARGET is negative");
     }
 
-    Log.info("PidAlgorithm initialized with LINE_EDGE_TARGET: " + this.sensorValueStore.getLineEdgeLightValue());
+    Logger.info("PidAlgorithm initialized with LINE_EDGE_TARGET: " + this.sensorValueStore.getLineEdgeLightValue());
 
     this.pidController = new PIDController(this.sensorValueStore.getLineEdgeLightValue(), 0);
     this.pidController.setPIDParam(PIDController.PID_KP, KP);
@@ -118,7 +119,7 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    */
   @Override
   public void deinitialize() {
-    Log.info("PidAlgorithm deinitialize");
+    Logger.info("PidAlgorithm deinitialize");
 
     this.pidController = null;
     this.motorController.stopMotors(true);
@@ -132,7 +133,7 @@ public class PidAlgorithm implements IFollowingAlgorithm {
   @Override
   public void run() {
     if (this.pidController == null) {
-      Log.warning("PidAlgorithm not initialized");
+      Logger.warning("PidAlgorithm not initialized");
       return;
     }
 
@@ -146,8 +147,10 @@ public class PidAlgorithm implements IFollowingAlgorithm {
     int turn = this.pidController.doPID(currentLightValue);
     int dynamicTargetSpeed = this.calculateDynamicTargetSpeed(turn);
 
-    int leftSpeed = dynamicTargetSpeed + turn;
-    int rightSpeed = dynamicTargetSpeed - turn;
+    int[] speeds = this.calculateTurnSpeed(dynamicTargetSpeed, turn);
+
+    int leftSpeed = speeds[0];
+    int rightSpeed = speeds[1];
 
     if (currentDistanceValue == -1) {
       this.motorController.forward(leftSpeed, rightSpeed);
@@ -167,6 +170,35 @@ public class PidAlgorithm implements IFollowingAlgorithm {
     }
 
     this.motorController.forward(leftSpeed, rightSpeed);
+  }
+
+  /**
+   * This method calculates the speed for the left and right motors based on the given speed and turn values.
+   * It is used to adjust the speed of the motors for turning.
+   *
+   * @param speed The base speed for both motors.
+   * @param turn  The turn value to adjust the speed of the motors.
+   * @return An array containing the adjusted speeds for the left and right motors. Index 0 is the left motor speed,
+   *     Index 1 is the right motor speed.
+   */
+  private int[] calculateTurnSpeed(int speed, int turn) {
+    if (speed < 0) {
+      throw new IllegalArgumentException("Speed values must be non-negative.");
+    }
+
+    // left orientation
+    if (this.controller.getContext().getOrientation().equals(OrientationEnum.LEFT)) {
+      return new int[] {
+          speed - turn, // left motor speed
+          speed + turn  // right motor speed
+      };
+    }
+
+    // right orientation
+    return new int[] {
+        speed + turn, // left motor speed
+        speed - turn  // right motor speed
+    };
   }
 
   /**

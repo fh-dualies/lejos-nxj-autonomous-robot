@@ -36,7 +36,7 @@ public final class SystemMonitor {
     long used = runtime.totalMemory() - runtime.freeMemory();
     long total = runtime.totalMemory();
 
-    Log.info(formatBytes(used) + "/" + formatBytes(total));
+    Logger.info(formatBytes(used) + "/" + formatBytes(total));
   }
 
   /**

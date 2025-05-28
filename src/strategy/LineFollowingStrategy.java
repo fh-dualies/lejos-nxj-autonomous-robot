@@ -3,7 +3,7 @@ package strategy;
 import core.RoboController;
 import strategy.abstracts.IDrivingStrategy;
 import strategy.abstracts.IFollowingAlgorithm;
-import util.Log;
+import util.Logger;
 
 /**
  * LineFollowingStrategy is a concrete implementation of IDrivingStrategy that uses a following algorithm to follow a
@@ -39,14 +39,14 @@ public class LineFollowingStrategy implements IDrivingStrategy {
 
   @Override
   public void activate(RoboController controller) {
-    Log.info("LineFollowingStrategy activated");
+    Logger.info("LineFollowingStrategy activated");
 
     this.followingAlgorithm.initialize();
   }
 
   @Override
   public void deactivate(RoboController controller) {
-    Log.info("LineFollowingStrategy deactivated");
+    Logger.info("LineFollowingStrategy deactivated");
 
     this.followingAlgorithm.deinitialize();
   }

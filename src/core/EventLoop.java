@@ -6,7 +6,7 @@ import io.sensor.LightSensorReader;
 import io.sensor.UltrasonicSensorReader;
 import lejos.util.Delay;
 import main.Config;
-import util.Log;
+import util.Logger;
 import util.SystemMonitor;
 
 /**
@@ -87,16 +87,16 @@ public final class EventLoop implements Runnable {
 
   @Override
   public void run() {
-    Log.info("start loop");
+    Logger.info("start loop");
 
     if (!this.bluetoothReceiver.waitForConnection()) {
-      Log.error("BT failed");
+      Logger.error("BT failed");
       return;
     }
 
     this.bluetoothTransmitter.setupConnection(this.bluetoothReceiver.getConnection());
 
-    Log.info("BT connected");
+    Logger.info("BT connected");
     this.running = true;
 
     while (this.running) {
@@ -113,13 +113,13 @@ public final class EventLoop implements Runnable {
         SystemMonitor.logMemoryUsage();
         Delay.msDelay(LOOP_DELAY);
       } catch (Exception e) {
-        Log.error("loop error", e);
+        Logger.error("loop error", e);
       }
     }
 
-    Log.info("loop stopped");
+    Logger.info("loop stopped");
     this.cleanup();
-    Log.info("loop cleaned");
+    Logger.info("loop cleaned");
   }
 
   /**
@@ -138,7 +138,7 @@ public final class EventLoop implements Runnable {
       this.controller.getContext().getMotorController().close();
       lightSensorReader.close();
     } catch (Exception e) {
-      Log.error("cleanup error", e);
+      Logger.error("cleanup error", e);
     }
   }
 }

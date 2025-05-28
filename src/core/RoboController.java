@@ -7,13 +7,15 @@ import event.abstracts.IExposableEvent;
 import io.abstracts.ICommand;
 import io.abstracts.IMotorController;
 import io.command.ExitCommand;
+import io.command.OrientationCommand;
 import io.connection.BluetoothTransmitter;
+import io.constants.OrientationEnum;
 import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
 import state.IdleState;
 import state.abstracts.AbstractRoboState;
 import strategy.abstracts.IDrivingStrategy;
-import util.Log;
+import util.Logger;
 
 /**
  * RoboController is the main controller for the robot. It handles events and executes
@@ -53,7 +55,7 @@ public final class RoboController implements IEventListener {
     try {
       strategy.execute(this);
     } catch (Exception e) {
-      Log.error("RoboController error.", e);
+      Logger.error("RoboController error.", e);
     }
   }
 
@@ -86,7 +88,7 @@ public final class RoboController implements IEventListener {
     }
 
     if (event.getTimestamp() < 0) {
-      Log.warning("event timestamp invalid");
+      Logger.warning("event timestamp invalid");
       return;
     }
 
@@ -94,7 +96,7 @@ public final class RoboController implements IEventListener {
     long timeDifference = Math.abs(currentTime - event.getTimestamp());
 
     if (timeDifference > 1000) {
-      Log.warning("ignore old event");
+      Logger.warning("ignore old event");
       return;
     }
 
@@ -119,7 +121,7 @@ public final class RoboController implements IEventListener {
     if (stateToNotify != null) {
       stateToNotify.handleEvent(this, event);
     } else {
-      Log.warning("no state to notify");
+      Logger.warning("no state to notify");
     }
   }
 
@@ -151,11 +153,39 @@ public final class RoboController implements IEventListener {
 
     ICommand command = event.getCommand();
 
-    if (!(command instanceof ExitCommand)) {
+    if (command instanceof OrientationCommand) {
+      this.handleOrientationCommand((OrientationCommand)command);
+    }
+
+    if (command instanceof ExitCommand) {
+      ((ExitCommand)command).execute();
+    }
+  }
+
+  /**
+   * This method is called to handle orientation commands. It sets the orientation of the robot
+   * if it is different from the current orientation.
+   *
+   * @param command The orientation command to handle.
+   */
+  private void handleOrientationCommand(OrientationCommand command) {
+    if (command == null) {
       return;
     }
 
-    ((ExitCommand)command).execute();
+    OrientationEnum orientation = command.getOrientation();
+
+    if (orientation == null) {
+      return;
+    }
+
+    if (this.context.getOrientation() == orientation) {
+      Logger.warning("orientation already set");
+      return;
+    }
+
+    this.context.setOrientation(orientation);
+    Logger.info("orientation set to: " + orientation);
   }
 
   /**
@@ -172,7 +202,7 @@ public final class RoboController implements IEventListener {
     AbstractRoboState currentState = this.context.getCurrentState();
 
     if (newState == currentState) {
-      Log.warning("state already set");
+      Logger.warning("state already set");
       return;
     }
 
@@ -194,7 +224,7 @@ public final class RoboController implements IEventListener {
     IDrivingStrategy currentStrategy = this.context.getCurrentDrivingStrategy();
 
     if (strategy == currentStrategy) {
-      Log.warning("strategy already set");
+      Logger.warning("strategy already set");
       return;
     }
 
@@ -202,7 +232,7 @@ public final class RoboController implements IEventListener {
       currentStrategy.deactivate(this);
     }
 
-    Log.info("new strategy: " + (strategy != null ? strategy.getClass() : "null"));
+    Logger.info("new strategy: " + (strategy != null ? strategy.getClass() : "null"));
     this.context.setCurrentDrivingStrategy(strategy);
 
     if (strategy != null) {

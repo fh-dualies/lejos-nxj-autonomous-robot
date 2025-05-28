@@ -5,7 +5,7 @@ import event.abstracts.AbstractEvent;
 import io.constants.RoboStateEnum;
 import state.abstracts.AbstractRoboState;
 import util.LcdUtil;
-import util.Log;
+import util.Logger;
 
 /**
  * IdleState is a concrete implementation of the AbstractRoboState class.
@@ -25,7 +25,7 @@ public class IdleState extends AbstractRoboState {
 
   @Override
   public void onEnter(RoboController controller) {
-    Log.info("enter idle");
+    Logger.info("enter idle");
     LcdUtil.clear();
     LcdUtil.print("Idle", LcdUtil.Position.INFO);
 
@@ -34,7 +34,7 @@ public class IdleState extends AbstractRoboState {
 
   @Override
   public void onExit(RoboController controller) {
-    Log.info("exit idle");
+    Logger.info("exit idle");
   }
 
   /**

@@ -3,6 +3,7 @@ package core;
 import event.EventManager;
 import io.abstracts.IMotorController;
 import io.connection.BluetoothTransmitter;
+import io.constants.OrientationEnum;
 import io.sensor.SensorValueStore;
 import state.abstracts.AbstractRoboState;
 import strategy.abstracts.IDrivingStrategy;
@@ -42,6 +43,11 @@ public final class RoboContext {
    * The current driving strategy. This is the strategy that is currently active and will be called to
    */
   private IDrivingStrategy currentDrivingStrategy = null;
+
+  /**
+   * The current orientation of the robot. This is used to determine the direction the robot is facing.
+   */
+  private OrientationEnum orientation = OrientationEnum.LEFT;
 
   /**
    * Constructor for the RoboContext class.
@@ -116,4 +122,24 @@ public final class RoboContext {
    * @return The sensor value store.
    */
   public SensorValueStore getSensorValueStore() { return this.sensorValueStore; }
+
+  /**
+   * Returns the current orientation of the robot.
+   *
+   * @return The current orientation of the robot.
+   */
+  public OrientationEnum getOrientation() { return this.orientation; }
+
+  /**
+   * Sets the current orientation of the robot.
+   *
+   * @param orientation The new orientation to set.
+   */
+  public void setOrientation(OrientationEnum orientation) {
+    if (orientation == null) {
+      throw new NullPointerException("Orientation cannot be null");
+    }
+
+    this.orientation = orientation;
+  }
 }

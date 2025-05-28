@@ -8,7 +8,7 @@
 - [ ] adjustable configs while running (low)
 - [x] calibration by command (low)
 - [ ] find line strategy
-- [ ] line orientation by command (aka overtake)
+- [x] line orientation by command (aka overtake)
 
 ## Overview
 

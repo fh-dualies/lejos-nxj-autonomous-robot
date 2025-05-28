@@ -10,7 +10,7 @@ import io.sensor.LightSensorReader;
 import io.sensor.UltrasonicSensorReader;
 import lejos.nxt.SensorPort;
 import lejos.util.Delay;
-import util.Log;
+import util.Logger;
 
 /**
  * Main class for the Megamen Robo Application.
@@ -26,7 +26,7 @@ public final class RoboApplication {
    */
   private static EventLoop setupEventLoop() {
     EventManager eventManager = new EventManager();
-    Log.setEventManager(eventManager);
+    Logger.setEventManager(eventManager);
     NxtMotorController nxtMotorController = new NxtMotorController();
     BluetoothTransmitter bluetoothTransmitter = new BluetoothTransmitter();
 
@@ -47,13 +47,13 @@ public final class RoboApplication {
    * @param args Command line arguments (not used).
    */
   public static void main(String[] args) {
-    Log.info("starting megamen");
+    Logger.info("starting megamen");
 
     final EventLoop eventLoop = setupEventLoop();
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
-        Log.info("shutting down megamen");
+        Logger.info("shutting down megamen");
         eventLoop.stop();
 
         // wait for the event loop to finish
@@ -63,6 +63,6 @@ public final class RoboApplication {
 
     eventLoop.run();
 
-    Log.info("megamen out.");
+    Logger.info("megamen out.");
   }
 }

@@ -8,7 +8,7 @@ import io.abstracts.ICommand;
 import io.abstracts.IMotorController;
 import io.command.MoveCommand;
 import strategy.abstracts.IDrivingStrategy;
-import util.Log;
+import util.Logger;
 
 /**
  * UserControlStrategy is a driving strategy that allows the user to control the robot's motors
@@ -55,7 +55,7 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
    */
   @Override
   public void activate(RoboController controller) {
-    Log.info("UserControlStrategy activated");
+    Logger.info("UserControlStrategy activated");
 
     controller.getContext().getEventManager().addListener(this);
   }
@@ -68,7 +68,7 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
    */
   @Override
   public void deactivate(RoboController controller) {
-    Log.info("UserControlStrategy deactivated");
+    Logger.info("UserControlStrategy deactivated");
 
     controller.getContext().getEventManager().removeListener(this);
     this.motorController.stopMotors(true);

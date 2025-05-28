@@ -11,14 +11,14 @@ import main.RoboApplication;
  * output or error stream and can be dispatched to an event manager
  * if one is set.
  */
-public final class Log {
+public final class Logger {
   private static final String INFO_LEVEL = "INFO";
   private static final String WARNING_LEVEL = "WARNING";
   private static final String ERROR_LEVEL = "SEVERE";
   private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
   private static EventManager eventManager = null;
 
-  public static void setEventManager(EventManager eventManager) { Log.eventManager = eventManager; }
+  public static void setEventManager(EventManager eventManager) { Logger.eventManager = eventManager; }
 
   private static void log(String level, String message, Throwable thrown) {
     if (!RoboApplication.DEBUG) {
@@ -38,8 +38,8 @@ public final class Log {
     String msg = builder.toString();
     out.println(msg);
 
-    if (Log.eventManager != null) {
-      Log.eventManager.dispatch(new RemoteLogEvent(msg));
+    if (Logger.eventManager != null) {
+      Logger.eventManager.dispatch(new RemoteLogEvent(msg));
     }
 
     if (thrown != null) {

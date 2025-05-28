@@ -6,7 +6,7 @@ import io.constants.RoboStateEnum;
 import state.abstracts.AbstractRoboState;
 import strategy.UserControlStrategy;
 import util.LcdUtil;
-import util.Log;
+import util.Logger;
 
 /**
  * ManualState is a concrete implementation of the AbstractRoboState class.
@@ -37,7 +37,7 @@ public class ManualState extends AbstractRoboState {
    */
   @Override
   public void onEnter(RoboController controller) {
-    Log.info("enter manual");
+    Logger.info("enter manual");
     LcdUtil.clear();
     LcdUtil.print("Manual", LcdUtil.Position.INFO);
 
@@ -53,7 +53,7 @@ public class ManualState extends AbstractRoboState {
    */
   @Override
   public void onExit(RoboController controller) {
-    Log.info("exit manual");
+    Logger.info("exit manual");
 
     controller.getContext().getMotorController().stopMotors(false);
     controller.setCurrentDrivingStrategy(null);

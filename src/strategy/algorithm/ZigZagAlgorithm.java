@@ -4,7 +4,7 @@ import core.RoboController;
 import io.abstracts.IMotorController;
 import main.Config;
 import strategy.abstracts.IFollowingAlgorithm;
-import util.Log;
+import util.Logger;
 
 /**
  * ZigZagAlgorithm is a concrete implementation of IFollowingAlgorithm that implements a zigzag-following algorithm.
@@ -61,7 +61,7 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
    */
   @Override
   public void initialize() {
-    Log.info("ZigZagAlgorithm initialized");
+    Logger.info("ZigZagAlgorithm initialized");
 
     this.searchRight = true;
     this.motorController.stopMotors(true);
@@ -74,7 +74,7 @@ public class ZigZagAlgorithm implements IFollowingAlgorithm {
    */
   @Override
   public void deinitialize() {
-    Log.info("ZigZagAlgorithm deinitialized");
+    Logger.info("ZigZagAlgorithm deinitialized");
 
     this.motorController.stopMotors(true);
   }

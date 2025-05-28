@@ -5,7 +5,7 @@ import io.abstracts.ICommunicationChannel;
 import java.io.DataOutputStream;
 import java.util.Vector;
 import lejos.nxt.comm.BTConnection;
-import util.Log;
+import util.Logger;
 
 /**
  * BluetoothTransmitter is a class that handles the Bluetooth connection and data transmission.
@@ -40,7 +40,7 @@ public final class BluetoothTransmitter implements ICommunicationChannel {
    */
   public boolean setupConnection(BTConnection connection) {
     if (connection == null) {
-      Log.warning("connection is null");
+      Logger.warning("connection is null");
       return false;
     }
 
@@ -50,11 +50,11 @@ public final class BluetoothTransmitter implements ICommunicationChannel {
       this.dataStream = connection.openDataOutputStream();
       this.isConnected = true;
 
-      Log.info("bt connected");
+      Logger.info("bt connected");
 
       return true;
     } catch (Exception e) {
-      Log.error("error opening data stream", e);
+      Logger.error("error opening data stream", e);
 
       this.connection = null;
       this.isConnected = false;
@@ -76,13 +76,13 @@ public final class BluetoothTransmitter implements ICommunicationChannel {
         IExposableEvent event = this.exposableEvents.elementAt(i);
 
         if (event == null) {
-          Log.warning("exposable event is null");
+          Logger.warning("exposable event is null");
           continue;
         }
 
         this.sendMessage(event.toExposableString());
       } catch (Exception e) {
-        Log.error("expose error: ", e);
+        Logger.error("expose error: ", e);
       }
     }
 
@@ -116,7 +116,7 @@ public final class BluetoothTransmitter implements ICommunicationChannel {
     }
 
     if (message == null || message.isEmpty()) {
-      Log.warning("empty message");
+      Logger.warning("empty message");
       return false;
     }
 
@@ -126,7 +126,7 @@ public final class BluetoothTransmitter implements ICommunicationChannel {
 
       return true;
     } catch (Exception e) {
-      Log.error("error sending", e);
+      Logger.error("error sending", e);
       this.isConnected = false;
 
       return false;
@@ -143,9 +143,9 @@ public final class BluetoothTransmitter implements ICommunicationChannel {
 
     try {
       this.dataStream.close();
-      Log.info("connection closed");
+      Logger.info("connection closed");
     } catch (Exception e) {
-      Log.error("error closing dataStream", e);
+      Logger.error("error closing dataStream", e);
     } finally {
       this.dataStream = null;
     }
