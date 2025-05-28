@@ -2,7 +2,7 @@ package event;
 
 import event.base.AbstractEvent;
 import event.base.IExposableEvent;
-import state.RoboStates;
+import io.constants.RoboStateEnum;
 
 /**
  * ChangeStateEvent is an event that represents a change in the state of the robot.
@@ -12,14 +12,14 @@ public class ChangeStateEvent extends AbstractEvent implements IExposableEvent {
   /**
    * The new state of the robot that generated the event.
    */
-  private final RoboStates newState;
+  private final RoboStateEnum newState;
 
   /**
    * Constructor that initializes the ChangeStateEvent with the new state.
    *
    * @param newState the new state of the robot that generated the event
    */
-  public ChangeStateEvent(RoboStates newState) {
+  public ChangeStateEvent(RoboStateEnum newState) {
     if (newState == null) {
       throw new NullPointerException();
     }
@@ -32,7 +32,7 @@ public class ChangeStateEvent extends AbstractEvent implements IExposableEvent {
    *
    * @return the new state of the robot that generated the event
    */
-  public RoboStates getNewState() { return this.newState; }
+  public RoboStateEnum getNewState() { return this.newState; }
 
   /**
    * Returns the string representation of the change state event.

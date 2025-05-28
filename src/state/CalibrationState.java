@@ -2,6 +2,7 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
+import io.constants.RoboStateEnum;
 import strategy.CalibrationStrategy;
 import util.LcdUtil;
 
@@ -14,13 +15,13 @@ public class CalibrationState extends AbstractRoboState {
   /**
    * The name of the calibration state.
    */
-  private static final RoboStates STATE = RoboStates.CALIBRATION;
+  private static final RoboStateEnum STATE = RoboStateEnum.CALIBRATION;
 
   /**
    * The name of the calibration state.
    */
   @Override
-  public RoboStates getState() {
+  public RoboStateEnum getState() {
     return STATE;
   }
 

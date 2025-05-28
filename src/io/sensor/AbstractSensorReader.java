@@ -2,6 +2,7 @@ package io.sensor;
 
 import event.EventManager;
 import event.SensorEvent;
+import io.constants.SensorTypeEnum;
 import main.Config;
 
 /**
@@ -77,7 +78,7 @@ public abstract class AbstractSensorReader {
    *
    * @return The type of the sensor.
    */
-  abstract SensorType getSensorType();
+  abstract SensorTypeEnum getSensorType();
 
   /**
    * Reads the current value of the sensor.

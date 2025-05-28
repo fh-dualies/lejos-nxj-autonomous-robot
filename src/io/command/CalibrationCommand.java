@@ -1,6 +1,6 @@
 package io.command;
 
-import strategy.CalibrationStepEnum;
+import io.constants.CalibrationStepEnum;
 
 /**
  * CalibrationCommand represents a command to calibrate the robot's sensors.

@@ -3,12 +3,12 @@ package io.connection;
 import event.CommandEvent;
 import event.EventManager;
 import io.command.*;
+import io.constants.CalibrationStepEnum;
+import io.constants.RoboStateEnum;
 import java.io.DataInputStream;
 import java.io.IOException;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
-import state.RoboStates;
-import strategy.CalibrationStepEnum;
 import util.LcdUtil;
 import util.Log;
 import util.StringUtil;
@@ -222,11 +222,11 @@ public final class BluetoothReceiver implements ICommunicationChannel {
 
     switch (stateString) {
     case "IDLE":
-      return new SwitchStateCommand(RoboStates.IDLE);
+      return new SwitchStateCommand(RoboStateEnum.IDLE);
     case "AUTONOMOUS":
-      return new SwitchStateCommand(RoboStates.AUTONOMOUS);
+      return new SwitchStateCommand(RoboStateEnum.AUTONOMOUS);
     case "MANUAL":
-      return new SwitchStateCommand(RoboStates.MANUAL);
+      return new SwitchStateCommand(RoboStateEnum.MANUAL);
     default:
       Log.warning("unknown state in command: " + command);
       return null;

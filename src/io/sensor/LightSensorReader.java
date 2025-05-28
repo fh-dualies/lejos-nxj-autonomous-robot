@@ -1,6 +1,7 @@
 package io.sensor;
 
 import event.EventManager;
+import io.constants.SensorTypeEnum;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 
@@ -17,7 +18,7 @@ public class LightSensorReader extends AbstractSensorReader {
   /**
    * The type of the sensor.
    */
-  private static final SensorType SENSOR_TYPE = SensorType.LIGHT;
+  private static final SensorTypeEnum SENSOR_TYPE = SensorTypeEnum.LIGHT;
 
   /**
    * The light sensor instance.
@@ -52,7 +53,7 @@ public class LightSensorReader extends AbstractSensorReader {
    * Gets the type of the light sensor.
    */
   @Override
-  public SensorType getSensorType() {
+  public SensorTypeEnum getSensorType() {
     return SENSOR_TYPE;
   }
 

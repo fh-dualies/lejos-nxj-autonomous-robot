@@ -1,6 +1,6 @@
 package io.command;
 
-import state.RoboStates;
+import io.constants.RoboStateEnum;
 
 /**
  * Command to switch the state of the robot.
@@ -12,7 +12,7 @@ public class SwitchStateCommand implements ICommand {
    * The target state to switch to.
    * This field holds the new state that the robot should transition to.
    */
-  private final RoboStates targetState;
+  private final RoboStateEnum targetState;
 
   /**
    * Constructor for the SwitchStateCommand class.
@@ -20,7 +20,7 @@ public class SwitchStateCommand implements ICommand {
    * @param targetState The state to switch to.
    * @throws NullPointerException if targetState is null.
    */
-  public SwitchStateCommand(RoboStates targetState) {
+  public SwitchStateCommand(RoboStateEnum targetState) {
     if (targetState == null) {
       throw new NullPointerException();
     }
@@ -33,5 +33,5 @@ public class SwitchStateCommand implements ICommand {
    *
    * @return The target state to switch to.
    */
-  public RoboStates getTargetState() { return this.targetState; }
+  public RoboStateEnum getTargetState() { return this.targetState; }
 }

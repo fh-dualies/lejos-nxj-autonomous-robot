@@ -1,6 +1,7 @@
 package io.sensor;
 
 import event.SensorEvent;
+import io.constants.SensorTypeEnum;
 import java.util.Vector;
 import main.Config;
 
@@ -101,14 +102,14 @@ public final class SensorValueStore {
       throw new NullPointerException();
     }
 
-    if (event.getSensorType() == SensorType.LIGHT) {
+    if (event.getSensorType() == SensorTypeEnum.LIGHT) {
       int value = event.getValue();
 
       this.lastLightSensorValue = value;
       this.addLightValueToHistory(value);
     }
 
-    if (event.getSensorType() == SensorType.ULTRASONIC) {
+    if (event.getSensorType() == SensorTypeEnum.ULTRASONIC) {
       this.lastDistanceSensorValue = event.getValue();
     }
   }

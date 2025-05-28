@@ -2,7 +2,7 @@ package event;
 
 import event.base.AbstractEvent;
 import event.base.IExposableEvent;
-import io.sensor.SensorType;
+import io.constants.SensorTypeEnum;
 
 /**
  * SensorEvent is an event that represents a sensor reading in the system.
@@ -19,7 +19,7 @@ public class SensorEvent extends AbstractEvent implements IExposableEvent {
   /**
    * The type of the sensor that generated the event (e.g., distance, light, etc.).
    */
-  private final SensorType sensorType;
+  private final SensorTypeEnum sensorType;
 
   /**
    * The value of the sensor that generated the event.
@@ -33,7 +33,7 @@ public class SensorEvent extends AbstractEvent implements IExposableEvent {
    * @param sensorType the type of the sensor that generated the event
    * @param value      the value of the sensor that generated the event
    */
-  public SensorEvent(String sensorId, SensorType sensorType, int value) {
+  public SensorEvent(String sensorId, SensorTypeEnum sensorType, int value) {
     if (sensorType == null) {
       throw new NullPointerException("Sensor type cannot be null");
     }
@@ -63,7 +63,7 @@ public class SensorEvent extends AbstractEvent implements IExposableEvent {
    *
    * @return the type of the sensor that generated the event
    */
-  public SensorType getSensorType() { return this.sensorType; }
+  public SensorTypeEnum getSensorType() { return this.sensorType; }
 
   /**
    * returns the sensor value of the sensor that generated the event.

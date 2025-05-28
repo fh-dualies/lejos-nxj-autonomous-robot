@@ -5,6 +5,7 @@ import event.CommandEvent;
 import event.base.AbstractEvent;
 import io.command.ICommand;
 import io.command.SwitchStateCommand;
+import io.constants.RoboStateEnum;
 
 /**
  * AbstractRoboState is an abstract class that defines the structure for different states of the robot.
@@ -39,7 +40,7 @@ abstract public class AbstractRoboState {
    *
    * @return The current state of the robot.
    */
-  abstract public RoboStates getState();
+  abstract public RoboStateEnum getState();
 
   /**
    * Handles state switching events. This method is called by the RoboController when a state switch event occurs.
@@ -61,8 +62,8 @@ abstract public class AbstractRoboState {
 
     SwitchStateCommand command = (SwitchStateCommand)someCommand;
 
-    RoboStates targetState = command.getTargetState();
-    RoboStates currentState = controller.getContext().getCurrentState().getState();
+    RoboStateEnum targetState = command.getTargetState();
+    RoboStateEnum currentState = controller.getContext().getCurrentState().getState();
 
     if (targetState == currentState) {
       return;

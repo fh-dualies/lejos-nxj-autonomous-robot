@@ -2,6 +2,7 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
+import io.constants.RoboStateEnum;
 import strategy.UserControlStrategy;
 import util.LcdUtil;
 import util.Log;
@@ -15,14 +16,14 @@ public class ManualState extends AbstractRoboState {
   /**
    * The name of the idle state.
    */
-  private static final RoboStates STATE = RoboStates.MANUAL;
+  private static final RoboStateEnum STATE = RoboStateEnum.MANUAL;
 
   /**
    * Constructor for the ManualState class.
    * This constructor initializes the state and sets up any necessary resources.
    */
   @Override
-  public RoboStates getState() {
+  public RoboStateEnum getState() {
     return STATE;
   }
 

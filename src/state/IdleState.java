@@ -2,6 +2,7 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
+import io.constants.RoboStateEnum;
 import util.LcdUtil;
 import util.Log;
 
@@ -14,10 +15,10 @@ public class IdleState extends AbstractRoboState {
   /**
    * The name of the idle state.
    */
-  private static final RoboStates STATE = RoboStates.IDLE;
+  private static final RoboStateEnum STATE = RoboStateEnum.IDLE;
 
   @Override
-  public RoboStates getState() {
+  public RoboStateEnum getState() {
     return STATE;
   }
 

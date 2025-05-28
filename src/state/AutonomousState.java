@@ -2,6 +2,7 @@ package state;
 
 import core.RoboController;
 import event.base.AbstractEvent;
+import io.constants.RoboStateEnum;
 import strategy.LineFollowingStrategy;
 import strategy.algorithm.PidAlgorithm;
 import util.LcdUtil;
@@ -16,10 +17,10 @@ public class AutonomousState extends AbstractRoboState {
   /**
    * The name of the autonomous state.
    */
-  private static final RoboStates STATE = RoboStates.AUTONOMOUS;
+  private static final RoboStateEnum STATE = RoboStateEnum.AUTONOMOUS;
 
   @Override
-  public RoboStates getState() {
+  public RoboStateEnum getState() {
     return STATE;
   }
 

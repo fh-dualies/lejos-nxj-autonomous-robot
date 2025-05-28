@@ -1,12 +1,12 @@
-package io.sensor;
+package io.constants;
 
 /**
  * SensorType is an enumeration that defines the types of sensors used in the system.
  * This enumeration is used to categorize sensors and handle them appropriately in the code.
  */
-public enum SensorType {
-  LIGHT("LIGHT"),
-  ULTRASONIC("ULTRASONIC");
+public enum SensorTypeEnum {
+  LIGHT("LIGHT"),           // Light sensor type
+  ULTRASONIC("ULTRASONIC"); // Ultrasonic sensor type
 
   /**
    * The name of the sensor type.
@@ -18,7 +18,7 @@ public enum SensorType {
    *
    * @param name The name of the sensor type.
    */
-  SensorType(String name) { this.name = name; }
+  SensorTypeEnum(String name) { this.name = name; }
 
   /**
    * Returns the name of the sensor type.

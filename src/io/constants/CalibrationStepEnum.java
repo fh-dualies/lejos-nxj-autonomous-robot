@@ -1,4 +1,4 @@
-package strategy;
+package io.constants;
 
 /**
  * CalibrationStepEnum represents the different steps in the calibration process of the robot.

@@ -7,7 +7,8 @@ import event.SensorEvent;
 import event.base.AbstractEvent;
 import event.base.IEventListener;
 import io.command.CalibrationCommand;
-import io.sensor.SensorType;
+import io.constants.CalibrationStepEnum;
+import io.constants.SensorTypeEnum;
 import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
 import state.IdleState;
@@ -142,7 +143,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
    * @param sensorEvent The sensor event to handle.
    */
   private void handleSensorEvent(SensorEvent sensorEvent) {
-    if (!sensorEvent.getSensorType().equals(SensorType.LIGHT)) {
+    if (!sensorEvent.getSensorType().equals(SensorTypeEnum.LIGHT)) {
       return;
     }
 

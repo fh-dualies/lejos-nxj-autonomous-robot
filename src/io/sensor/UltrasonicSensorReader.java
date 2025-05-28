@@ -1,6 +1,7 @@
 package io.sensor;
 
 import event.EventManager;
+import io.constants.SensorTypeEnum;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 
@@ -17,7 +18,7 @@ public class UltrasonicSensorReader extends AbstractSensorReader {
   /**
    * The type of the sensor.
    */
-  private static final SensorType SENSOR_TYPE = SensorType.ULTRASONIC;
+  private static final SensorTypeEnum SENSOR_TYPE = SensorTypeEnum.ULTRASONIC;
 
   /**
    * The UltrasonicSensor instance used to read values from the sensor.
@@ -56,7 +57,7 @@ public class UltrasonicSensorReader extends AbstractSensorReader {
    * @return The type of the sensor.
    */
   @Override
-  public SensorType getSensorType() {
+  public SensorTypeEnum getSensorType() {
     return SENSOR_TYPE;
   }
 
