@@ -1,4 +1,4 @@
-package event.base;
+package event.abstracts;
 
 /**
  * Interface for event listeners.

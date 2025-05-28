@@ -1,11 +1,11 @@
 package core;
 
 import event.EventManager;
-import io.actuator.IMotorController;
+import io.abstracts.IMotorController;
 import io.connection.BluetoothTransmitter;
 import io.sensor.SensorValueStore;
-import state.AbstractRoboState;
-import strategy.IDrivingStrategy;
+import state.abstracts.AbstractRoboState;
+import strategy.abstracts.IDrivingStrategy;
 
 /**
  * RoboContext stores all the state and configuration data for the robot.

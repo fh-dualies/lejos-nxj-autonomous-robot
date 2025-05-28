@@ -1,7 +1,7 @@
 package event;
 
-import event.base.AbstractEvent;
-import event.base.IExposableEvent;
+import event.abstracts.AbstractEvent;
+import event.abstracts.IExposableEvent;
 import io.constants.SensorTypeEnum;
 
 /**

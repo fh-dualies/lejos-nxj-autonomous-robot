@@ -1,4 +1,4 @@
-package io.connection;
+package io.abstracts;
 
 import lejos.nxt.comm.BTConnection;
 

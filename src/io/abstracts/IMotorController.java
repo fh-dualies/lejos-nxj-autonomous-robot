@@ -1,4 +1,4 @@
-package io.actuator;
+package io.abstracts;
 
 /**
  * Interface for controlling a motor.

@@ -2,6 +2,8 @@ package io.connection;
 
 import event.CommandEvent;
 import event.EventManager;
+import io.abstracts.ICommand;
+import io.abstracts.ICommunicationChannel;
 import io.command.*;
 import io.constants.CalibrationStepEnum;
 import io.constants.RoboStateEnum;

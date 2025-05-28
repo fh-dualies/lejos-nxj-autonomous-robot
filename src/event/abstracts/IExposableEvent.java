@@ -1,4 +1,4 @@
-package event.base;
+package event.abstracts;
 
 /**
  * This interface represents an event that can be exposed to the external system.

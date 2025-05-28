@@ -1,6 +1,7 @@
 package io.sensor;
 
 import event.EventManager;
+import io.abstracts.AbstractSensorReader;
 import io.constants.SensorTypeEnum;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;

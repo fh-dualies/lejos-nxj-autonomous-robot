@@ -1,7 +1,7 @@
 package event;
 
-import event.base.AbstractEvent;
-import event.base.IExposableEvent;
+import event.abstracts.AbstractEvent;
+import event.abstracts.IExposableEvent;
 
 /**
  * ButtonEvent is an event that represents a button press on the robot.

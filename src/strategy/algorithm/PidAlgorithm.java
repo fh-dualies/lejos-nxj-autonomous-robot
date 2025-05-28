@@ -1,10 +1,11 @@
 package strategy.algorithm;
 
 import core.RoboController;
-import io.actuator.IMotorController;
+import io.abstracts.IMotorController;
 import io.sensor.SensorValueStore;
 import lejos.util.PIDController;
 import main.Config;
+import strategy.abstracts.IFollowingAlgorithm;
 import util.Log;
 
 /**

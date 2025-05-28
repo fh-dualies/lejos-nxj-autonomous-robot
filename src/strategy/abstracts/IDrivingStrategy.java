@@ -1,4 +1,4 @@
-package strategy;
+package strategy.abstracts;
 
 import core.RoboController;
 

@@ -1,18 +1,18 @@
 package core;
 
 import event.*;
-import event.base.AbstractEvent;
-import event.base.IEventListener;
-import event.base.IExposableEvent;
-import io.actuator.IMotorController;
+import event.abstracts.AbstractEvent;
+import event.abstracts.IEventListener;
+import event.abstracts.IExposableEvent;
+import io.abstracts.IMotorController;
 import io.command.ExitCommand;
-import io.command.ICommand;
+import io.abstracts.ICommand;
 import io.connection.BluetoothTransmitter;
 import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
-import state.AbstractRoboState;
+import state.abstracts.AbstractRoboState;
 import state.IdleState;
-import strategy.IDrivingStrategy;
+import strategy.abstracts.IDrivingStrategy;
 import util.Log;
 
 /**

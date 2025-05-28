@@ -1,5 +1,6 @@
 package io.actuator;
 
+import io.abstracts.IMotorController;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import main.Config;

@@ -1,4 +1,4 @@
-package event.base;
+package event.abstracts;
 
 /**
  * This class represents an abstract event with a timestamp. This class is intended to be inherited by specific event

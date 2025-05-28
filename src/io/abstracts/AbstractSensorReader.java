@@ -1,4 +1,4 @@
-package io.sensor;
+package io.abstracts;
 
 import event.EventManager;
 import event.SensorEvent;

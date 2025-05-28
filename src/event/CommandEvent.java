@@ -1,7 +1,7 @@
 package event;
 
-import event.base.AbstractEvent;
-import io.command.ICommand;
+import event.abstracts.AbstractEvent;
+import io.abstracts.ICommand;
 
 /**
  * CommandEvent is an event that represents a command that has to be executed in the system.

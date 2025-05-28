@@ -1,5 +1,7 @@
 package io.command;
 
+import io.abstracts.ICommand;
+
 /**
  * Command to exit the application.
  * This command is used to terminate the program or application.

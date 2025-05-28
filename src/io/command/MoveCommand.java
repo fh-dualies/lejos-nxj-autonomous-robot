@@ -1,5 +1,7 @@
 package io.command;
 
+import io.abstracts.ICommand;
+
 /**
  * MoveCommand represents a command to move the robot in a specific direction.
  * It encapsulates the direction of movement and provides a method to retrieve it.

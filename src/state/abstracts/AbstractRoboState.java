@@ -1,11 +1,14 @@
-package state;
+package state.abstracts;
 
 import core.RoboController;
 import event.CommandEvent;
-import event.base.AbstractEvent;
-import io.command.ICommand;
+import event.abstracts.AbstractEvent;
+import io.abstracts.ICommand;
 import io.command.SwitchStateCommand;
 import io.constants.RoboStateEnum;
+import state.AutonomousState;
+import state.IdleState;
+import state.ManualState;
 
 /**
  * AbstractRoboState is an abstract class that defines the structure for different states of the robot.

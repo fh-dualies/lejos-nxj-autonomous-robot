@@ -1,4 +1,4 @@
-package strategy.algorithm;
+package strategy.abstracts;
 
 /**
  * IFollowingAlgorithm is an interface that defines the methods for a following algorithm.

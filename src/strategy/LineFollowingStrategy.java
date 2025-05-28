@@ -1,7 +1,8 @@
 package strategy;
 
 import core.RoboController;
-import strategy.algorithm.IFollowingAlgorithm;
+import strategy.abstracts.IDrivingStrategy;
+import strategy.abstracts.IFollowingAlgorithm;
 import util.Log;
 
 /**

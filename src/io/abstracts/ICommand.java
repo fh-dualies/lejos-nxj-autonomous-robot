@@ -1,4 +1,4 @@
-package io.command;
+package io.abstracts;
 
 /**
  * This interface represents a command in the system.
