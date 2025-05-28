@@ -15,7 +15,7 @@ import state.ManualState;
  * Each state must implement the methods defined in this class to handle entering, exiting, and processing events.
  * This class also provides a method to handle state switching events that will be needed in all states.
  */
-abstract public class AbstractRoboState {
+abstract public class AbstractRoboState implements IRoboState {
   /**
    * Handles the entry into the state.
    *

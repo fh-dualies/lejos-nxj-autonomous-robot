@@ -1,10 +1,9 @@
 package io.connection;
 
 import event.abstracts.IExposableEvent;
+import io.abstracts.ICommunicationChannel;
 import java.io.DataOutputStream;
 import java.util.Vector;
-
-import io.abstracts.ICommunicationChannel;
 import lejos.nxt.comm.BTConnection;
 import util.Log;
 

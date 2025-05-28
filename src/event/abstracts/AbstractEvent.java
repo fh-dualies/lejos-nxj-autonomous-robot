@@ -5,7 +5,7 @@ package event.abstracts;
  * classes and later dispatched to the appropriate event handler.* It provides a constructor to initialize the timestamp
  * and a method to retrieve it.
  */
-abstract public class AbstractEvent {
+abstract public class AbstractEvent implements IEvent {
   /**
    * The timestamp of the event, representing the time when the event was created.
    */
@@ -21,5 +21,8 @@ abstract public class AbstractEvent {
    *
    * @return the timestamp of the event in milliseconds.
    */
-  public long getTimestamp() { return this.timestamp; }
+  @Override
+  public long getTimestamp() {
+    return this.timestamp;
+  }
 }

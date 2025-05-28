@@ -10,7 +10,7 @@ import main.Config;
  * This class provides a template for reading sensor values and dispatching events when the value changes significantly.
  * It uses an EventManager to dispatch events and keeps track of the last reported value.
  */
-public abstract class AbstractSensorReader {
+public abstract class AbstractSensorReader implements ISensorReader {
   /**
    * The default threshold for reporting changes in sensor values.
    * If the change in value is greater than or equal to this threshold, an event will be dispatched.
@@ -48,6 +48,7 @@ public abstract class AbstractSensorReader {
    *
    * @return The current value of the sensor.
    */
+  @Override
   public int checkValue() {
     int currentValue = this.readSensorValue();
 
@@ -64,21 +65,24 @@ public abstract class AbstractSensorReader {
    *
    * @return The last reported value of the sensor.
    */
-  public int getLastValue() { return this.lastValue; }
+  @Override
+  public int getLastValue() {
+    return this.lastValue;
+  }
 
   /**
    * Returns the EventManager instance used to dispatch events.
    *
    * @return The ID of the sensor.
    */
-  abstract String getSensorId();
+  @Override public abstract String getSensorId();
 
   /**
    * Returns the type of the sensor.
    *
    * @return The type of the sensor.
    */
-  abstract SensorTypeEnum getSensorType();
+  @Override public abstract SensorTypeEnum getSensorType();
 
   /**
    * Reads the current value of the sensor.
