@@ -67,6 +67,10 @@ public class CircleSearchStrategy implements IFindLineStrategy {
         this.sensorValueStore = controller.getContext().getSensorValueStore();
     }
 
+    /**
+     * Initializes the CircleSearchAlgorithm.
+     * This method sets up the initial state and prepares the robot for the search.
+     */
     @Override
     public void initialize() {
         Log.info("CircleSearchStrategy initialized");
@@ -77,12 +81,20 @@ public class CircleSearchStrategy implements IFindLineStrategy {
         motorController.stopMotors(true);
     }
 
+    /**
+     * Deinitializes the CircleSearchAlgorithm.
+     * This method cleans up the state and stops the motors.
+     */
     @Override
     public void deinitialize() {
         Log.info("CircleSearchAlgorithm deinitialize");
         motorController.stopMotors(true);
     }
 
+    /**
+     * Runs the CircleSearchAlgorithm.
+     * This method executes the logic of the circle search strategy, moving in circles and checking for the line.
+     */
     @Override
     public void run() {
         if (currentRadius >= MAX_SEARCH_RADIUS) {
