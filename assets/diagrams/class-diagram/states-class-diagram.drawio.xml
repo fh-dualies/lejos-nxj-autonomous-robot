@@ -219,7 +219,7 @@
                     <mxGeometry y="52" width="210" height="8" as="geometry"/>
                 </mxCell>
                 <mxCell id="zoZQMHHKNHjoudsDSGX--63"
-                        value="+ run(): void&lt;div&gt;+ onEvent(AbstractEvent): void&lt;/div&gt;&lt;div&gt;- handleCommandEvent(event): void&lt;/div&gt;&lt;div&gt;+ setState(AbstractState): void&lt;/div&gt;&lt;div&gt;+ setStrategy(IStrategy): void&lt;/div&gt;&lt;div&gt;+ getContext(): RoboContext&lt;/div&gt;"
+                        value="+ run(): void&lt;div&gt;+ onEvent(AbstractEvent): void&lt;/div&gt;&lt;div&gt;- handleCommandEvent(domain.event): void&lt;/div&gt;&lt;div&gt;+ setState(AbstractState): void&lt;/div&gt;&lt;div&gt;+ setStrategy(IStrategy): void&lt;/div&gt;&lt;div&gt;+ getContext(): RoboContext&lt;/div&gt;"
                         style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;"
                         parent="zoZQMHHKNHjoudsDSGX--60" vertex="1">
                     <mxGeometry y="60" width="210" height="100" as="geometry"/>

@@ -108,7 +108,7 @@
                         style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1170" y="1300" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="qZDjLsgcLk7GfbXQVHLW-50" value="onEvent(event)"
+                <mxCell id="qZDjLsgcLk7GfbXQVHLW-50" value="onEvent(domain.event)"
                         style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1"
                         vertex="1">
                     <mxGeometry x="1070" y="1455" width="90" height="30" as="geometry"/>
@@ -117,7 +117,7 @@
                         style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1520" y="1300" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="qZDjLsgcLk7GfbXQVHLW-52" value="updateFromSensorEvent(event)"
+                <mxCell id="qZDjLsgcLk7GfbXQVHLW-52" value="updateFromSensorEvent(domain.event)"
                         style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1"
                         vertex="1">
                     <mxGeometry x="1320" y="1480" width="180" height="30" as="geometry"/>
@@ -153,7 +153,7 @@
                         parent="1" vertex="1">
                     <mxGeometry x="1580" y="1539" width="10" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="qZDjLsgcLk7GfbXQVHLW-65" value="lastLightSensorValue = event.getValue();"
+                <mxCell id="qZDjLsgcLk7GfbXQVHLW-65" value="lastLightSensorValue = domain.event.getValue();"
                         style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1"
                         vertex="1">
                     <mxGeometry x="1585" y="1569" width="250" height="30" as="geometry"/>

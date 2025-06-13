@@ -1,21 +1,26 @@
 package core;
 
-import event.*;
-import event.abstracts.AbstractEvent;
-import event.abstracts.IEventListener;
-import event.abstracts.IExposableEvent;
-import io.abstracts.ICommand;
-import io.abstracts.IMotorController;
-import io.command.ExitCommand;
-import io.command.OrientationCommand;
-import io.connection.BluetoothTransmitter;
-import io.constants.OrientationEnum;
+import domain.command.base.ICommand;
+import domain.command.impl.ExitCommand;
+import domain.command.impl.OrientationCommand;
+import domain.event.EventManager;
+import domain.event.base.AbstractEvent;
+import domain.event.base.IEventListener;
+import domain.event.base.IExposableEvent;
+import domain.event.impl.ButtonEvent;
+import domain.event.impl.ChangeStateEvent;
+import domain.event.impl.CommandEvent;
+import domain.event.impl.SensorEvent;
+import domain.state.base.AbstractRoboState;
+import domain.state.impl.CalibrationState;
+import domain.state.impl.IdleState;
+import domain.strategy.base.IDrivingStrategy;
+import io.actuator.base.IMotorController;
+import io.connection.impl.BluetoothTransmitter;
 import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
-import state.IdleState;
-import state.abstracts.AbstractRoboState;
-import strategy.abstracts.IDrivingStrategy;
-import util.Logger;
+import shared.constants.OrientationEnum;
+import shared.util.Logger;
 
 /**
  * RoboController is the main controller for the robot. It handles events and executes
@@ -30,14 +35,14 @@ public final class RoboController implements IEventListener {
   /**
    * Constructor for the RoboController class.
    *
-   * @param eventManager    The event manager used to dispatch events and register listeners.
+   * @param eventManager    The domain.event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
   public RoboController(EventManager eventManager, IMotorController motorController,
                         BluetoothTransmitter bluetoothTransmitter) {
     this.context = new RoboContext(eventManager, motorController, bluetoothTransmitter, new SensorValueStore());
 
-    this.setState(new IdleState());
+    this.setState(new CalibrationState());
     this.context.getEventManager().addListener(this);
   }
 
@@ -61,7 +66,7 @@ public final class RoboController implements IEventListener {
 
   /**
    * This method is called to check for pressed buttons. It checks if the ENTER or ESCAPE button
-   * is pressed and dispatches the corresponding event.
+   * is pressed and dispatches the corresponding domain.event.
    */
   public void checkForPressedButtons() {
     EventManager eventManager = this.context.getEventManager();
@@ -76,10 +81,10 @@ public final class RoboController implements IEventListener {
   }
 
   /**
-   * This method is called to handle incoming events. It dispatches the event to the
+   * This method is called to handle incoming events. It dispatches the domain.event to the
    * current state and handles any exceptions that occur.
    *
-   * @param event The event to handle.
+   * @param event The domain.event to handle.
    */
   @Override
   public void onEvent(AbstractEvent event) {
@@ -88,7 +93,7 @@ public final class RoboController implements IEventListener {
     }
 
     if (event.getTimestamp() < 0) {
-      Logger.warning("event timestamp invalid");
+      Logger.warning("domain.event timestamp invalid");
       return;
     }
 
@@ -96,7 +101,7 @@ public final class RoboController implements IEventListener {
     long timeDifference = Math.abs(currentTime - event.getTimestamp());
 
     if (timeDifference > 1000) {
-      Logger.warning("ignore old event");
+      Logger.warning("ignore old domain.event");
       return;
     }
 
@@ -144,7 +149,7 @@ public final class RoboController implements IEventListener {
   /**
    * This method is called to handle command events.
    *
-   * @param event The command event to handle.
+   * @param event The command domain.event to handle.
    */
   private void handleCommandEvent(CommandEvent event) {
     if (event == null) {

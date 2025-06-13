@@ -3,10 +3,6 @@
 
 ---
 
-## TODO
-
-- [ ] automatically switch to `CircleSearchStrategy` when line was lost
-
 ## Overview
 
 - [Members](https://github.com/fh-dualies/lejos-nxj-autonomous-robot#members)

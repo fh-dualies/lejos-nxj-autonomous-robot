@@ -1,9 +1,9 @@
 package io.sensor;
 
-import event.SensorEvent;
-import io.constants.SensorTypeEnum;
+import app.Config;
+import domain.event.impl.SensorEvent;
 import java.util.Vector;
-import main.Config;
+import shared.constants.SensorTypeEnum;
 
 /**
  * Holds the latest sensor readings, calibration values, and a self-adjusting
@@ -19,6 +19,12 @@ public final class SensorValueStore {
    * Allowed deviation when filtering out outlier light values.
    */
   private static final int LINE_EDGE_THRESHOLD = 5;
+
+  /**
+   * Minimum difference between the line-edge light value and the current light reading
+   * to consider the robot as "on-line".
+   */
+  private static final int ON_LINE_THRESHOLD = 2;
 
   /**
    * History buffer for recent light sensor values.
@@ -50,6 +56,11 @@ public final class SensorValueStore {
    * The calibration value for the stripe light sensor.
    */
   private volatile int stripeCalibrationLightValue = Config.DEFAULT_STRIPE_LIGHT.getIntValue();
+
+  /**
+   * Determines if the robot is currently on a line based on the last light sensor readings.
+   */
+  private boolean onLine = true;
 
   /**
    * Adds a new light reading to history if it's within the LINE_EDGE_THRESHOLD.
@@ -90,12 +101,14 @@ public final class SensorValueStore {
 
     this.lineEdgeLightValue = sum / this.lightValueHistory.size();
     this.lightValueHistory.clear();
+
+    this.onLine = Math.abs(this.lineEdgeLightValue - this.stripeCalibrationLightValue) < ON_LINE_THRESHOLD;
   }
 
   /**
-   * Updates the sensor values based on a sensor event.
+   * Updates the sensor values based on a sensor domain.event.
    *
-   * @param event The sensor event containing new sensor data.
+   * @param event The sensor domain.event containing new sensor data.
    */
   public void updateFromSensorEvent(SensorEvent event) {
     if (event == null) {
@@ -165,4 +178,11 @@ public final class SensorValueStore {
    * @return The self-optimizing light value for the line edge.
    */
   public int getLineEdgeLightValue() { return this.lineEdgeLightValue; }
+
+  /**
+   * Checks if the robot is currently on a line based on the last light sensor readings.
+   *
+   * @return true if the robot is on a line, false otherwise.
+   */
+  public boolean isOnLine() { return this.onLine; }
 }
