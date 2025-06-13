@@ -5,10 +5,7 @@
 
 ## TODO
 
-- [ ] adjustable configs while running (low)
-- [x] calibration by command (low)
-- [ ] find line strategy
-- [x] line orientation by command (aka overtake)
+- [ ] automatically switch to `CircleSearchStrategy` when line was lost
 
 ## Overview
 

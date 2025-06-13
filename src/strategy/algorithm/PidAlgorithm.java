@@ -179,7 +179,7 @@ public class PidAlgorithm implements IFollowingAlgorithm {
    * @param speed The base speed for both motors.
    * @param turn  The turn value to adjust the speed of the motors.
    * @return An array containing the adjusted speeds for the left and right motors. Index 0 is the left motor speed,
-   *     Index 1 is the right motor speed.
+   * Index 1 is the right motor speed.
    */
   private int[] calculateTurnSpeed(int speed, int turn) {
     if (speed < 0) {
