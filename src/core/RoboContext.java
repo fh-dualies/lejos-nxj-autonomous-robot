@@ -1,12 +1,12 @@
 package core;
 
-import event.EventManager;
-import io.abstracts.IMotorController;
-import io.connection.BluetoothTransmitter;
-import io.constants.OrientationEnum;
+import domain.event.EventManager;
+import domain.state.base.AbstractRoboState;
+import domain.strategy.base.IDrivingStrategy;
+import io.actuator.base.IMotorController;
+import io.connection.impl.BluetoothTransmitter;
 import io.sensor.SensorValueStore;
-import state.abstracts.AbstractRoboState;
-import strategy.abstracts.IDrivingStrategy;
+import shared.constants.OrientationEnum;
 
 /**
  * RoboContext stores all the state and configuration data for the robot.
@@ -14,7 +14,7 @@ import strategy.abstracts.IDrivingStrategy;
  */
 public final class RoboContext {
   /**
-   * The event manager. This is used to dispatch events and register listeners.
+   * The domain.event manager. This is used to dispatch events and register listeners.
    */
   private final EventManager eventManager;
 
@@ -52,7 +52,7 @@ public final class RoboContext {
   /**
    * Constructor for the RoboContext class.
    *
-   * @param eventManager    The event manager used to dispatch events and register listeners.
+   * @param eventManager    The domain.event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
   public RoboContext(EventManager eventManager, IMotorController motorController,
@@ -103,9 +103,9 @@ public final class RoboContext {
   public IMotorController getMotorController() { return this.motorController; }
 
   /**
-   * Returns the event manager.
+   * Returns the domain.event manager.
    *
-   * @return The event manager.
+   * @return The domain.event manager.
    */
   public EventManager getEventManager() { return this.eventManager; }
 

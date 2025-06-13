@@ -1,9 +1,9 @@
 package io.sensor;
 
-import event.SensorEvent;
-import io.constants.SensorTypeEnum;
+import app.Config;
+import domain.event.impl.SensorEvent;
 import java.util.Vector;
-import main.Config;
+import shared.constants.SensorTypeEnum;
 
 /**
  * Holds the latest sensor readings, calibration values, and a self-adjusting
@@ -93,9 +93,9 @@ public final class SensorValueStore {
   }
 
   /**
-   * Updates the sensor values based on a sensor event.
+   * Updates the sensor values based on a sensor domain.event.
    *
-   * @param event The sensor event containing new sensor data.
+   * @param event The sensor domain.event containing new sensor data.
    */
   public void updateFromSensorEvent(SensorEvent event) {
     if (event == null) {
