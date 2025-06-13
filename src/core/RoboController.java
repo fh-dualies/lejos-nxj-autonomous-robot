@@ -1,21 +1,25 @@
 package core;
 
-import event.*;
-import event.abstracts.AbstractEvent;
-import event.abstracts.IEventListener;
-import event.abstracts.IExposableEvent;
-import io.abstracts.ICommand;
-import io.abstracts.IMotorController;
-import io.command.ExitCommand;
-import io.command.OrientationCommand;
-import io.connection.BluetoothTransmitter;
-import io.constants.OrientationEnum;
+import domain.command.base.ICommand;
+import domain.command.impl.ExitCommand;
+import domain.command.impl.OrientationCommand;
+import domain.state.base.AbstractRoboState;
+import domain.state.impl.IdleState;
+import domain.strategy.base.IDrivingStrategy;
+import event.EventManager;
+import event.base.AbstractEvent;
+import event.base.IEventListener;
+import event.base.IExposableEvent;
+import event.impl.ButtonEvent;
+import event.impl.ChangeStateEvent;
+import event.impl.CommandEvent;
+import event.impl.SensorEvent;
+import io.actuator.base.IMotorController;
+import io.connection.impl.BluetoothTransmitter;
 import io.sensor.SensorValueStore;
 import lejos.nxt.Button;
-import state.IdleState;
-import state.abstracts.AbstractRoboState;
-import strategy.abstracts.IDrivingStrategy;
-import util.Logger;
+import shared.constants.OrientationEnum;
+import shared.util.Logger;
 
 /**
  * RoboController is the main controller for the robot. It handles events and executes

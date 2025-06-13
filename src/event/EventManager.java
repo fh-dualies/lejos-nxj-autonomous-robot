@@ -1,9 +1,9 @@
 package event;
 
-import event.abstracts.AbstractEvent;
-import event.abstracts.IEventListener;
+import event.base.AbstractEvent;
+import event.base.IEventListener;
 import java.util.Vector;
-import util.Logger;
+import shared.util.Logger;
 
 /**
  * EventManager is responsible for managing event listeners and dispatching events to them.

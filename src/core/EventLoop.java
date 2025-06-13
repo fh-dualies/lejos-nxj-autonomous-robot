@@ -1,13 +1,13 @@
 package core;
 
-import io.connection.BluetoothReceiver;
-import io.connection.BluetoothTransmitter;
-import io.sensor.LightSensorReader;
-import io.sensor.UltrasonicSensorReader;
+import app.Config;
+import io.connection.impl.BluetoothReceiver;
+import io.connection.impl.BluetoothTransmitter;
+import io.sensor.impl.LightSensorReader;
+import io.sensor.impl.UltrasonicSensorReader;
 import lejos.util.Delay;
-import main.Config;
-import util.Logger;
-import util.SystemMonitor;
+import shared.util.Logger;
+import shared.util.SystemMonitor;
 
 /**
  * The main event loop for the robot.

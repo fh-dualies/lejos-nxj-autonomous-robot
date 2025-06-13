@@ -1,9 +1,9 @@
 package io.sensor;
 
-import event.SensorEvent;
-import io.constants.SensorTypeEnum;
+import app.Config;
+import event.impl.SensorEvent;
 import java.util.Vector;
-import main.Config;
+import shared.constants.SensorTypeEnum;
 
 /**
  * Holds the latest sensor readings, calibration values, and a self-adjusting
