@@ -35,9 +35,15 @@ This repository's contents are divided across the following primary sections:
 
 ### Architecture
 
-|                               Core                                |                                States                                 |
-|:-----------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                               Core                                |                                   States Pattern                                   |
+|:-----------------------------------------------------------------:|:----------------------------------------------------------------------------------:|
 | ![core](/assets/diagrams/class-diagram/core-class-diagram.drawio.svg?raw=true) | ![states](/assets/diagrams/class-diagram/states-class-diagram.drawio.svg?raw=true) |
+
+### Behavior
+
+|                                     Sequence                                      |                                       States                                       |
+|:---------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------:|
+| ![core](/assets/diagrams/behavior-diagram/sequence-diagram.drawio.svg?raw=true) | ![states](/assets/diagrams/behavior-diagram/state-diagram.drawio.svg?raw=true) |
 
 ## Build & Upload
 
