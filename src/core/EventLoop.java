@@ -10,16 +10,16 @@ import shared.util.Logger;
 import shared.util.SystemMonitor;
 
 /**
- * The main domain.event loop for the robot.
+ * The main event loop for the robot.
  * This class is responsible for managing the Bluetooth connection,
- * reading sensor values, and controlling the motors. The domain.event loop
+ * reading sensor values, and controlling the motors. The event loop
  * runs continuously until stopped, processing commands and sensor data
  * with a fixed delay between iterations. It also handles resource
  * cleanup when the loop is terminated.
  */
 public final class EventLoop implements Runnable {
   /**
-   * The delay in milliseconds between iterations of the domain.event loop. This controls the frequency of
+   * The delay in milliseconds between iterations of the event loop. This controls the frequency of
    * sensor checks and command processing.
    */
   private static final int LOOP_DELAY = Config.LOOP_DELAY.getIntValue();
@@ -57,7 +57,7 @@ public final class EventLoop implements Runnable {
   private final UltrasonicSensorReader ultrasonicSensorReader;
 
   /**
-   * A flag indicating whether the domain.event loop is currently running. This is used to control the
+   * A flag indicating whether the event loop is currently running. This is used to control the
    * execution of the loop and to stop it gracefully when needed.
    */
   private volatile boolean running = false;
@@ -123,12 +123,12 @@ public final class EventLoop implements Runnable {
   }
 
   /**
-   * Stops the domain.event loop by setting the running flag to false. This will cause the loop to exit gracefully
+   * Stops the event loop by setting the running flag to false. This will cause the loop to exit gracefully
    */
   public void stop() { this.running = false; }
 
   /**
-   * Cleans up resources used by the domain.event loop. This includes closing the Bluetooth connection,
+   * Cleans up resources used by the event loop. This includes closing the Bluetooth connection,
    * stopping the motor controller, and closing the light sensor reader.
    */
   private void cleanup() {

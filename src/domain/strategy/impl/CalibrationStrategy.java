@@ -35,7 +35,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
    */
   private final RoboController controller;
   /**
-   * The last time a button domain.event was processed.
+   * The last time a button event was processed.
    * This is used to prevent multiple button events from being processed too quickly.
    */
   private long lastButtonEventProcessedTime = 0;
@@ -116,11 +116,11 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
 
   /**
    * Handles events that occur while in the calibration strategy.
-   * This method processes the domain.event and calls the appropriate methods to handle it.
+   * This method processes the event and calls the appropriate methods to handle it.
    * It also handles state switching events by calling the handleSwitchEvent method.
-   * Will be called by the RoboController after an domain.event is received.
+   * Will be called by the RoboController after an event is received.
    *
-   * @param event The domain.event that occurred.
+   * @param event The event that occurred.
    */
   @Override
   public void onEvent(AbstractEvent event) {
@@ -141,7 +141,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
    * Handles sensor events.
    * This method checks if the sensor type is LIGHT and prints the sensor value to the LCD.
    *
-   * @param sensorEvent The sensor domain.event to handle.
+   * @param sensorEvent The sensor event to handle.
    */
   private void handleSensorEvent(SensorEvent sensorEvent) {
     if (!sensorEvent.getSensorType().equals(SensorTypeEnum.LIGHT)) {
@@ -154,9 +154,9 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
   /**
    * Handles button events.
    * This method checks if the button pressed is the ENTER button and calls handleStateChange to process the
-   * domain.event.
+   * event.
    *
-   * @param event The button domain.event to handle.
+   * @param event The button event to handle.
    */
   private void handleButtonEvent(ButtonEvent event) {
     if (!event.getButtonId().equals(Button.ENTER.toString())) {
@@ -171,7 +171,7 @@ public class CalibrationStrategy implements IDrivingStrategy, IEventListener {
    * This method checks if the command is a CalibrationCommand and if the step matches the current step.
    * If so, it calls handleStateChange to process the command.
    *
-   * @param event The command domain.event to handle.
+   * @param event The command event to handle.
    */
   private void handleCommandEvent(CommandEvent event) {
     if (!(event.getCommand() instanceof CalibrationCommand)) {

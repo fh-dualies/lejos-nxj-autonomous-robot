@@ -13,7 +13,6 @@ import domain.event.impl.CommandEvent;
 import domain.event.impl.SensorEvent;
 import domain.state.base.AbstractRoboState;
 import domain.state.impl.CalibrationState;
-import domain.state.impl.IdleState;
 import domain.strategy.base.IDrivingStrategy;
 import io.actuator.base.IMotorController;
 import io.connection.impl.BluetoothTransmitter;
@@ -35,12 +34,13 @@ public final class RoboController implements IEventListener {
   /**
    * Constructor for the RoboController class.
    *
-   * @param eventManager    The domain.event manager used to dispatch events and register listeners.
+   * @param eventManager    The event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
   public RoboController(EventManager eventManager, IMotorController motorController,
                         BluetoothTransmitter bluetoothTransmitter) {
-    this.context = new RoboContext(eventManager, motorController, bluetoothTransmitter, new SensorValueStore());
+    this.context =
+        new RoboContext(eventManager, motorController, bluetoothTransmitter, new SensorValueStore(eventManager));
 
     this.setState(new CalibrationState());
     this.context.getEventManager().addListener(this);
@@ -66,7 +66,7 @@ public final class RoboController implements IEventListener {
 
   /**
    * This method is called to check for pressed buttons. It checks if the ENTER or ESCAPE button
-   * is pressed and dispatches the corresponding domain.event.
+   * is pressed and dispatches the corresponding event.
    */
   public void checkForPressedButtons() {
     EventManager eventManager = this.context.getEventManager();
@@ -81,10 +81,10 @@ public final class RoboController implements IEventListener {
   }
 
   /**
-   * This method is called to handle incoming events. It dispatches the domain.event to the
+   * This method is called to handle incoming events. It dispatches the event to the
    * current state and handles any exceptions that occur.
    *
-   * @param event The domain.event to handle.
+   * @param event The event to handle.
    */
   @Override
   public void onEvent(AbstractEvent event) {
@@ -93,7 +93,7 @@ public final class RoboController implements IEventListener {
     }
 
     if (event.getTimestamp() < 0) {
-      Logger.warning("domain.event timestamp invalid");
+      Logger.warning("event timestamp invalid");
       return;
     }
 
@@ -101,7 +101,7 @@ public final class RoboController implements IEventListener {
     long timeDifference = Math.abs(currentTime - event.getTimestamp());
 
     if (timeDifference > 1000) {
-      Logger.warning("ignore old domain.event");
+      Logger.warning("ignore old event");
       return;
     }
 
@@ -149,7 +149,7 @@ public final class RoboController implements IEventListener {
   /**
    * This method is called to handle command events.
    *
-   * @param event The command domain.event to handle.
+   * @param event The command event to handle.
    */
   private void handleCommandEvent(CommandEvent event) {
     if (event == null) {

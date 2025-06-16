@@ -13,7 +13,7 @@ import shared.constants.SensorTypeEnum;
 public abstract class AbstractSensorReader implements ISensorReader {
   /**
    * The default threshold for reporting changes in sensor values.
-   * If the change in value is greater than or equal to this threshold, an domain.event will be dispatched.
+   * If the change in value is greater than or equal to this threshold, an event will be dispatched.
    */
   protected static final int DEFAULT_REPORT_THRESHOLD = Config.SENSOR_REPORT_THRESHOLD.getIntValue();
 
@@ -42,7 +42,7 @@ public abstract class AbstractSensorReader implements ISensorReader {
   }
 
   /**
-   * Checks the current value of the sensor and dispatches an domain.event if the value has changed significantly.
+   * Checks the current value of the sensor and dispatches an event if the value has changed significantly.
    * The method compares the current value with the last reported value and checks if the change is greater than or
    * equal to the threshold. If so, it updates the last reported value and dispatches a SensorEvent.
    *

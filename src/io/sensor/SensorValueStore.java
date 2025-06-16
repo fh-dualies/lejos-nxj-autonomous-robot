@@ -1,6 +1,8 @@
 package io.sensor;
 
 import app.Config;
+import domain.event.EventManager;
+import domain.event.impl.LineStatusEvent;
 import domain.event.impl.SensorEvent;
 import java.util.Vector;
 import shared.constants.SensorTypeEnum;
@@ -30,37 +32,49 @@ public final class SensorValueStore {
    * History buffer for recent light sensor values.
    */
   private final Vector<Integer> lightValueHistory = new Vector<>();
-
+  /**
+   * The event manager used to handle sensor events.
+   */
+  private final EventManager eventManager;
   /**
    * The last value read from the light sensor.
    */
   private volatile int lastLightSensorValue = -1;
-
   /**
    * The last value read from the distance sensor.
    */
   private volatile int lastDistanceSensorValue = -1;
-
   /**
    * Dynamic threshold for line-edge detection (average of recent valid readings).
    */
   private volatile int lineEdgeLightValue =
       (Config.DEFAULT_FLOOR_LIGHT.getIntValue() + Config.DEFAULT_STRIPE_LIGHT.getIntValue()) / 2;
-
   /**
    * The calibration value for the floor light sensor.
    */
   private volatile int floorCalibrationLightValue = Config.DEFAULT_FLOOR_LIGHT.getIntValue();
-
   /**
    * The calibration value for the stripe light sensor.
    */
   private volatile int stripeCalibrationLightValue = Config.DEFAULT_STRIPE_LIGHT.getIntValue();
-
   /**
    * Determines if the robot is currently on a line based on the last light sensor readings.
    */
   private boolean onLine = true;
+
+  /**
+   * Constructs a SensorValueStore with the provided EventManager.
+   *
+   * @param eventManager The EventManager to handle sensor events.
+   * @throws NullPointerException if eventManager is null.
+   */
+  public SensorValueStore(EventManager eventManager) {
+    if (eventManager == null) {
+      throw new NullPointerException("EventManager cannot be null.");
+    }
+
+    this.eventManager = eventManager;
+  }
 
   /**
    * Adds a new light reading to history if it's within the LINE_EDGE_THRESHOLD.
@@ -82,6 +96,25 @@ public final class SensorValueStore {
     if (this.lightValueHistory.size() > MAX_HISTORY_SIZE) {
       this.generateOptimizedLightValue();
     }
+
+    this.updateLineStatus(value);
+  }
+
+  /**
+   * Updates the line status based on the current light reading.
+   * If the robot status changes, it dispatches a LineStatusEvent.
+   *
+   * @param value The current light sensor reading.
+   */
+  private void updateLineStatus(int value) {
+    boolean onLine = (this.lineEdgeLightValue - value) > ON_LINE_THRESHOLD;
+
+    if (this.onLine == onLine) {
+      return;
+    }
+
+    this.onLine = onLine;
+    this.eventManager.dispatch(new LineStatusEvent(onLine));
   }
 
   /**
@@ -101,14 +134,12 @@ public final class SensorValueStore {
 
     this.lineEdgeLightValue = sum / this.lightValueHistory.size();
     this.lightValueHistory.clear();
-
-    this.onLine = Math.abs(this.lineEdgeLightValue - this.stripeCalibrationLightValue) < ON_LINE_THRESHOLD;
   }
 
   /**
-   * Updates the sensor values based on a sensor domain.event.
+   * Updates the sensor values based on a sensor event.
    *
-   * @param event The sensor domain.event containing new sensor data.
+   * @param event The sensor event containing new sensor data.
    */
   public void updateFromSensorEvent(SensorEvent event) {
     if (event == null) {

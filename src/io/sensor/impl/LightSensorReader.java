@@ -30,7 +30,7 @@ public class LightSensorReader extends AbstractSensorReader {
    * Constructor for the LightSensorReader class.
    *
    * @param port         The port where the light sensor is connected.
-   * @param eventManager The domain.event manager to handle events.
+   * @param eventManager The event manager to handle events.
    */
   public LightSensorReader(SensorPort port, EventManager eventManager) {
     super(eventManager);

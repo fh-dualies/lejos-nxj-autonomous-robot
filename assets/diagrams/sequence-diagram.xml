@@ -108,7 +108,7 @@
                         style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1170" y="1300" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="qZDjLsgcLk7GfbXQVHLW-50" value="onEvent(domain.event)"
+                <mxCell id="qZDjLsgcLk7GfbXQVHLW-50" value="onEvent(event)"
                         style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1"
                         vertex="1">
                     <mxGeometry x="1070" y="1455" width="90" height="30" as="geometry"/>

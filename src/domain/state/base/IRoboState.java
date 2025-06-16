@@ -26,7 +26,7 @@ public interface IRoboState {
    * It is typically used to process commands or other events relevant to the state.
    *
    * @param controller The RoboController instance that manages the robot's operations.
-   * @param event      The domain.event that occurred.
+   * @param event      The event that occurred.
    */
   void handleEvent(RoboController controller, AbstractEvent event);
 

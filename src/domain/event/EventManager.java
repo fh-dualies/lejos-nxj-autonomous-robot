@@ -6,21 +6,21 @@ import java.util.Vector;
 import shared.util.Logger;
 
 /**
- * EventManager is responsible for managing domain.event listeners and dispatching events to them.
+ * EventManager is responsible for managing event listeners and dispatching events to them.
  * It allows adding and removing listeners and ensures thread-safe operations using CopyOnWriteArrayList.
  */
 public class EventManager {
   /**
-   * List of domain.event listeners.
+   * List of event listeners.
    * Using Vector for thread-safe operations (it's an older implementation of CopyOnWriteArrayList).
    */
   private final Vector<IEventListener> listeners = new Vector<>();
 
   /**
-   * Dispatches the given domain.event to all registered listeners.
+   * Dispatches the given event to all registered listeners.
    *
-   * @param event the domain.event to dispatch
-   * @throws IllegalArgumentException if the domain.event is null
+   * @param event the event to dispatch
+   * @throws IllegalArgumentException if the event is null
    */
   public void dispatch(AbstractEvent event) {
     if (event == null) {

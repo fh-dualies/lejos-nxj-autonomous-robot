@@ -14,7 +14,7 @@ import shared.constants.OrientationEnum;
  */
 public final class RoboContext {
   /**
-   * The domain.event manager. This is used to dispatch events and register listeners.
+   * The event manager. This is used to dispatch events and register listeners.
    */
   private final EventManager eventManager;
 
@@ -52,7 +52,7 @@ public final class RoboContext {
   /**
    * Constructor for the RoboContext class.
    *
-   * @param eventManager    The domain.event manager used to dispatch events and register listeners.
+   * @param eventManager    The event manager used to dispatch events and register listeners.
    * @param motorController The motor controller used to control the motors of the robot.
    */
   public RoboContext(EventManager eventManager, IMotorController motorController,
@@ -103,9 +103,9 @@ public final class RoboContext {
   public IMotorController getMotorController() { return this.motorController; }
 
   /**
-   * Returns the domain.event manager.
+   * Returns the event manager.
    *
-   * @return The domain.event manager.
+   * @return The event manager.
    */
   public EventManager getEventManager() { return this.eventManager; }
 

@@ -12,7 +12,7 @@ import shared.util.Logger;
 
 /**
  * UserControlStrategy is a driving strategy that allows the user to control the robot's motors
- * using commands received from the domain.event manager.
+ * using commands received from the event manager.
  * It implements the IDrivingStrategy and IEventListener interfaces.
  */
 public class UserControlStrategy implements IDrivingStrategy, IEventListener {
@@ -49,7 +49,7 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
 
   /**
    * Activates the UserControlStrategy.
-   * This method sets up the domain.event listener for command events and logs the activation.
+   * This method sets up the event listener for command events and logs the activation.
    *
    * @param controller The RoboController instance used to control the robot.
    */
@@ -62,7 +62,7 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
 
   /**
    * Deactivates the UserControlStrategy.
-   * This method removes the domain.event listener for command events and stops the motors.
+   * This method removes the event listener for command events and stops the motors.
    *
    * @param controller The RoboController instance used to control the robot.
    */
@@ -76,11 +76,11 @@ public class UserControlStrategy implements IDrivingStrategy, IEventListener {
 
   /**
    * Handles command events and executes the corresponding command.
-   * This method checks if the domain.event is a CommandEvent and if the command is a MoveCommand.
+   * This method checks if the event is a CommandEvent and if the command is a MoveCommand.
    * If so, it calculates the left and right motor speeds based on the command parameters and
    * sends the command to the motor controller.
    *
-   * @param event The domain.event to handle.
+   * @param event The event to handle.
    */
   @Override
   public void onEvent(AbstractEvent event) {

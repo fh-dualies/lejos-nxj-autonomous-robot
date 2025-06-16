@@ -9,7 +9,7 @@ import shared.constants.SensorTypeEnum;
  */
 public interface ISensorReader {
   /**
-   * Checks the current value of the sensor and dispatches an domain.event if the value has changed significantly.
+   * Checks the current value of the sensor and dispatches an event if the value has changed significantly.
    * The method compares the current value with the last reported value and checks if the change is greater than or
    * equal to the threshold. If so, it updates the last reported value and dispatches a SensorEvent.
    *
@@ -19,7 +19,7 @@ public interface ISensorReader {
 
   /**
    * Gets the threshold for reporting changes in sensor values.
-   * If the change in value is greater than or equal to this threshold, an domain.event will be dispatched.
+   * If the change in value is greater than or equal to this threshold, an event will be dispatched.
    *
    * @return The threshold for reporting changes in sensor values.
    */

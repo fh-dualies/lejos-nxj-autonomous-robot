@@ -4,7 +4,7 @@ import domain.command.base.ICommand;
 import domain.event.base.AbstractEvent;
 
 /**
- * CommandEvent is an domain.event that represents a command that has to be executed in the system.
+ * CommandEvent is an event that represents a command that has to be executed in the system.
  * More specifically, the commands are created by the user connected via bluetooth and e.g., want to control the
  * movement or speed of the robot. It extends the AbstractEvent class and contains a reference to the command being
  * executed.
@@ -36,9 +36,9 @@ public class CommandEvent extends AbstractEvent {
   public ICommand getCommand() { return this.command; }
 
   /**
-   * Returns the string representation of the command domain.event.
+   * Returns the string representation of the command event.
    *
-   * @return the string representation of the command domain.event
+   * @return the string representation of the command event
    */
   @Override
   public String toString() {

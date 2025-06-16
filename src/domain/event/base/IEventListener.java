@@ -1,13 +1,13 @@
 package domain.event.base;
 
 /**
- * Interface for domain.event listeners.
+ * Interface for event listeners.
  */
 public interface IEventListener {
   /**
    * Method to handle events.
    *
-   * @param event the domain.event to handle
+   * @param event the event to handle
    */
   void onEvent(AbstractEvent event);
 }

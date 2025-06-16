@@ -14,13 +14,13 @@ import shared.util.Logger;
 
 /**
  * Main class for the Megamen Robo Application.
- * This class initializes the application, sets up the domain.event loop, and handles shutdown procedures.
+ * This class initializes the application, sets up the event loop, and handles shutdown procedures.
  */
 public final class RoboApplication {
   public static final boolean DEBUG = true;
 
   /**
-   * Sets up the domain.event loop and initializes the necessary parts for the robot.
+   * Sets up the event loop and initializes the necessary parts for the robot.
    *
    * @return The initialized EventLoop instance.
    */
@@ -56,7 +56,7 @@ public final class RoboApplication {
         Logger.info("shutting down megamen");
         eventLoop.stop();
 
-        // wait for the domain.event loop to finish
+        // wait for the event loop to finish
         Delay.msDelay(100);
       }
     });

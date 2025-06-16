@@ -2,6 +2,7 @@ package domain.strategy.impl;
 
 import app.Config;
 import core.RoboController;
+import domain.event.impl.LineStatusEvent;
 import domain.strategy.base.IDrivingStrategy;
 import io.actuator.base.IMotorController;
 import io.sensor.SensorValueStore;
@@ -118,37 +119,43 @@ public class CircleSearchStrategy implements IDrivingStrategy {
   @Override
   public void execute(RoboController controller) {
     if (this.currentRadius >= MAX_SEARCH_RADIUS) {
-      Logger.info("[MAX REACHED] Line could not be found in Circle Search Strategy.");
+      Logger.info("Line could not be found in Circle Search Strategy.");
       return;
     }
 
     long now = System.currentTimeMillis();
 
     if (this.isWaiting) {
-      if (now - this.waitStartTime >= waitingPeriodMs) {
-        this.isWaiting = false;
-        this.currentRadius++;
-        this.currentStepStartTime = now;
+      if (now - this.waitStartTime < waitingPeriodMs) {
+        return;
       }
 
-      return;
+      this.isWaiting = false;
+      this.currentRadius++;
+      this.currentStepStartTime = now;
     }
 
     int duration = INITIAL_RADIUS_DURATION_MS + this.currentRadius * RADIUS_INCREMENT_MS;
 
-    if (now - this.currentStepStartTime < duration) {
-      this.motorController.forward(Config.MOTOR_MIN_SPEED.getIntValue(), Config.MOTOR_MAX_SPEED.getIntValue());
-
-      int lightValue = this.sensorValueStore.getLastLightSensorValue();
-
-      if (lightValue >= 0 &&
-          Math.abs(lightValue - this.sensorValueStore.getLineEdgeLightValue()) <= DEFAULT_TOLERANCE) {
-        Logger.info("Line found in Circle No.: " + currentRadius);
-      }
-    } else {
+    if (now - this.currentStepStartTime >= duration) {
       this.motorController.stopMotors(true);
       this.isWaiting = true;
       this.waitStartTime = now;
+
+      return;
     }
+
+    this.motorController.forward(Config.MOTOR_MIN_SPEED.getIntValue(), Config.MOTOR_MAX_SPEED.getIntValue());
+
+    int lightValue = this.sensorValueStore.getLastLightSensorValue();
+
+    if (lightValue < 0 || Math.abs(lightValue - this.sensorValueStore.getLineEdgeLightValue()) > DEFAULT_TOLERANCE) {
+      return;
+    }
+
+    Logger.info("Line found in Circle No.: " + this.currentRadius);
+
+    this.motorController.stopMotors(true);
+    controller.getContext().getEventManager().dispatch(new LineStatusEvent(true));
   }
 }

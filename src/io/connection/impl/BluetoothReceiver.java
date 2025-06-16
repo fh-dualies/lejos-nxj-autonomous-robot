@@ -15,11 +15,11 @@ import shared.util.Logger;
 /**
  * BluetoothReceiver is responsible for managing the Bluetooth connection and receiving commands
  * from a connected device. It is intended to be used for the robot to receive commands from a remote connection.
- * It listens for incoming commands, parses them, and dispatches them to the domain.event manager.
+ * It listens for incoming commands, parses them, and dispatches them to the event manager.
  */
 public final class BluetoothReceiver implements ICommunicationChannel {
   /**
-   * Used to send command events to the domain.event manager for processing.
+   * Used to send command events to the event manager for processing.
    */
   private final EventManager eventManager;
 
@@ -41,7 +41,7 @@ public final class BluetoothReceiver implements ICommunicationChannel {
   /**
    * Constructor that initializes the BluetoothReceiver with an EventManager instance.
    *
-   * @param eventManager The domain.event manager to dispatch command events to.
+   * @param eventManager The event manager to dispatch command events to.
    * @throws NullPointerException if eventManager is null.
    */
   public BluetoothReceiver(EventManager eventManager) {
@@ -54,7 +54,7 @@ public final class BluetoothReceiver implements ICommunicationChannel {
 
   /**
    * Called to check for incoming commands from the Bluetooth connection.
-   * If a command is received, it is parsed and dispatched as a CommandEvent to the domain.event manager.
+   * If a command is received, it is parsed and dispatched as a CommandEvent to the event manager.
    */
   public void checkForCommands() {
     if (!this.isConnected || this.dataStream == null) {

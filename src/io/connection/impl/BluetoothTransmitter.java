@@ -66,9 +66,9 @@ public final class BluetoothTransmitter implements ICommunicationChannel {
 
   /**
    * Processes and sends all queued events through the Bluetooth connection.
-   * Each domain.event is converted to its string representation before sending.
-   * The domain.event queue is cleared after processing all events.
-   * This method is called periodically from the domain.event loop.
+   * Each event is converted to its string representation before sending.
+   * The event queue is cleared after processing all events.
+   * This method is called periodically from the event loop.
    */
   public synchronized void exposeEvents() {
     for (int i = 0; i < this.exposableEvents.size(); i++) {
@@ -76,7 +76,7 @@ public final class BluetoothTransmitter implements ICommunicationChannel {
         IExposableEvent event = this.exposableEvents.elementAt(i);
 
         if (event == null) {
-          Logger.warning("exposable domain.event is null");
+          Logger.warning("exposable event is null");
           continue;
         }
 
@@ -90,15 +90,15 @@ public final class BluetoothTransmitter implements ICommunicationChannel {
   }
 
   /**
-   * Adds an domain.event to the queue of events to be exposed over Bluetooth.
+   * Adds an event to the queue of events to be exposed over Bluetooth.
    * Events in this queue will be sent during the next call to exposeEvents().
    *
-   * @param event The domain.event to add to the exposure queue
-   * @throws IllegalArgumentException if the domain.event is null
+   * @param event The event to add to the exposure queue
+   * @throws IllegalArgumentException if the event is null
    */
   public synchronized void addExposableEvent(IExposableEvent event) {
     if (event == null) {
-      throw new IllegalArgumentException("domain.event is null");
+      throw new IllegalArgumentException("event is null");
     }
 
     this.exposableEvents.addElement(event);

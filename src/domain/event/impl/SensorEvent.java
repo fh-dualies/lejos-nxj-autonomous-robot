@@ -5,33 +5,33 @@ import domain.event.base.IExposableEvent;
 import shared.constants.SensorTypeEnum;
 
 /**
- * SensorEvent is an domain.event that represents a sensor reading in the system.
+ * SensorEvent is an event that represents a sensor reading in the system.
  * It will contain reading of the SensorReaders (see AbstractSensorReader) and represent e.g., light or distance
  * measurements. It extends the AbstractEvent class and contains a reference to the sensor ID, sensor type, and sensor
  * value.
  */
 public class SensorEvent extends AbstractEvent implements IExposableEvent {
   /**
-   * The ID of the sensor that generated the domain.event.
+   * The ID of the sensor that generated the event.
    */
   private final String sensorId;
 
   /**
-   * The type of the sensor that generated the domain.event (e.g., distance, light, etc.).
+   * The type of the sensor that generated the event (e.g., distance, light, etc.).
    */
   private final SensorTypeEnum sensorType;
 
   /**
-   * The value of the sensor that generated the domain.event.
+   * The value of the sensor that generated the event.
    */
   private final int value;
 
   /**
    * Constructor for the SensorEvent class.
    *
-   * @param sensorId   the ID of the sensor that generated the domain.event
-   * @param sensorType the type of the sensor that generated the domain.event
-   * @param value      the value of the sensor that generated the domain.event
+   * @param sensorId   the ID of the sensor that generated the event
+   * @param sensorType the type of the sensor that generated the event
+   * @param value      the value of the sensor that generated the event
    */
   public SensorEvent(String sensorId, SensorTypeEnum sensorType, int value) {
     if (sensorType == null) {
@@ -52,30 +52,30 @@ public class SensorEvent extends AbstractEvent implements IExposableEvent {
   }
 
   /**
-   * returns the sensor ID of the sensor that generated the domain.event.
+   * returns the sensor ID of the sensor that generated the event.
    *
-   * @return the ID of the sensor that generated the domain.event
+   * @return the ID of the sensor that generated the event
    */
   public String getSensorId() { return this.sensorId; }
 
   /**
-   * returns the sensor type of the sensor that generated the domain.event.
+   * returns the sensor type of the sensor that generated the event.
    *
-   * @return the type of the sensor that generated the domain.event
+   * @return the type of the sensor that generated the event
    */
   public SensorTypeEnum getSensorType() { return this.sensorType; }
 
   /**
-   * returns the sensor value of the sensor that generated the domain.event.
+   * returns the sensor value of the sensor that generated the event.
    *
-   * @return the value of the sensor that generated the domain.event
+   * @return the value of the sensor that generated the event
    */
   public int getValue() { return this.value; }
 
   /**
-   * returns a string representation of the sensor domain.event.
+   * returns a string representation of the sensor event.
    *
-   * @return a string representation of the sensor domain.event
+   * @return a string representation of the sensor event
    */
   public String toExposableString() { return "SENSOR|" + this.sensorType.getName() + "|" + this.value; }
 }

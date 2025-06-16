@@ -34,7 +34,7 @@ abstract public class AbstractRoboState implements IRoboState {
    * Handles events that occur while in the state. Called by the RoboController.
    *
    * @param controller The RoboController instance that manages the robot's state.
-   * @param event      The domain.event that occurred.
+   * @param event      The event that occurred.
    */
   abstract public void handleEvent(RoboController controller, AbstractEvent event);
 
@@ -46,11 +46,11 @@ abstract public class AbstractRoboState implements IRoboState {
   abstract public RoboStateEnum getState();
 
   /**
-   * Handles state switching events. This method is called by the RoboController when a state switch domain.event
-   * occurs. It checks if the domain.event is a SwitchStateCommand and changes the state of the controller accordingly.
+   * Handles state switching events. This method is called by the RoboController when a state switch event
+   * occurs. It checks if the event is a SwitchStateCommand and changes the state of the controller accordingly.
    *
    * @param controller The RoboController instance that manages the robot's state.
-   * @param event      The domain.event that occurred.
+   * @param event      The event that occurred.
    */
   protected void handleSwitchEvent(RoboController controller, AbstractEvent event) {
     if (!(event instanceof CommandEvent)) {

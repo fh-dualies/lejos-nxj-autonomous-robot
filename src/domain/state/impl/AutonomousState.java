@@ -51,7 +51,7 @@ public class AutonomousState extends AbstractRoboState {
    * If so, it calls the onExit method to exit the autonomous state.
    *
    * @param controller The RoboController instance that manages the robot's state.
-   * @param event      The domain.event that occurred.
+   * @param event      The event that occurred.
    */
   private void handeLineStatusEvent(RoboController controller, LineStatusEvent event) {
     if (event == null || controller == null) {
@@ -73,12 +73,12 @@ public class AutonomousState extends AbstractRoboState {
 
   /**
    * Handles events that occur while in the autonomous state.
-   * This method processes the domain.event and calls the appropriate methods to handle it.
+   * This method processes the event and calls the appropriate methods to handle it.
    * It also handles state switching events by calling the handleSwitchEvent method.
-   * Will be called by the RoboController after an domain.event is received.
+   * Will be called by the RoboController after an event is received.
    *
    * @param controller The RoboController instance that manages the robot's state.
-   * @param event      The domain.event that occurred.
+   * @param event      The event that occurred.
    */
   public void handleEvent(RoboController controller, AbstractEvent event) {
     if (event instanceof CommandEvent) {
