@@ -3,6 +3,7 @@ package domain.strategy.impl;
 import app.Config;
 import core.RoboController;
 import domain.event.impl.LineStatusEvent;
+import domain.state.impl.IdleState;
 import domain.strategy.base.IDrivingStrategy;
 import io.actuator.base.IMotorController;
 import io.sensor.SensorValueStore;
@@ -120,6 +121,8 @@ public class CircleSearchStrategy implements IDrivingStrategy {
   public void execute(RoboController controller) {
     if (this.currentRadius >= MAX_SEARCH_RADIUS) {
       Logger.info("Line could not be found in Circle Search Strategy.");
+      controller.setState(new IdleState());
+
       return;
     }
 

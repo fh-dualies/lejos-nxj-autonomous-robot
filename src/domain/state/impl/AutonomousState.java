@@ -53,7 +53,7 @@ public class AutonomousState extends AbstractRoboState {
    * @param controller The RoboController instance that manages the robot's state.
    * @param event      The event that occurred.
    */
-  private void handeLineStatusEvent(RoboController controller, LineStatusEvent event) {
+  private void handleLineStatusEvent(RoboController controller, LineStatusEvent event) {
     if (event == null || controller == null) {
       return;
     }
@@ -86,7 +86,7 @@ public class AutonomousState extends AbstractRoboState {
     }
 
     if (event instanceof LineStatusEvent) {
-      this.handeLineStatusEvent(controller, (LineStatusEvent)event);
+      this.handleLineStatusEvent(controller, (LineStatusEvent)event);
     }
   }
 }
