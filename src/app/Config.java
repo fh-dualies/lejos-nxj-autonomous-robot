@@ -6,15 +6,15 @@ package app;
  * The values are defined as constants and can be accessed using the enum name.
  */
 public enum Config {
-  LOOP_DELAY(2),
+  LOOP_DELAY(0),
   SENSOR_REPORT_THRESHOLD(1),
   SYSTEM_MONITOR_LOG_DELAY(1000),
 
   DEFAULT_FLOOR_LIGHT(50f),
   DEFAULT_STRIPE_LIGHT(30f),
 
-  MOTOR_MIN_SPEED(200f),
-  MOTOR_MAX_SPEED(500f),
+  MOTOR_MIN_SPEED(150f),
+  MOTOR_MAX_SPEED(450f),
   MOTOR_ACCELERATION(2500f),
 
   // start zigzag
@@ -27,9 +27,9 @@ public enum Config {
   // end zigzag
 
   // start pid
-  DISTANCE_STOP_THRESHOLD(25f),
-  DISTANCE_SLOW_DOWN_THRESHOLD(50f),
-  SPEED_REDUCTION_FACTOR_TURN(1.25f),
+  DISTANCE_STOP_THRESHOLD(10f),
+  DISTANCE_SLOW_DOWN_THRESHOLD(30f),
+  SPEED_REDUCTION_FACTOR_TURN(1.5f),
   SPEED_REDUCTION_FACTOR_COLLISION(0.5f),
   PID_KP(17f),
   PID_KI(0f),
